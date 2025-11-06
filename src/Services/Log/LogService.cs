@@ -20,9 +20,8 @@ public class LogService(ISwiftlyCore core) : ILogService, IDisposable
     {
 #if DEBUG
         logger?.LogDebug(exception, "{message}", message);
-#endif
-
         _logger.Debug($"[{PLUGIN_NAME}] {message}", exception);
+#endif
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
