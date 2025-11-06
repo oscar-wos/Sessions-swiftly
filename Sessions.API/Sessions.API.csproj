@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -6,8 +6,8 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
-    <AssemblyName>Sessions</AssemblyName>
-    <OutputPath>$(MSBuildThisFileDirectory)../build/</OutputPath>
+    <AssemblyName>Sessions.API</AssemblyName>
+    <OutputPath>$(MSBuildThisFileDirectory)../build/Sessions.API/</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.9" ExcludeAssets="runtime" PrivateAssets="all" />
@@ -18,14 +18,5 @@
     <PackageReference Include="SwiftlyS2.CS2" Version="*" ExcludeAssets="runtime" PrivateAssets="all">
       <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="resources/gamedata/**/*;resources/templates/**/*;resources/translations/**/*">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\RLogger\src\RLogger.csproj" />
-    <ProjectReference Include="..\Sessions.API\Sessions.API.csproj" />
   </ItemGroup>
 </Project>

@@ -9,7 +9,8 @@
       "Sessions/1.0.0": {
         "dependencies": {
           "RLogger": "1.0.0",
-          "SwiftlyS2.CS2": "0.2.37"
+          "Sessions.API": "1.0.0",
+          "SwiftlyS2.CS2": "0.2.38"
         },
         "runtime": {
           "Sessions.dll": {}
@@ -62,7 +63,7 @@
           }
         }
       },
-      "SwiftlyS2.CS2/0.2.37": {
+      "SwiftlyS2.CS2/0.2.38": {
         "dependencies": {
           "Microsoft.Extensions.Hosting": "8.0.0"
         }
@@ -80,6 +81,14 @@
           "RLogger.dll": {
             "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "Sessions.API/1.0.0": {
+        "runtime": {
+          "Sessions.API.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
           }
         }
       }
@@ -126,12 +135,12 @@
       "path": "microsoft.extensions.primitives/9.0.9",
       "hashPath": "microsoft.extensions.primitives.9.0.9.nupkg.sha512"
     },
-    "SwiftlyS2.CS2/0.2.37": {
+    "SwiftlyS2.CS2/0.2.38": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-VNfdLZ7vGk4HoPbo2WRY4AadhN9UQauVscBZeblw6z7OvRoC6jxxuCSZh4FAShTId8LRLCuv84PktF/wtbzsgQ==",
-      "path": "swiftlys2.cs2/0.2.37",
-      "hashPath": "swiftlys2.cs2.0.2.37.nupkg.sha512"
+      "sha512": "sha512-UR2JlN7qH2bccGhIverM+PLV9YBZylj23K6ng0en5KwszXRyPpr+jgcj5mR9S6mGdX9Bj36x8y5BeD3NNS1StQ==",
+      "path": "swiftlys2.cs2/0.2.38",
+      "hashPath": "swiftlys2.cs2.0.2.38.nupkg.sha512"
     },
     "System.Diagnostics.DiagnosticSource/9.0.9": {
       "type": "package",
@@ -141,6 +150,11 @@
       "hashPath": "system.diagnostics.diagnosticsource.9.0.9.nupkg.sha512"
     },
     "RLogger/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Sessions.API/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

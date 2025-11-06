@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Logging;
 
-namespace Sessions.Contracts;
+namespace Sessions.API.Contracts.Log;
 
 public interface ILogService
 {
