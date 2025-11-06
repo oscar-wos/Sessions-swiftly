@@ -1,7 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
-using Sessions.API.Contracts.Database;
 using Sessions.API.Contracts.Log;
-using Sessions.Services.Database;
+using Sessions.Extensions;
 using Sessions.Services.Log;
 using SwiftlyS2.Shared;
 using SwiftlyS2.Shared.Plugins;
@@ -25,12 +24,9 @@ public partial class Sessions(ISwiftlyCore core) : BasePlugin(core)
         ServiceCollection services = new();
 
         _ = services.AddSwiftly(Core);
+        _ = services.AddDatabase();
+
         _ = services.AddSingleton<ILogService, LogService>();
-
-        _ = services.AddSingleton<IDatabaseService, PostgresService>();
-        _ = services.AddSingleton<IDatabaseService, SqlService>();
-
-        _ = services.AddSingleton<IDatabaseFactory, DatabaseFactory>();
 
         _serviceProvider = services.BuildServiceProvider();
 
