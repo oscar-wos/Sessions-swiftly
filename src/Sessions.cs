@@ -40,15 +40,17 @@ public partial class Sessions(ISwiftlyCore core) : BasePlugin(core)
         _logService.LogInformation("Loading config", logger: Core.Logger);
 
         _ = Core
-            .Configuration.InitializeTomlWithModel<SessionsConfig>("config.toml", "Sessions")
+            .Configuration.InitializeTomlWithModel<DatabaseConfig>("database.toml", "database")
             .Configure(builder =>
-                builder.AddTomlFile("config.toml", optional: false, reloadOnChange: true)
+                builder.AddTomlFile("database.toml", optional: false, reloadOnChange: true)
             );
 
-        _ = services.AddOptionsWithValidateOnStart<SessionsConfig>().BindConfiguration("Sessions");
+        _ = services.AddOptionsWithValidateOnStart<DatabaseConfig>().BindConfiguration("database");
 
         _logService.LogInformation("Loaded", logger: Core.Logger);
     }
+
+    public override void UseSharedInterface(IInterfaceManager interfaceManager) { }
 
     public override void Load(bool hotReload) { }
 

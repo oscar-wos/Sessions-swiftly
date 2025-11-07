@@ -10,7 +10,7 @@ namespace Sessions;
 internal class DatabaseFactory : IDatabaseFactory, IDisposable
 {
     private readonly IServiceProvider _serviceProvider;
-    private readonly IOptionsMonitor<SessionsConfig> _config;
+    private readonly IOptionsMonitor<DatabaseConfig> _config;
     private readonly ILogService _logService;
     private readonly ILogger<DatabaseFactory> _logger;
 
@@ -18,7 +18,7 @@ internal class DatabaseFactory : IDatabaseFactory, IDisposable
 
     public DatabaseFactory(
         IServiceProvider serviceProvider,
-        IOptionsMonitor<SessionsConfig> config,
+        IOptionsMonitor<DatabaseConfig> config,
         ILogService logService,
         ILogger<DatabaseFactory> logger
     )
@@ -28,7 +28,7 @@ internal class DatabaseFactory : IDatabaseFactory, IDisposable
         _logService = logService;
         _logger = logger;
 
-        string type = _config.CurrentValue.Database.Type;
+        string type = _config.CurrentValue.Type;
 
         Database = type.ToLowerInvariant() switch
         {
