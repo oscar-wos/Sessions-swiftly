@@ -2,14 +2,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Sessions.API.Contracts.Core;
 using Sessions.API.Contracts.Database;
 using Sessions.API.Contracts.Log;
-using Sessions.API.Models;
+using Sessions.API.Models.Config;
 using Sessions.Extensions;
 using Sessions.Services.Core;
 using Sessions.Services.Log;
 using SwiftlyS2.Shared;
 using SwiftlyS2.Shared.Plugins;
 using Tomlyn.Extensions.Configuration;
-using IDatabaseService = Sessions.API.Contracts.Database.IDatabaseService;
 
 namespace Sessions;
 
@@ -22,7 +21,9 @@ namespace Sessions;
 )]
 public sealed partial class Sessions(ISwiftlyCore core) : BasePlugin(core)
 {
-    private IServiceProvider? _serviceProvider;
+    private IServiceProvider? _services;
+
+    private IDatabaseService? _databaseService;
     private ILogService? _logService;
 
     public override void ConfigureSharedInterface(IInterfaceManager interfaceManager)
@@ -31,6 +32,7 @@ public sealed partial class Sessions(ISwiftlyCore core) : BasePlugin(core)
 
         _ = services.AddSwiftly(Core);
         _ = services.AddDatabase();
+        _ = services.AddHooks();
 
         _ = services.AddSingleton<IPlayerService, PlayerService>();
         _ = services.AddSingleton<IServerService, ServerService>();
@@ -44,23 +46,20 @@ public sealed partial class Sessions(ISwiftlyCore core) : BasePlugin(core)
 
         _ = services.AddOptionsWithValidateOnStart<DatabaseConfig>().BindConfiguration("database");
 
-        _serviceProvider = services.BuildServiceProvider();
+        _services = services.BuildServiceProvider();
 
-        _logService = _serviceProvider.GetRequiredService<ILogService>();
-        _logService.LogInformation("Loaded", logger: Core.Logger);
+        _databaseService = _services.GetRequiredService<IDatabaseFactory>().Database;
     }
 
     public override void UseSharedInterface(IInterfaceManager interfaceManager)
     {
-        if (_serviceProvider?.GetRequiredService<IDatabaseFactory>() is not { } databaseFactory)
-        {
-            return;
-        }
+        _databaseService?.StartAsync().GetAwaiter().GetResult();
 
-        databaseFactory.Database.StartAsync().GetAwaiter().GetResult();
+        _logService = _services?.GetRequiredService<ILogService>();
+        _logService?.LogInformation("Loaded", logger: Core.Logger);
     }
 
     public override void Load(bool hotReload) { }
 
-    public override void Unload() => (_serviceProvider as IDisposable)?.Dispose();
+    public override void Unload() => (_services as IDisposable)?.Dispose();
 }

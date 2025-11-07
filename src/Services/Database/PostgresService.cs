@@ -1,4 +1,9 @@
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Npgsql;
 using Sessions.API.Contracts.Database;
+using Sessions.API.Contracts.Log;
+using Sessions.API.Models.Config;
 using Sessions.API.Structs;
 using SwiftlyS2.Shared.Players;
 
@@ -6,7 +11,33 @@ namespace Sessions.Services.Database;
 
 public sealed class PostgresService : IPostgresService, IDatabaseService, IDisposable
 {
-    public Task StartAsync() => throw new NotImplementedException();
+    private readonly IOptionsMonitor<DatabaseConfig> _config;
+    private readonly ILogService _logService;
+    private readonly ILogger<PostgresService> _logger;
+    private readonly NpgsqlConnection _connection;
+
+    public PostgresService(
+        IOptionsMonitor<DatabaseConfig> config,
+        ILogService logService,
+        ILogger<PostgresService> logger
+    )
+    {
+        _config = config;
+        _logService = logService;
+        _logger = logger;
+
+        _connection = new NpgsqlConnection(_config.CurrentValue.Connection.Host);
+    }
+
+    public async Task StartAsync()
+    {
+        try { }
+        catch (NpgsqlException ex)
+        {
+            _logService.LogError("PostgresService.StartAsync()", ex, logger: _logger);
+            throw;
+        }
+    }
 
     public Task<Alias> GetAliasAsync(int playerId) => throw new NotImplementedException();
 

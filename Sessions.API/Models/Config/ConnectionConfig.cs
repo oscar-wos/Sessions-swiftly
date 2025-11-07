@@ -1,4 +1,4 @@
-namespace Sessions.API.Models;
+namespace Sessions.API.Models.Config;
 
 public sealed class ConnectionConfig
 {
