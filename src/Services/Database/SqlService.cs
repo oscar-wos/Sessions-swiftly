@@ -5,15 +5,16 @@ using Sessions.API.Contracts.Database;
 using Sessions.API.Contracts.Log;
 using Sessions.API.Models.Config;
 using Sessions.API.Structs;
-using SwiftlyS2.Shared.Players;
 
 namespace Sessions.Services.Database;
 
 public sealed class SqlService : ISqlService, IDatabaseService, IDisposable
 {
     private readonly IOptionsMonitor<DatabaseConfig> _config;
+
     private readonly ILogService _logService;
     private readonly ILogger<SqlService> _logger;
+
     private readonly MySqlConnection _connection;
 
     public SqlService(
@@ -23,6 +24,7 @@ public sealed class SqlService : ISqlService, IDatabaseService, IDisposable
     )
     {
         _config = config;
+
         _logService = logService;
         _logger = logger;
 
@@ -49,7 +51,8 @@ public sealed class SqlService : ISqlService, IDatabaseService, IDisposable
     public Task InsertMessageAsync(
         long sessionId,
         int playerId,
-        MessageType messageType,
+        short teamNum,
+        bool teamChat,
         string message
     ) => throw new NotImplementedException();
 

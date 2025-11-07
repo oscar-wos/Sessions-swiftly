@@ -14,6 +14,7 @@ internal sealed class HookManager : IHookManager, IDisposable
 {
     private readonly ISwiftlyCore _core;
     private readonly IServiceProvider _services;
+
     private readonly ILogService _logService;
     private readonly ILogger<HookManager> _logger;
 
@@ -31,6 +32,7 @@ internal sealed class HookManager : IHookManager, IDisposable
     {
         _core = core;
         _services = services;
+
         _logService = logService;
         _logger = logger;
 

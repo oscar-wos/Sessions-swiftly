@@ -11,6 +11,7 @@ internal sealed class DatabaseFactory : IDatabaseFactory
 {
     private readonly IServiceProvider _services;
     private readonly IOptionsMonitor<DatabaseConfig> _config;
+
     private readonly ILogService _logService;
     private readonly ILogger<DatabaseFactory> _logger;
 
@@ -25,6 +26,7 @@ internal sealed class DatabaseFactory : IDatabaseFactory
     {
         _services = services;
         _config = config;
+
         _logService = logService;
         _logger = logger;
 
@@ -35,7 +37,7 @@ internal sealed class DatabaseFactory : IDatabaseFactory
             "postgres" => (IDatabaseService)_services.GetRequiredService<IPostgresService>(),
             "mysql" => (IDatabaseService)_services.GetRequiredService<ISqlService>(),
             _ => throw _logService.LogCritical(
-                $"Database type '{type}' is not supported. Supported types: postgres, mysql",
+                $"Database is not supported - {type} | Supported types: postgres, mysql",
                 logger: _logger
             ),
         };

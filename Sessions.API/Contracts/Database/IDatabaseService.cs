@@ -1,5 +1,4 @@
 using Sessions.API.Structs;
-using SwiftlyS2.Shared.Players;
 
 namespace Sessions.API.Contracts.Database;
 
@@ -12,7 +11,13 @@ public interface IDatabaseService
     Task<Server> GetServerAsync(string serverIp, ushort serverPort);
     Task<Session> GetSessionAsync(int playerId, int serverId, int mapId, string ip);
     Task InsertAliasAsync(long sessionId, int playerId, string name);
-    Task InsertMessageAsync(long sessionId, int playerId, MessageType messageType, string message);
+    Task InsertMessageAsync(
+        long sessionId,
+        int playerId,
+        short teamNum,
+        bool teamChat,
+        string message
+    );
     Task UpdateSeenAsync(int playerId);
     Task UpdateSessionsAsync(IEnumerable<int> playerIds, IEnumerable<long> sessionIds);
 }

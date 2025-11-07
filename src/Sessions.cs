@@ -51,17 +51,17 @@ public sealed partial class Sessions(ISwiftlyCore core) : BasePlugin(core)
 
         _services = services.BuildServiceProvider();
 
+        _hookManager = _services.GetRequiredService<IHookManager>();
         _databaseService = _services.GetRequiredService<IDatabaseFactory>().Database;
+
+        _logService = _services.GetRequiredService<ILogService>();
     }
 
     public override void UseSharedInterface(IInterfaceManager interfaceManager)
     {
-        _hookManager = _services?.GetRequiredService<IHookManager>();
         _hookManager?.Init();
-
         _databaseService?.StartAsync().GetAwaiter().GetResult();
 
-        _logService = _services?.GetRequiredService<ILogService>();
         _logService?.LogInformation("Loaded", logger: Core.Logger);
     }
 

@@ -5,15 +5,16 @@ using Sessions.API.Contracts.Database;
 using Sessions.API.Contracts.Log;
 using Sessions.API.Models.Config;
 using Sessions.API.Structs;
-using SwiftlyS2.Shared.Players;
 
 namespace Sessions.Services.Database;
 
 public sealed class PostgresService : IPostgresService, IDatabaseService, IDisposable
 {
     private readonly IOptionsMonitor<DatabaseConfig> _config;
+
     private readonly ILogService _logService;
     private readonly ILogger<PostgresService> _logger;
+
     private readonly NpgsqlConnection _connection;
 
     public PostgresService(
@@ -23,6 +24,7 @@ public sealed class PostgresService : IPostgresService, IDatabaseService, IDispo
     )
     {
         _config = config;
+
         _logService = logService;
         _logger = logger;
 
@@ -57,7 +59,8 @@ public sealed class PostgresService : IPostgresService, IDatabaseService, IDispo
     public Task InsertMessageAsync(
         long sessionId,
         int playerId,
-        MessageType messageType,
+        short teamNum,
+        bool teamChat,
         string message
     ) => throw new NotImplementedException();
 
