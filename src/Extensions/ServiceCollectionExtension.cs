@@ -6,11 +6,12 @@ namespace Sessions.Extensions;
 
 public static class ServiceCollectionExtension
 {
-    public static void AddDatabase(this IServiceCollection services)
+    public static IServiceCollection AddDatabase(this IServiceCollection services)
     {
-        _ = services.AddSingleton<IDatabaseService, PostgresService>();
-        _ = services.AddSingleton<IDatabaseService, SqlService>();
-
+        _ = services.AddSingleton<IPostgresService, PostgresService>();
+        _ = services.AddSingleton<ISqlService, SqlService>();
         _ = services.AddSingleton<IDatabaseFactory, DatabaseFactory>();
+
+        return services;
     }
 }

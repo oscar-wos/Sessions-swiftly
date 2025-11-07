@@ -1,6 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
+using Sessions.API.Contracts.Core;
 using Sessions.API.Contracts.Log;
 using Sessions.Extensions;
+using Sessions.Services.Core;
 using Sessions.Services.Log;
 using SwiftlyS2.Shared;
 using SwiftlyS2.Shared.Plugins;
@@ -26,6 +28,8 @@ public partial class Sessions(ISwiftlyCore core) : BasePlugin(core)
         _ = services.AddSwiftly(Core);
         _ = services.AddDatabase();
 
+        _ = services.AddSingleton<IPlayerService, PlayerService>();
+        _ = services.AddSingleton<IServerService, ServerService>();
         _ = services.AddSingleton<ILogService, LogService>();
 
         _serviceProvider = services.BuildServiceProvider();

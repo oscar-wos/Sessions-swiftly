@@ -14,7 +14,6 @@ internal class DatabaseFactory : IDatabaseFactory, IDisposable
     public IDatabaseService Database { get; }
 
     public DatabaseFactory(
-        string type,
         IServiceProvider serviceProvider,
         ILogService logService,
         ILogger<DatabaseFactory> logger
@@ -23,6 +22,8 @@ internal class DatabaseFactory : IDatabaseFactory, IDisposable
         _serviceProvider = serviceProvider;
         _logService = logService;
         _logger = logger;
+
+        string type = "postgres";
 
         Database = type.ToLowerInvariant() switch
         {
