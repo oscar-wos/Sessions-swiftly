@@ -1,3 +1,4 @@
+using System.Numerics;
 using Microsoft.Extensions.Logging;
 using Sessions.API.Contracts.Core;
 using Sessions.API.Contracts.Database;
@@ -80,22 +81,21 @@ public sealed class PlayerService(
             }
         });
 
-    public void HandlePlayerDisconnected(IPlayer player) =>
-        Task.Run(() =>
+    public void HandlePlayerDisconnected(IPlayer player)
+    {
+        if (GetPlayer(player) is null)
         {
-            if (GetPlayer(player) is not { } sessionsPlayer)
-            {
-                _logService.LogWarning(
-                    $"Player not authorized - {player.Controller.PlayerName} ({player.SteamID})",
-                    logger: _logger
-                );
+            _logService.LogWarning(
+                $"Player not authorized - {player.Controller.PlayerName} ({player.SteamID})",
+                logger: _logger
+            );
 
-                return;
-            }
+            return;
+        }
 
-            _ = _players.Remove(player.SteamID);
-            _ = _lastAuthorizeAttempt.Remove(player.SteamID);
-        });
+        _ = _players.Remove(player.SteamID);
+        _ = _lastAuthorizeAttempt.Remove(player.SteamID);
+    }
 
     public void HandlePlayerMessage(IPlayer player, short teamNum, bool teamChat, string message) =>
         Task.Run(async () =>
