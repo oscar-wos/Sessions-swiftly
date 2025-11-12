@@ -11,31 +11,31 @@ public sealed class DatabaseFactory : IDatabaseFactory
 {
     private readonly ILogService _logService;
     private readonly ILogger<DatabaseFactory> _logger;
-
-    private readonly IServiceProvider _services;
     private readonly IOptionsMonitor<DatabaseConfig> _config;
+
+    private readonly IServiceProvider _serviceProvider;
 
     public IDatabaseService Database { get; private set; }
 
     public DatabaseFactory(
         ILogService logService,
         ILogger<DatabaseFactory> logger,
-        IServiceProvider services,
-        IOptionsMonitor<DatabaseConfig> config
+        IOptionsMonitor<DatabaseConfig> config,
+        IServiceProvider serviceProvider
     )
     {
         _logService = logService;
         _logger = logger;
-
-        _services = services;
         _config = config;
+
+        _serviceProvider = serviceProvider;
 
         string type = _config.CurrentValue.Type;
 
         Database = type.ToLowerInvariant() switch
         {
-            "postgres" => (IDatabaseService)_services.GetRequiredService<IPostgresService>(),
-            "mysql" => (IDatabaseService)_services.GetRequiredService<ISqlService>(),
+            "postgres" => (IDatabaseService)_serviceProvider.GetRequiredService<IPostgresService>(),
+            "mysql" => (IDatabaseService)_serviceProvider.GetRequiredService<ISqlService>(),
             _ => throw _logService.LogCritical(
                 $"Database is not supported - '{type}' | Supported types: postgres, mysql",
                 logger: _logger

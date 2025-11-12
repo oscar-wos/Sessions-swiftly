@@ -8,17 +8,17 @@ using SwiftlyS2.Shared.Events;
 namespace RSession.Services.Event;
 
 public sealed class OnClientSteamAuthorizeService(
+    ISwiftlyCore core,
     ILogService logService,
     ILogger<OnClientSteamAuthorizeService> logger,
-    ISwiftlyCore core,
     IPlayerService playerService,
     IServerService serverService
 ) : IEventListener
 {
+    private readonly ISwiftlyCore _core = core;
     private readonly ILogService _logService = logService;
     private readonly ILogger<OnClientSteamAuthorizeService> _logger = logger;
 
-    private readonly ISwiftlyCore _core = core;
     private readonly IPlayerService _playerService = playerService;
     private readonly IServerService _serverService = serverService;
 

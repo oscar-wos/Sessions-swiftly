@@ -12,7 +12,6 @@ public sealed class SqlService : ISqlService, IDatabaseService
 {
     private readonly ILogService _logService;
     private readonly ILogger<SqlService> _logger;
-
     private readonly IOptionsMonitor<DatabaseConfig> _config;
 
     private readonly MySqlDataSource _dataSource;
@@ -26,7 +25,6 @@ public sealed class SqlService : ISqlService, IDatabaseService
     {
         _logService = logService;
         _logger = logger;
-
         _config = config;
 
         string connectionString = BuildConnectionString(_config.CurrentValue.Connection);

@@ -3,10 +3,12 @@ using RSession.API.Contracts.Core;
 using RSession.API.Contracts.Database;
 using RSession.API.Contracts.Event;
 using RSession.API.Contracts.Log;
+using RSession.API.Contracts.Schedule;
 using RSession.API.Models.Config;
 using RSession.Extensions;
 using RSession.Services.Core;
 using RSession.Services.Log;
+using RSession.Services.Schedule;
 using SwiftlyS2.Shared;
 using SwiftlyS2.Shared.Plugins;
 using SwiftlyS2.Shared.SteamAPI;
@@ -24,7 +26,9 @@ namespace RSession;
 public sealed partial class RSession(ISwiftlyCore core) : BasePlugin(core)
 {
     private IServiceProvider? _serviceProvider;
+
     private IServerService? _serverService;
+    private IIntervalService? _intervalService;
 
     public override void ConfigureSharedInterface(IInterfaceManager interfaceManager)
     {
@@ -41,20 +45,19 @@ public sealed partial class RSession(ISwiftlyCore core) : BasePlugin(core)
         _ = services.AddSingleton<IPlayerService, PlayerService>();
         _ = services.AddSingleton<IServerService, ServerService>();
 
-        _ = Core
-            .Configuration.InitializeTomlWithModel<DatabaseConfig>("database.toml", "database")
-            .Configure(builder =>
-                builder.AddTomlFile("database.toml", optional: false, reloadOnChange: true)
-            );
+        _ = services.AddSingleton<IIntervalService, IntervalService>();
 
         _ = services.AddOptionsWithValidateOnStart<DatabaseConfig>().BindConfiguration("database");
+        _ = services.AddOptionsWithValidateOnStart<SessionConfig>().BindConfiguration("config");
 
         _serviceProvider = services.BuildServiceProvider();
-        _serverService = _serviceProvider.GetRequiredService<IServerService>();
 
-        interfaceManager.AddSharedInterface<IDatabaseFactory, IDatabaseFactory>(
-            "RSession.DatabaseFactory",
-            _serviceProvider.GetRequiredService<IDatabaseFactory>()
+        _serverService = _serviceProvider.GetRequiredService<IServerService>();
+        _intervalService = _serviceProvider.GetRequiredService<IIntervalService>();
+
+        interfaceManager.AddSharedInterface<IDatabaseService, IDatabaseService>(
+            "RSession.DatabaseService",
+            _serviceProvider.GetRequiredService<IDatabaseFactory>().Database
         );
 
         interfaceManager.AddSharedInterface<IEventService, IEventService>(
@@ -80,15 +83,30 @@ public sealed partial class RSession(ISwiftlyCore core) : BasePlugin(core)
             listener.Subscribe();
         }
 
+        _intervalService?.Init();
+
         try
         {
             InteropHelp.TestIfAvailableGameServer();
-            _serverService?.HandleInit();
+            _serverService?.Init();
         }
         catch { }
     }
 
-    public override void Load(bool hotReload) { }
+    public override void Load(bool hotReload)
+    {
+        _ = Core
+            .Configuration.InitializeTomlWithModel<DatabaseConfig>("database.toml", "database")
+            .Configure(builder =>
+                builder.AddTomlFile("database.toml", optional: false, reloadOnChange: true)
+            );
+
+        _ = Core
+            .Configuration.InitializeTomlWithModel<SessionConfig>("config.toml", "config")
+            .Configure(builder =>
+                builder.AddTomlFile("config.toml", optional: false, reloadOnChange: true)
+            );
+    }
 
     public override void Unload()
     {

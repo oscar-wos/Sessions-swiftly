@@ -4,7 +4,7 @@ using SwiftlyS2.Shared.Players;
 
 namespace RSession.Services.Core;
 
-public class EventService : IEventService
+public sealed class EventService : IEventService
 {
     public event PlayerAuthorizedDelegate? PlayerAuthorized;
     public event ServerAuthorizedDelegate? ServerAuthorized;

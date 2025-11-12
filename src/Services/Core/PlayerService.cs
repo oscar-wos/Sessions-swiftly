@@ -8,19 +8,18 @@ using SwiftlyS2.Shared.Players;
 namespace RSession.Services.Core;
 
 public sealed class PlayerService(
+    ISwiftlyCore core,
     ILogService logService,
     ILogger<PlayerService> logger,
-    ISwiftlyCore core,
     IDatabaseFactory databaseFactory,
     IEventService eventService
 ) : IPlayerService
 {
+    private readonly ISwiftlyCore _core = core;
     private readonly ILogService _logService = logService;
     private readonly ILogger<PlayerService> _logger = logger;
 
-    private readonly ISwiftlyCore _core = core;
     private readonly IDatabaseService _database = databaseFactory.Database;
-
     private readonly IEventService _eventService = eventService;
 
     private readonly Dictionary<ulong, int> _players = [];
@@ -32,7 +31,7 @@ public sealed class PlayerService(
     public long? GetSession(IPlayer player) =>
         _sessions.TryGetValue(player.SteamID, out long sessionId) ? sessionId : null;
 
-    public void HandleInit(short serverId)
+    public void Init(short serverId)
     {
         foreach (IPlayer player in _core.PlayerManager.GetAllPlayers())
         {

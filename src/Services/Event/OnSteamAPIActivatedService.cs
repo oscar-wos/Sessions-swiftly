@@ -7,16 +7,16 @@ using SwiftlyS2.Shared;
 namespace RSession.Services.Event;
 
 public sealed class OnSteamAPIActivatedService(
+    ISwiftlyCore core,
     ILogService logService,
     ILogger<OnSteamAPIActivatedService> logger,
-    ISwiftlyCore core,
     IServerService serverService
 ) : IEventListener
 {
+    private readonly ISwiftlyCore _core = core;
     private readonly ILogService _logService = logService;
     private readonly ILogger<OnSteamAPIActivatedService> _logger = logger;
 
-    private readonly ISwiftlyCore _core = core;
     private readonly IServerService _serverService = serverService;
 
     public void Subscribe()
@@ -33,7 +33,7 @@ public sealed class OnSteamAPIActivatedService(
 
     private void OnSteamAPIActivated()
     {
-        _logService.LogInformation($"SteamAPI activated", logger: _logger);
-        _serverService.HandleInit();
+        _logService.LogDebug($"SteamAPI activated", logger: _logger);
+        _serverService.Init();
     }
 }

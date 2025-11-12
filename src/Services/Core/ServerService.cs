@@ -7,23 +7,23 @@ using SwiftlyS2.Shared;
 namespace RSession.Services.Core;
 
 public sealed class ServerService(
+    ISwiftlyCore core,
     ILogService logService,
     ILogger<ServerService> logger,
-    ISwiftlyCore core,
     IDatabaseFactory databaseFactory,
     IPlayerService playerService
 ) : IServerService
 {
+    private readonly ISwiftlyCore _core = core;
     private readonly ILogService _logService = logService;
     private readonly ILogger<ServerService> _logger = logger;
 
-    private readonly ISwiftlyCore _core = core;
     private readonly IDatabaseService _database = databaseFactory.Database;
     private readonly IPlayerService _playerService = playerService;
 
     public short? Id { get; private set; }
 
-    public void HandleInit() =>
+    public void Init() =>
         Task.Run(async () =>
         {
             string ip = _core.Engine.ServerIP ?? "0.0.0.0";
@@ -41,7 +41,7 @@ public sealed class ServerService(
 
                 Id = serverId;
 
-                _playerService.HandleInit(serverId);
+                _playerService.Init(serverId);
             }
             catch (Exception ex)
             {
