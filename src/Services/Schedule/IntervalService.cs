@@ -39,10 +39,11 @@ public sealed class IntervalService(
             Enabled = true,
         };
 
-        _timer.Elapsed += async (sender, e) => await OnElapsed(sender, e);
+        _timer.Elapsed += async (_, _) => await OnElapsed();
+        _logService.LogInformation("IntervalService initialized", logger: _logger);
     }
 
-    private async Task OnElapsed(object? sender, ElapsedEventArgs e)
+    private async Task OnElapsed()
     {
         List<int> playerIds = [];
         List<long> sessionIds = [];

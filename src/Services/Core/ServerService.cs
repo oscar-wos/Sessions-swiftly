@@ -32,7 +32,7 @@ public sealed class ServerService(
             try
             {
                 await _database.InitAsync().ConfigureAwait(false);
-                short serverId = await _database.GetServerAsync(ip, port);
+                short serverId = await _database.GetServerAsync(ip, port).ConfigureAwait(false);
 
                 _logService.LogInformation(
                     $"Server initialized - {ip}:{port} | Server ID: {serverId}",
