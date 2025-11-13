@@ -6,11 +6,11 @@ namespace RSession.Services.Core;
 
 public sealed class EventService : IEventService
 {
-    public event PlayerAuthorizedDelegate? PlayerAuthorized;
-    public event ServerAuthorizedDelegate? ServerAuthorized;
+    public event OnPlayerRegisteredDelegate? OnPlayerRegistered;
+    public event OnServerRegisteredDelegate? OnServerRegistered;
 
-    public void InvokePlayerAuthorized(IPlayer player, int playerId, long sessionId) =>
-        PlayerAuthorized?.Invoke(player, playerId, sessionId);
+    public void InvokePlayerRegistered(IPlayer player, int playerId, long sessionId) =>
+        OnPlayerRegistered?.Invoke(player, playerId, sessionId);
 
-    public void InvokeServerAuthorized(short serverId) => ServerAuthorized?.Invoke(serverId);
+    public void InvokeServerRegistered(short serverId) => OnServerRegistered?.Invoke(serverId);
 }

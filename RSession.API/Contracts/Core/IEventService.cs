@@ -5,8 +5,8 @@ namespace RSession.API.Contracts.Core;
 
 public interface IEventService
 {
-    event PlayerAuthorizedDelegate PlayerAuthorized;
-    event ServerAuthorizedDelegate ServerAuthorized;
-    void InvokePlayerAuthorized(IPlayer player, int playerId, long sessionId);
-    void InvokeServerAuthorized(short serverId);
+    event OnPlayerRegisteredDelegate OnPlayerRegistered;
+    event OnServerRegisteredDelegate OnServerRegistered;
+    void InvokePlayerRegistered(IPlayer player, int playerId, long sessionId);
+    void InvokeServerRegistered(short serverId);
 }

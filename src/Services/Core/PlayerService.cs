@@ -7,42 +7,41 @@ using SwiftlyS2.Shared.Players;
 
 namespace RSession.Services.Core;
 
-public sealed class PlayerService(
-    ISwiftlyCore core,
-    ILogService logService,
-    ILogger<PlayerService> logger,
-    IDatabaseFactory databaseFactory,
-    IEventService eventService
-) : IPlayerService
+public sealed class PlayerService : IPlayerService, IDisposable
 {
-    private readonly ISwiftlyCore _core = core;
-    private readonly ILogService _logService = logService;
-    private readonly ILogger<PlayerService> _logger = logger;
+    private readonly ISwiftlyCore _core;
+    private readonly ILogService _logService;
+    private readonly ILogger<PlayerService> _logger;
 
-    private readonly IDatabaseService _database = databaseFactory.Database;
-    private readonly IEventService _eventService = eventService;
+    private readonly IDatabaseService _database;
+    private readonly IEventService _eventService;
 
     private readonly Dictionary<ulong, int> _players = [];
     private readonly Dictionary<ulong, long> _sessions = [];
+
+    public PlayerService(
+        ISwiftlyCore core,
+        ILogService logService,
+        ILogger<PlayerService> logger,
+        IDatabaseFactory databaseFactory,
+        IEventService eventService
+    )
+    {
+        _core = core;
+        _logService = logService;
+        _logger = logger;
+
+        _database = databaseFactory.Database;
+        _eventService = eventService;
+
+        _eventService.OnServerRegistered += OnServerRegistered;
+    }
 
     public int? GetPlayer(IPlayer player) =>
         _players.TryGetValue(player.SteamID, out int playerId) ? playerId : null;
 
     public long? GetSession(IPlayer player) =>
         _sessions.TryGetValue(player.SteamID, out long sessionId) ? sessionId : null;
-
-    public void Init(short serverId)
-    {
-        foreach (IPlayer player in _core.PlayerManager.GetAllPlayers())
-        {
-            if (player is not { IsValid: true, IsAuthorized: true })
-            {
-                continue;
-            }
-
-            HandlePlayerAuthorize(player, serverId);
-        }
-    }
 
     public void HandlePlayerAuthorize(IPlayer player, short serverId) =>
         Task.Run(async () =>
@@ -58,19 +57,19 @@ public sealed class PlayerService(
                     .ConfigureAwait(false);
 
                 _logService.LogInformation(
-                    $"Player authorized - {player.Controller.PlayerName} ({player.SteamID}) | Player ID: {playerId} | Session ID: {sessionId}",
+                    $"Player registered - {player.Controller.PlayerName} ({player.SteamID}) | Player ID: {playerId} | Session ID: {sessionId}",
                     logger: _logger
                 );
 
                 _players[steamId] = playerId;
                 _sessions[steamId] = sessionId;
 
-                _eventService.InvokePlayerAuthorized(player, playerId, sessionId);
+                _eventService.InvokePlayerRegistered(player, playerId, sessionId);
             }
             catch (Exception ex)
             {
                 _logService.LogError(
-                    $"Unable to authorize player - {player.Controller.PlayerName} ({player.SteamID})",
+                    $"Unable to register player - {player.Controller.PlayerName} ({player.SteamID})",
                     exception: ex,
                     logger: _logger
                 );
@@ -82,7 +81,7 @@ public sealed class PlayerService(
         if (GetPlayer(player) is null)
         {
             _logService.LogWarning(
-                $"Player not authorized - {player.Controller.PlayerName} ({player.SteamID})",
+                $"Player not registered - {player.Controller.PlayerName} ({player.SteamID})",
                 logger: _logger
             );
 
@@ -92,4 +91,19 @@ public sealed class PlayerService(
         _ = _players.Remove(player.SteamID);
         _ = _sessions.Remove(player.SteamID);
     }
+
+    private void OnServerRegistered(short serverId)
+    {
+        foreach (IPlayer player in _core.PlayerManager.GetAllPlayers())
+        {
+            if (player is not { IsValid: true, IsAuthorized: true })
+            {
+                continue;
+            }
+
+            HandlePlayerAuthorize(player, serverId);
+        }
+    }
+
+    public void Dispose() => _eventService.OnServerRegistered -= OnServerRegistered;
 }

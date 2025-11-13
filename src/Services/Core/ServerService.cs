@@ -11,7 +11,7 @@ public sealed class ServerService(
     ILogService logService,
     ILogger<ServerService> logger,
     IDatabaseFactory databaseFactory,
-    IPlayerService playerService
+    IEventService _eventService
 ) : IServerService
 {
     private readonly ISwiftlyCore _core = core;
@@ -19,7 +19,7 @@ public sealed class ServerService(
     private readonly ILogger<ServerService> _logger = logger;
 
     private readonly IDatabaseService _database = databaseFactory.Database;
-    private readonly IPlayerService _playerService = playerService;
+    private readonly IEventService _eventService = _eventService;
 
     public short? Id { get; private set; }
 
@@ -35,18 +35,18 @@ public sealed class ServerService(
                 short serverId = await _database.GetServerAsync(ip, port).ConfigureAwait(false);
 
                 _logService.LogInformation(
-                    $"Server initialized - {ip}:{port} | Server ID: {serverId}",
+                    $"Server registered - {ip}:{port} | Server ID: {serverId}",
                     logger: _logger
                 );
 
                 Id = serverId;
 
-                _playerService.Init(serverId);
+                _eventService.InvokeServerRegistered(serverId);
             }
             catch (Exception ex)
             {
                 _logService.LogError(
-                    $"Unable to initialize server - {ip}:{port}",
+                    $"Unable to register server - {ip}:{port}",
                     exception: ex,
                     logger: _logger
                 );
