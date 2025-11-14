@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Logging;
+using RSession.Contracts.Core;
 using RSession.Contracts.Event;
-using RSession.Shared.Contracts.Core;
 using RSession.Shared.Contracts.Log;
 using SwiftlyS2.Shared;
 using SwiftlyS2.Shared.Events;
@@ -8,18 +8,18 @@ using SwiftlyS2.Shared.ProtobufDefinitions;
 
 namespace RSession.Services.Event;
 
-public sealed class OnClientDisconnectedService(
+internal sealed class OnClientDisconnectedService(
     ISwiftlyCore core,
     IRSessionLog logService,
     ILogger<OnClientDisconnectedService> logger,
-    IRSessionPlayer playerService
+    IRSessionPlayerInternal playerService
 ) : IEventListener
 {
     private readonly ISwiftlyCore _core = core;
     private readonly IRSessionLog _logService = logService;
     private readonly ILogger<OnClientDisconnectedService> _logger = logger;
 
-    private readonly IRSessionPlayer _playerService = playerService;
+    private readonly IRSessionPlayerInternal _playerService = playerService;
 
     public void Subscribe()
     {

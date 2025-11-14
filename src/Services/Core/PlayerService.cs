@@ -1,20 +1,20 @@
 using Microsoft.Extensions.Logging;
+using RSession.Contracts.Core;
 using RSession.Contracts.Database;
-using RSession.Shared.Contracts.Core;
 using RSession.Shared.Contracts.Log;
 using SwiftlyS2.Shared;
 using SwiftlyS2.Shared.Players;
 
 namespace RSession.Services.Core;
 
-public sealed class PlayerService : IRSessionPlayer, IDisposable
+internal sealed class PlayerService : IRSessionPlayerInternal, IDisposable
 {
     private readonly ISwiftlyCore _core;
     private readonly IRSessionLog _logService;
     private readonly ILogger<PlayerService> _logger;
 
     private readonly IDatabaseService _database;
-    private readonly IRSessionEvent _eventService;
+    private readonly IRSessionEventInternal _eventService;
 
     private readonly Dictionary<ulong, int> _players = [];
     private readonly Dictionary<ulong, long> _sessions = [];
@@ -24,7 +24,7 @@ public sealed class PlayerService : IRSessionPlayer, IDisposable
         IRSessionLog logService,
         ILogger<PlayerService> logger,
         IDatabaseFactory databaseFactory,
-        IRSessionEvent eventService
+        IRSessionEventInternal eventService
     )
     {
         _core = core;

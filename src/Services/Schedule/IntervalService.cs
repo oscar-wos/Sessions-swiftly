@@ -11,14 +11,14 @@ using Timer = System.Timers.Timer;
 
 namespace RSession.Services.Schedule;
 
-public sealed class IntervalService(
+internal sealed class IntervalService(
     ISwiftlyCore core,
     IRSessionLog logService,
     ILogger<IntervalService> logger,
     IOptionsMonitor<SessionConfig> config,
     IDatabaseFactory databaseFactory,
     IRSessionPlayer playerService
-) : IIntervalService, IDisposable
+) : IInterval, IDisposable
 {
     private readonly ISwiftlyCore _core = core;
     private readonly IRSessionLog _logService = logService;

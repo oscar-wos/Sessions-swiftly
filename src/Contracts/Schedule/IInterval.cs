@@ -1,6 +1,6 @@
 namespace RSession.Contracts.Schedule;
 
-public interface IIntervalService
+internal interface IInterval
 {
     void Init();
 }

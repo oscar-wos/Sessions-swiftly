@@ -1,6 +1,6 @@
 namespace RSession.Contracts.Database;
 
-public interface IDatabaseFactory
+internal interface IDatabaseFactory
 {
     IDatabaseService Database { get; }
 }

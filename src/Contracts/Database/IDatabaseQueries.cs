@@ -1,6 +1,6 @@
 namespace RSession.Contracts.Database;
 
-public interface IDatabaseQueries
+internal interface IDatabaseQueries
 {
     string SelectPlayer { get; }
     string InsertPlayer { get; }

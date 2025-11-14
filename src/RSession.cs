@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using RSession.Contracts.Core;
 using RSession.Contracts.Database;
 using RSession.Contracts.Event;
 using RSession.Contracts.Schedule;
@@ -27,8 +28,8 @@ public sealed partial class RSession(ISwiftlyCore core) : BasePlugin(core)
 {
     private IServiceProvider? _serviceProvider;
 
-    private IRSessionServer? _serverService;
-    private IIntervalService? _intervalService;
+    private IRSessionServerInternal? _serverService;
+    private IInterval? _intervalService;
 
     public override void ConfigureSharedInterface(IInterfaceManager interfaceManager)
     {
@@ -40,20 +41,20 @@ public sealed partial class RSession(ISwiftlyCore core) : BasePlugin(core)
         _ = services.AddEvents();
 
         _ = services.AddSingleton<IRSessionLog, LogService>();
-        _ = services.AddSingleton<IRSessionEvent, EventService>();
 
-        _ = services.AddSingleton<IRSessionPlayer, PlayerService>();
-        _ = services.AddSingleton<IRSessionServer, ServerService>();
+        _ = services.AddSingleton<IRSessionEventInternal, EventService>();
+        _ = services.AddSingleton<IRSessionPlayerInternal, PlayerService>();
+        _ = services.AddSingleton<IRSessionServerInternal, ServerService>();
 
-        _ = services.AddSingleton<IIntervalService, IntervalService>();
+        _ = services.AddSingleton<IInterval, IntervalService>();
 
         _ = services.AddOptionsWithValidateOnStart<DatabaseConfig>().BindConfiguration("database");
         _ = services.AddOptionsWithValidateOnStart<SessionConfig>().BindConfiguration("config");
 
         _serviceProvider = services.BuildServiceProvider();
 
-        _serverService = _serviceProvider.GetRequiredService<IRSessionServer>();
-        _intervalService = _serviceProvider.GetRequiredService<IIntervalService>();
+        _serverService = _serviceProvider.GetRequiredService<IRSessionServerInternal>();
+        _intervalService = _serviceProvider.GetRequiredService<IInterval>();
 
         interfaceManager.AddSharedInterface<IDatabaseService, IDatabaseService>(
             "RSession.DatabaseService",

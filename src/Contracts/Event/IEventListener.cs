@@ -1,6 +1,6 @@
 namespace RSession.Contracts.Event;
 
-public interface IEventListener
+internal interface IEventListener
 {
     void Subscribe();
     void Unsubscribe();

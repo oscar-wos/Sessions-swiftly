@@ -7,7 +7,7 @@ using RSession.Shared.Contracts.Log;
 
 namespace RSession.Services.Database;
 
-public sealed class DatabaseFactory : IDatabaseFactory
+internal sealed class DatabaseFactory : IDatabaseFactory
 {
     private readonly IRSessionLog _logService;
     private readonly ILogger<DatabaseFactory> _logger;

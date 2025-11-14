@@ -1,3 +1,3 @@
 namespace RSession.Contracts.Database;
 
-public interface IPostgresService { }
+internal interface IPostgresService { }

@@ -1,6 +1,6 @@
 namespace RSession.Contracts.Hook;
 
-public interface IHook
+internal interface IHook
 {
     void Register();
     void Unregister();

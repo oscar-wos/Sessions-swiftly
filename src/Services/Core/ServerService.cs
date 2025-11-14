@@ -1,25 +1,25 @@
 using Microsoft.Extensions.Logging;
+using RSession.Contracts.Core;
 using RSession.Contracts.Database;
-using RSession.Shared.Contracts.Core;
 using RSession.Shared.Contracts.Log;
 using SwiftlyS2.Shared;
 
 namespace RSession.Services.Core;
 
-public sealed class ServerService(
+internal sealed class ServerService(
     ISwiftlyCore core,
     IRSessionLog logService,
     ILogger<ServerService> logger,
     IDatabaseFactory databaseFactory,
-    IRSessionEvent _eventService
-) : IRSessionServer
+    IRSessionEventInternal eventService
+) : IRSessionServerInternal
 {
     private readonly ISwiftlyCore _core = core;
     private readonly IRSessionLog _logService = logService;
     private readonly ILogger<ServerService> _logger = logger;
 
     private readonly IDatabaseService _database = databaseFactory.Database;
-    private readonly IRSessionEvent _eventService = _eventService;
+    private readonly IRSessionEventInternal _eventService = eventService;
 
     public short? Id { get; private set; }
 
