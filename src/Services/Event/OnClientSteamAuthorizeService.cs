@@ -48,7 +48,7 @@ internal sealed class OnClientSteamAuthorizeService(
             return;
         }
 
-        if (_serverService.Id is not { } serverId)
+        if (_serverService.GetServerId() is not { } serverId)
         {
             return;
         }

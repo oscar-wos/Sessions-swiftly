@@ -21,9 +21,11 @@ internal sealed class ServerService(
     private readonly IDatabaseService _database = databaseFactory.Database;
     private readonly IRSessionEventInternal _eventService = eventService;
 
-    public short? Id { get; private set; }
+    private short? _id;
 
-    public void Init() =>
+    public short? GetServerId() => _id;
+
+    public void Initialize() =>
         Task.Run(async () =>
         {
             string ip = _core.Engine.ServerIP ?? "0.0.0.0";
@@ -39,7 +41,7 @@ internal sealed class ServerService(
                     logger: _logger
                 );
 
-                Id = serverId;
+                _id = serverId;
 
                 _eventService.InvokeServerRegistered(serverId);
             }

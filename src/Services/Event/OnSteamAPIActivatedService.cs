@@ -34,6 +34,6 @@ internal sealed class OnSteamAPIActivatedService(
     private void OnSteamAPIActivated()
     {
         _logService.LogDebug($"SteamAPI activated", logger: _logger);
-        _serverService.Init();
+        _serverService.Initialize();
     }
 }

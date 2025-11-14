@@ -37,10 +37,10 @@ internal sealed class PlayerService : IRSessionPlayerInternal, IDisposable
         _eventService.OnServerRegistered += OnServerRegistered;
     }
 
-    public int? GetPlayer(IPlayer player) =>
+    public int? GetPlayerId(IPlayer player) =>
         _players.TryGetValue(player.SteamID, out int playerId) ? playerId : null;
 
-    public long? GetSession(IPlayer player) =>
+    public long? GetSessionId(IPlayer player) =>
         _sessions.TryGetValue(player.SteamID, out long sessionId) ? sessionId : null;
 
     public void HandlePlayerAuthorize(IPlayer player, short serverId) =>
@@ -78,7 +78,7 @@ internal sealed class PlayerService : IRSessionPlayerInternal, IDisposable
 
     public void HandlePlayerDisconnected(IPlayer player)
     {
-        if (GetPlayer(player) is null)
+        if (GetPlayerId(player) is null)
         {
             _logService.LogWarning(
                 $"Player not registered - {player.Controller.PlayerName} ({player.SteamID})",

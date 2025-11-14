@@ -1,13 +1,11 @@
 using Microsoft.Extensions.DependencyInjection;
 using RSession.Contracts.Core;
 using RSession.Contracts.Event;
-using RSession.Contracts.Log;
 using RSession.Contracts.Schedule;
 using RSession.Extensions;
 using RSession.Models.Config;
 using RSession.Services.Core;
-using RSession.Services.Log;
-using RSession.Services.Schedule;
+using RSession.Shared.Contracts;
 using SwiftlyS2.Shared;
 using SwiftlyS2.Shared.Plugins;
 using SwiftlyS2.Shared.SteamAPI;
@@ -28,59 +26,25 @@ public sealed partial class RSession(ISwiftlyCore core) : BasePlugin(core)
 
     public override void ConfigureSharedInterface(IInterfaceManager interfaceManager)
     {
-        ServiceCollection services = new();
-
-        _ = services.AddSwiftly(Core);
-
-        _ = services.AddDatabases();
-        _ = services.AddEvents();
-
-        _ = services.AddSingleton<ILogService, LogService>();
-
-        _ = services.AddSingleton<IRSessionEventInternal, EventService>();
-        _ = services.AddSingleton<IRSessionPlayerInternal, PlayerService>();
-        _ = services.AddSingleton<IRSessionServerInternal, ServerService>();
-
-        _ = services.AddSingleton<IInterval, IntervalService>();
-
-        _ = services.AddOptionsWithValidateOnStart<DatabaseConfig>().BindConfiguration("database");
-        _ = services.AddOptionsWithValidateOnStart<SessionConfig>().BindConfiguration("config");
-
-        _serviceProvider = services.BuildServiceProvider();
-
-        /*
-        interfaceManager.AddSharedInterface<IRSessionEvent, IRSessionEvent>(
-            "RSession.EventService",
-            _serviceProvider.GetRequiredService<IRSessionEvent>()
-        );
-
-        interfaceManager.AddSharedInterface<IRSessionPlayer, IRSessionPlayer>(
-            "RSession.PlayerService",
-            _serviceProvider.GetRequiredService<IRSessionPlayer>()
-        );
-
-        interfaceManager.AddSharedInterface<IRSessionServer, IRSessionServer>(
-            "RSession.ServerService",
-            _serviceProvider.GetRequiredService<IRSessionServer>()
-        );
-        */
-    }
-
-    public override void UseSharedInterface(IInterfaceManager interfaceManager)
-    {
-        foreach (IEventListener listener in _serviceProvider?.GetServices<IEventListener>() ?? [])
+        if (_serviceProvider is null)
         {
-            listener.Subscribe();
+            return;
         }
 
-        _serviceProvider?.GetService<IInterval>()?.Init();
+        interfaceManager.AddSharedInterface<IRSessionEvent, EventService>(
+            "RSession.Event",
+            _serviceProvider.GetRequiredService<EventService>()
+        );
 
-        try
-        {
-            InteropHelp.TestIfAvailableGameServer();
-            _serviceProvider?.GetService<IRSessionServerInternal>()?.Init();
-        }
-        catch { }
+        interfaceManager.AddSharedInterface<IRSessionPlayer, PlayerService>(
+            "RSession.Player",
+            _serviceProvider.GetRequiredService<PlayerService>()
+        );
+
+        interfaceManager.AddSharedInterface<IRSessionServer, ServerService>(
+            "RSession.Server",
+            _serviceProvider.GetRequiredService<ServerService>()
+        );
     }
 
     public override void Load(bool hotReload)
@@ -96,6 +60,31 @@ public sealed partial class RSession(ISwiftlyCore core) : BasePlugin(core)
             .Configure(builder =>
                 builder.AddTomlFile("config.toml", optional: false, reloadOnChange: true)
             );
+
+        ServiceCollection services = new();
+
+        _ = services.AddSwiftly(Core);
+
+        _ = services.AddConfigs();
+        _ = services.AddDatabases();
+        _ = services.AddEvents();
+        _ = services.AddServices();
+
+        _serviceProvider = services.BuildServiceProvider();
+
+        foreach (IEventListener listener in _serviceProvider.GetServices<IEventListener>() ?? [])
+        {
+            listener.Subscribe();
+        }
+
+        _serviceProvider.GetService<IInterval>()?.Initialize();
+
+        try
+        {
+            InteropHelp.TestIfAvailableGameServer();
+            _serviceProvider.GetService<IRSessionServerInternal>()?.Initialize();
+        }
+        catch { }
     }
 
     public override void Unload()

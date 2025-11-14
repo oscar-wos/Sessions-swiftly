@@ -30,7 +30,7 @@ internal sealed class IntervalService(
 
     private Timer? _timer;
 
-    public void Init()
+    public void Initialize()
     {
         _timer = new Timer(_config.CurrentValue.UpdateInterval)
         {
@@ -49,12 +49,12 @@ internal sealed class IntervalService(
 
         foreach (IPlayer player in _core.PlayerManager.GetAllPlayers())
         {
-            if (_playerService.GetPlayer(player) is { } playerId)
+            if (_playerService.GetPlayerId(player) is { } playerId)
             {
                 playerIds.Add(playerId);
             }
 
-            if (_playerService.GetSession(player) is { } sessionId)
+            if (_playerService.GetSessionId(player) is { } sessionId)
             {
                 sessionIds.Add(sessionId);
             }

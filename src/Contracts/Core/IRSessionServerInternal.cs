@@ -4,5 +4,5 @@ namespace RSession.Contracts.Core;
 
 internal interface IRSessionServerInternal : IRSessionServer
 {
-    void Init();
+    void Initialize();
 }
