@@ -24,22 +24,22 @@ public sealed partial class Messages(ISwiftlyCore core) : BasePlugin(core)
     public override void UseSharedInterface(IInterfaceManager interfaceManager)
     {
         if (
-            !interfaceManager.HasSharedInterface("RSession.Player")
-            || !interfaceManager.HasSharedInterface("RSession.Server")
+            !interfaceManager.HasSharedInterface("RSession.PlayerService")
+            || !interfaceManager.HasSharedInterface("RSession.ServerService")
         )
         {
             return;
         }
 
-        IRSessionPlayerService sessionPlayer =
-            interfaceManager.GetSharedInterface<IRSessionPlayerService>("RSession.Player");
+        IRSessionPlayerService sessionPlayerService =
+            interfaceManager.GetSharedInterface<IRSessionPlayerService>("RSession.PlayerService");
 
-        IRSessionServerService sessionServer =
-            interfaceManager.GetSharedInterface<IRSessionServerService>("RSession.Server");
+        IRSessionServerService sessionServerService =
+            interfaceManager.GetSharedInterface<IRSessionServerService>("RSession.ServerService");
 
         _serviceProvider
             ?.GetRequiredService<IPlayerService>()
-            .Initialize(sessionPlayer, sessionServer);
+            .Initialize(sessionPlayerService, sessionServerService);
     }
 
     public override void Load(bool hotReload)

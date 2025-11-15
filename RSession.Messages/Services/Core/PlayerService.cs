@@ -6,24 +6,24 @@ namespace RSession.Messages.Services.Core;
 
 internal sealed class PlayerService : IPlayerService
 {
-    private IRSessionPlayerService? _sessionPlayer;
-    private IRSessionServerService? _sessionServer;
+    private IRSessionPlayerService? _sessionPlayerService;
+    private IRSessionServerService? _sessionServerService;
 
     public void Initialize(
-        IRSessionPlayerService sessionPlayer,
-        IRSessionServerService sessionServer
+        IRSessionPlayerService sessionPlayerService,
+        IRSessionServerService sessionServerService
     )
     {
-        _sessionPlayer = sessionPlayer;
-        _sessionServer = sessionServer;
+        _sessionPlayerService = sessionPlayerService;
+        _sessionServerService = sessionServerService;
     }
 
     public void HandlePlayerMessage(IPlayer player, short teamNum, bool teamChat, string message)
     {
         if (
-            _sessionPlayer?.GetPlayerId(player) is not { } playerId
-            || _sessionPlayer?.GetSessionId(player) is not { } sessionId
-            || _sessionServer?.GetServerId() is not { } serverId
+            _sessionPlayerService?.GetPlayerId(player) is not { } playerId
+            || _sessionPlayerService?.GetSessionId(player) is not { } sessionId
+            || _sessionServerService?.GetServerId() is not { } serverId
         )
         {
             return;
