@@ -1,11 +1,13 @@
 using Microsoft.Extensions.DependencyInjection;
 using RSession.Messages.Contracts.Core;
 using RSession.Messages.Contracts.Database;
+using RSession.Messages.Contracts.Event;
 using RSession.Messages.Contracts.Hook;
 using RSession.Messages.Contracts.Log;
 using RSession.Messages.Services.Core;
 using RSession.Messages.Services.Database;
 using RSession.Messages.Services.Event;
+using RSession.Messages.Services.Hook;
 using RSession.Messages.Services.Log;
 
 namespace RSession.Messages.Extensions;
@@ -30,6 +32,13 @@ public static class ServiceCollectionExtension
         return services;
     }
 
+    public static IServiceCollection AddEvents(this IServiceCollection services)
+    {
+        _ = services.AddSingleton<IOnDatabaseConfiguredService, OnDatabaseConfiguredService>();
+
+        return services;
+    }
+
     public static IServiceCollection AddHooks(this IServiceCollection services)
     {
         _ = services.AddSingleton<IHook, OnUserMessageSayText2Service>();
@@ -41,8 +50,6 @@ public static class ServiceCollectionExtension
     {
         _ = services.AddSingleton<ILogService, LogService>();
         _ = services.AddSingleton<IPlayerService, PlayerService>();
-
-        _ = services.AddSingleton<OnDatabaseConfiguredService>();
 
         return services;
     }

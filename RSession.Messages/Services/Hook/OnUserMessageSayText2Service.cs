@@ -6,6 +6,8 @@ using SwiftlyS2.Shared;
 using SwiftlyS2.Shared.Misc;
 using SwiftlyS2.Shared.ProtobufDefinitions;
 
+namespace RSession.Messages.Services.Hook;
+
 internal sealed class OnUserMessageSayText2Service(
     ISwiftlyCore core,
     ILogService logService,

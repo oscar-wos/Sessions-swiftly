@@ -1,8 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using RSession.Messages.Contracts.Core;
+using RSession.Messages.Contracts.Event;
 using RSession.Messages.Contracts.Hook;
 using RSession.Messages.Extensions;
-using RSession.Messages.Services.Event;
 using RSession.Shared.Contracts;
 using SwiftlyS2.Shared;
 using SwiftlyS2.Shared.Plugins;
@@ -28,7 +28,7 @@ public sealed partial class Messages(ISwiftlyCore core) : BasePlugin(core)
                 interfaceManager.GetSharedInterface<ISessionEventService>("RSession.EventService");
 
             _serviceProvider
-                ?.GetService<OnDatabaseConfiguredService>()
+                ?.GetService<IOnDatabaseConfiguredService>()
                 ?.Initialize(sessionEventService);
         }
 
@@ -50,6 +50,7 @@ public sealed partial class Messages(ISwiftlyCore core) : BasePlugin(core)
         _ = services.AddSwiftly(Core);
 
         _ = services.AddDatabases();
+        _ = services.AddEvents();
         _ = services.AddHooks();
         _ = services.AddServices();
 

@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using RSession.Messages.Contracts.Database;
+using RSession.Messages.Contracts.Event;
 using RSession.Messages.Contracts.Log;
 using RSession.Shared.Contracts;
 
@@ -9,7 +10,7 @@ internal sealed class OnDatabaseConfiguredService(
     ILogService logService,
     ILogger<OnDatabaseConfiguredService> logger,
     IDatabaseFactory databaseFactory
-) : IDisposable
+) : IOnDatabaseConfiguredService, IDisposable
 {
     private readonly ILogService _logService = logService;
     private readonly ILogger<OnDatabaseConfiguredService> _logger = logger;

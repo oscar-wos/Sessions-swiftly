@@ -17,5 +17,5 @@ internal sealed class PostgresQueries : LoadQueries, IDatabaseQueries
             """;
 
     public string InsertMessage =>
-        "INSERT INTO messages (session_id, team_num, team_chat, message) VALUES (@sessionId, @teamNum, @teamChat, @message);";
+        "INSERT INTO messages (session_id, team_num, team_chat, message) VALUES (@sessionId, @teamNum, @teamChat, @message)";
 }
