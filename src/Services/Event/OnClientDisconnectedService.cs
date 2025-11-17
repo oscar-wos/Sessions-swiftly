@@ -13,7 +13,7 @@ internal sealed class OnClientDisconnectedService(
     ILogService logService,
     ILogger<OnClientDisconnectedService> logger,
     IPlayerService playerService
-) : IEventListener
+) : IEventListener, IDisposable
 {
     private readonly ISwiftlyCore _core = core;
     private readonly ILogService _logService = logService;
@@ -25,12 +25,6 @@ internal sealed class OnClientDisconnectedService(
     {
         _core.Event.OnClientDisconnected += OnClientDisconnected;
         _logService.LogInformation("OnClientDisconnected subscribed", logger: _logger);
-    }
-
-    public void Unsubscribe()
-    {
-        _core.Event.OnClientDisconnected -= OnClientDisconnected;
-        _logService.LogInformation("OnClientDisconnected unsubscribed", logger: _logger);
     }
 
     private void OnClientDisconnected(IOnClientDisconnectedEvent @event)
@@ -58,5 +52,11 @@ internal sealed class OnClientDisconnectedService(
         );
 
         _playerService.HandlePlayerDisconnected(player);
+    }
+
+    public void Dispose()
+    {
+        _core.Event.OnClientDisconnected -= OnClientDisconnected;
+        _logService.LogInformation("OnClientDisconnected disposed", logger: _logger);
     }
 }

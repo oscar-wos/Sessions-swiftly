@@ -12,8 +12,10 @@ internal sealed class EventService : IEventService
     public event OnPlayerRegisteredDelegate? OnPlayerRegistered;
     public event OnServerRegisteredDelegate? OnServerRegistered;
 
-    public void InvokeDatabaseConfigured(ISessionDatabaseService databaseService, string type) =>
-        OnDatabaseConfigured?.Invoke(databaseService, type);
+    public void InvokeDatabaseConfigured(
+        ISessionDatabaseService sessionDatabaseService,
+        string type
+    ) => OnDatabaseConfigured?.Invoke(sessionDatabaseService, type);
 
     public void InvokePlayerRegistered(IPlayer player, in SessionPlayer sessionPlayer) =>
         OnPlayerRegistered?.Invoke(player, in sessionPlayer);

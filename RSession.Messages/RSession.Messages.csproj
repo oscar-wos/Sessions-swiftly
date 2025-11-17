@@ -10,13 +10,8 @@
     <OutputPath>$(MSBuildThisFileDirectory)../build/</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="SwiftlyS2.CS2" Version="*" ExcludeAssets="runtime" PrivateAssets="all" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\..\swiftlys2\managed\managed.csproj" />
     <ProjectReference Include="..\RLogger\src\RLogger.csproj" />
     <ProjectReference Include="..\RSession.Shared\RSession.Shared.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Contracts\Event\" />
   </ItemGroup>
 </Project>

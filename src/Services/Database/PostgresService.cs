@@ -9,7 +9,7 @@ using RSession.Models.Database;
 
 namespace RSession.Services.Database;
 
-internal sealed class PostgresService : IDatabaseService
+internal sealed class PostgresService : IPostgresService, IAsyncDisposable
 {
     private readonly ILogService _logService;
     private readonly ILogger<PostgresService> _logger;
@@ -30,14 +30,13 @@ internal sealed class PostgresService : IDatabaseService
 
         string connectionString = BuildConnectionString(_config.CurrentValue.Connection);
         _dataSource = NpgsqlDataSource.Create(connectionString);
-
         _queries = new PostgresQueries();
     }
 
     public async Task<DbConnection> GetConnectionAsync() =>
         await _dataSource.OpenConnectionAsync().ConfigureAwait(false);
 
-    public async Task InitAsync()
+    public async Task InitializeAsync()
     {
         await using NpgsqlConnection connection = await _dataSource
             .OpenConnectionAsync()
@@ -171,5 +170,11 @@ internal sealed class PostgresService : IDatabaseService
         _logService.LogDebug(connectionString, logger: _logger);
 
         return builder.ConnectionString;
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await _dataSource.DisposeAsync().ConfigureAwait(false);
+        _logService.LogInformation("PostgresService disposed", logger: _logger);
     }
 }

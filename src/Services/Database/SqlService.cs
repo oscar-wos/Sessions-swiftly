@@ -9,7 +9,7 @@ using RSession.Models.Database;
 
 namespace RSession.Services.Database;
 
-internal sealed class SqlService : IDatabaseService
+internal sealed class SqlService : ISqlService, IAsyncDisposable
 {
     private readonly ILogService _logService;
     private readonly ILogger<SqlService> _logger;
@@ -30,14 +30,13 @@ internal sealed class SqlService : IDatabaseService
 
         string connectionString = BuildConnectionString(_config.CurrentValue.Connection);
         _dataSource = new MySqlDataSourceBuilder(connectionString).Build();
-
         _queries = new SqlQueries();
     }
 
     public async Task<DbConnection> GetConnectionAsync() =>
         await _dataSource.OpenConnectionAsync().ConfigureAwait(false);
 
-    public async Task InitAsync()
+    public async Task InitializeAsync()
     {
         await using MySqlConnection connection = await _dataSource
             .OpenConnectionAsync()
@@ -171,5 +170,11 @@ internal sealed class SqlService : IDatabaseService
         _logService.LogDebug(connectionString, logger: _logger);
 
         return builder.ConnectionString;
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await _dataSource.DisposeAsync().ConfigureAwait(false);
+        _logService.LogInformation("SqlService disposed", logger: _logger);
     }
 }

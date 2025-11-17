@@ -1,5 +1,4 @@
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using RSession.Contracts.Core;
 using RSession.Contracts.Database;
 using RSession.Contracts.Event;
@@ -49,17 +48,8 @@ public sealed partial class RSession(ISwiftlyCore core) : BasePlugin(core)
         );
     }
 
-    public override void UseSharedInterface(IInterfaceManager interfaceManager)
-    {
-        if (_serviceProvider is null)
-        {
-            return;
-        }
-
-        Core.Scheduler.NextTick(() =>
-            _serviceProvider.GetRequiredService<IDatabaseFactory>().InvokeDatabaseConfigured()
-        );
-    }
+    public override void OnSharedInterfaceInjected(IInterfaceManager interfaceManager) =>
+        _serviceProvider?.GetRequiredService<IDatabaseFactory>().InvokeDatabaseConfigured();
 
     public override void Load(bool hotReload)
     {
@@ -101,13 +91,11 @@ public sealed partial class RSession(ISwiftlyCore core) : BasePlugin(core)
         catch { }
     }
 
-    public override void Unload()
+    public override async void Unload()
     {
-        foreach (IEventListener listener in _serviceProvider?.GetServices<IEventListener>() ?? [])
+        if (_serviceProvider is IAsyncDisposable asyncDisposable)
         {
-            listener.Unsubscribe();
+            await asyncDisposable.DisposeAsync().ConfigureAwait(false);
         }
-
-        (_serviceProvider as IDisposable)?.Dispose();
     }
 }

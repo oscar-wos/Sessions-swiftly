@@ -13,7 +13,7 @@ internal sealed class OnClientSteamAuthorizeService(
     ILogger<OnClientSteamAuthorizeService> logger,
     IPlayerService playerService,
     IServerService serverService
-) : IEventListener
+) : IEventListener, IDisposable
 {
     private readonly ISwiftlyCore _core = core;
     private readonly ILogService _logService = logService;
@@ -26,12 +26,6 @@ internal sealed class OnClientSteamAuthorizeService(
     {
         _core.Event.OnClientSteamAuthorize += OnClientSteamAuthorize;
         _logService.LogInformation("OnClientSteamAuthorize subscribed", logger: _logger);
-    }
-
-    public void Unsubscribe()
-    {
-        _core.Event.OnClientSteamAuthorize -= OnClientSteamAuthorize;
-        _logService.LogInformation("OnClientSteamAuthorize unsubscribed", logger: _logger);
     }
 
     private void OnClientSteamAuthorize(IOnClientSteamAuthorizeEvent @event)
@@ -59,5 +53,11 @@ internal sealed class OnClientSteamAuthorizeService(
         );
 
         _playerService.HandlePlayerAuthorize(player, serverId);
+    }
+
+    public void Dispose()
+    {
+        _core.Event.OnClientSteamAuthorize -= OnClientSteamAuthorize;
+        _logService.LogInformation("OnClientSteamAuthorize disposed", logger: _logger);
     }
 }

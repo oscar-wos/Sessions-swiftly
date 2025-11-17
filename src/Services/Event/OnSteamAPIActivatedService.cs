@@ -11,7 +11,7 @@ internal sealed class OnSteamAPIActivatedService(
     ILogService logService,
     ILogger<OnSteamAPIActivatedService> logger,
     IServerService serverService
-) : IEventListener
+) : IEventListener, IDisposable
 {
     private readonly ISwiftlyCore _core = core;
     private readonly ILogService _logService = logService;
@@ -25,15 +25,15 @@ internal sealed class OnSteamAPIActivatedService(
         _logService.LogInformation("OnSteamAPIActivated subscribed", logger: _logger);
     }
 
-    public void Unsubscribe()
-    {
-        _core.Event.OnSteamAPIActivated -= OnSteamAPIActivated;
-        _logService.LogInformation("OnSteamAPIActivated unsubscribed", logger: _logger);
-    }
-
     private void OnSteamAPIActivated()
     {
         _logService.LogDebug($"SteamAPI activated", logger: _logger);
         _serverService.Initialize();
+    }
+
+    public void Dispose()
+    {
+        _core.Event.OnSteamAPIActivated -= OnSteamAPIActivated;
+        _logService.LogInformation("OnSteamAPIActivated disposed", logger: _logger);
     }
 }

@@ -1,4 +1,3 @@
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using RSession.Contracts.Core;
@@ -14,9 +13,7 @@ internal sealed class DatabaseFactory : IDatabaseFactory
     private readonly ILogger<DatabaseFactory> _logger;
     private readonly IOptionsMonitor<DatabaseConfig> _config;
 
-    private readonly IServiceProvider _serviceProvider;
     private readonly IEventService _eventService;
-
     private readonly IDatabaseService _databaseService;
 
     public IDatabaseService GetDatabaseService() => _databaseService;
@@ -25,23 +22,23 @@ internal sealed class DatabaseFactory : IDatabaseFactory
         ILogService logService,
         ILogger<DatabaseFactory> logger,
         IOptionsMonitor<DatabaseConfig> config,
-        IServiceProvider serviceProvider,
-        IEventService eventService
+        IEventService eventService,
+        Lazy<IPostgresService> postgresService,
+        Lazy<ISqlService> sqlService
     )
     {
         _logService = logService;
         _logger = logger;
         _config = config;
 
-        _serviceProvider = serviceProvider;
         _eventService = eventService;
 
         string type = _config.CurrentValue.Type;
 
         _databaseService = type.ToLowerInvariant() switch
         {
-            "postgres" => _serviceProvider.GetRequiredService<PostgresService>(),
-            "mysql" => _serviceProvider.GetRequiredService<SqlService>(),
+            "postgres" => postgresService.Value,
+            "mysql" => sqlService.Value,
             _ => throw _logService.LogCritical(
                 $"Database is not supported - '{type}' | Supported types: postgres, mysql",
                 logger: _logger

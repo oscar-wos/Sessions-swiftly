@@ -42,6 +42,16 @@ internal sealed class PlayerService : IPlayerService, IDisposable
             ? sessionPlayer
             : null;
 
+    public int? GetPlayerId(IPlayer player) =>
+        _players.TryGetValue(player.SteamID, out SessionPlayer sessionPlayer)
+            ? sessionPlayer.Id
+            : null;
+
+    public long? GetSessionId(IPlayer player) =>
+        _players.TryGetValue(player.SteamID, out SessionPlayer sessionPlayer)
+            ? sessionPlayer.Session
+            : null;
+
     public void HandlePlayerAuthorize(IPlayer player, short serverId) =>
         Task.Run(async () =>
         {

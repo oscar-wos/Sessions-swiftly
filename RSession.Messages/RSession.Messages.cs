@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using RSession.Messages.Contracts.Hook;
 using RSession.Messages.Extensions;
 using RSession.Messages.Services.Core;
@@ -68,6 +69,7 @@ public sealed partial class Messages(ISwiftlyCore core) : BasePlugin(core)
             hook.Unregister();
         }
 
+        Core.Logger.LogInformation("RSession.Messages Unloaded - disposing");
         (_serviceProvider as IDisposable)?.Dispose();
     }
 }

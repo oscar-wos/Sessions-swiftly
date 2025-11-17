@@ -1,4 +1,3 @@
-using System.Data.Common;
 using Npgsql;
 using RSession.Messages.Contracts.Database;
 using RSession.Messages.Models.Database;

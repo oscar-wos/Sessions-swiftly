@@ -9,22 +9,26 @@ namespace RSession.Messages.Services.Database;
 internal class DatabaseFactory(
     ILogService logService,
     ILogger<DatabaseFactory> logger,
-    IServiceProvider serviceProvider
+    PostgresService postgresService,
+    SqlService sqlService
 ) : IDatabaseFactory
 {
     private readonly ILogService _logService = logService;
     private readonly ILogger<DatabaseFactory> _logger = logger;
 
-    private readonly IServiceProvider _serviceProvider = serviceProvider;
+    private readonly PostgresService _postgresService = postgresService;
+    private readonly SqlService _sqlService = sqlService;
 
     private IDatabaseService? _databaseService;
 
     public void RegisterDatabaseService(ISessionDatabaseService databaseService, string type)
     {
+        Console.WriteLine("regiserting database");
+
         _databaseService = type.ToLowerInvariant() switch
         {
-            "postgres" => _serviceProvider.GetRequiredService<PostgresService>(),
-            "mysql" => _serviceProvider.GetRequiredService<SqlService>(),
+            "postgres" => _postgresService,
+            "mysql" => _sqlService,
             _ => throw _logService.LogCritical(
                 $"Database is not supported - '{type}' | Supported types: postgres, mysql",
                 logger: _logger
@@ -32,8 +36,8 @@ internal class DatabaseFactory(
         };
 
         _databaseService.Initialize(databaseService);
-        _ = Task.Run(async () => await _databaseService.InitAsync());
-
         _logService.LogInformation($"DatabaseFactory initialized - '{type}'", logger: _logger);
+
+        _ = Task.Run(async () => await _databaseService.InitAsync());
     }
 }

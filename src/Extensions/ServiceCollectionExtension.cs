@@ -25,9 +25,18 @@ public static class ServiceCollectionExtension
 
     public static IServiceCollection AddDatabases(this IServiceCollection services)
     {
-        _ = services.AddSingleton<IDatabaseFactory, DatabaseFactory>();
         _ = services.AddSingleton<PostgresService>();
         _ = services.AddSingleton<SqlService>();
+
+        _ = services.AddSingleton(serviceProvider => new Lazy<IPostgresService>(() =>
+            serviceProvider.GetRequiredService<PostgresService>()
+        ));
+
+        _ = services.AddSingleton(serviceProvider => new Lazy<ISqlService>(() =>
+            serviceProvider.GetRequiredService<SqlService>()
+        ));
+
+        _ = services.AddSingleton<IDatabaseFactory, DatabaseFactory>();
 
         return services;
     }

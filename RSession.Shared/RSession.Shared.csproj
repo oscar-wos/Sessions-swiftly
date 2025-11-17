@@ -10,6 +10,6 @@
     <OutputPath>$(MSBuildThisFileDirectory)../build/RSession.Shared/</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="SwiftlyS2.CS2" Version="*" ExcludeAssets="runtime" PrivateAssets="all" />
+    <ProjectReference Include="..\..\swiftlys2\managed\managed.csproj" />
   </ItemGroup>
 </Project>
