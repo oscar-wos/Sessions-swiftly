@@ -5,7 +5,7 @@ using RSession.Shared.Contracts;
 
 namespace RSession.Messages.Services.Database;
 
-internal class SqlService : ISqlService
+internal sealed class SqlService : ISqlService
 {
     private readonly SqlQueries _queries = new();
 

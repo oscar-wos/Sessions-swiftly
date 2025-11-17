@@ -5,7 +5,7 @@ using RSession.Shared.Contracts;
 
 namespace RSession.Messages.Services.Database;
 
-internal class DatabaseFactory(
+internal sealed class DatabaseFactory(
     ILogService logService,
     ILogger<DatabaseFactory> logger,
     Lazy<IPostgresService> postgresService,

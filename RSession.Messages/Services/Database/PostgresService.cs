@@ -1,4 +1,3 @@
-using System.Data.Common;
 using Npgsql;
 using RSession.Messages.Contracts.Database;
 using RSession.Messages.Models.Database;
@@ -6,7 +5,7 @@ using RSession.Shared.Contracts;
 
 namespace RSession.Messages.Services.Database;
 
-internal class PostgresService : IPostgresService
+internal sealed class PostgresService : IPostgresService
 {
     private readonly PostgresQueries _queries = new();
 
