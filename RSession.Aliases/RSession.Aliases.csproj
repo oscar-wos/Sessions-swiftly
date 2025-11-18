@@ -6,7 +6,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
-    <AssemblyName>RSession.Maps</AssemblyName>
+    <AssemblyName>RSession.Aliases</AssemblyName>
     <OutputPath>$(MSBuildThisFileDirectory)../build/</OutputPath>
   </PropertyGroup>
   <ItemGroup>
