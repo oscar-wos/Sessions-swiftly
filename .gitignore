@@ -1,3 +1,9 @@
 bin/
 obj/
 .vs/
+/build/net10.0/SwiftlyS2.CS2.dll
+/build/net10.0/SwiftlyS2.CS2.pdb
+/build/net10.0/SwiftlyS2.CS2.xml
+/build/RSession.Shared/net10.0/SwiftlyS2.CS2.dll
+/build/RSession.Shared/net10.0/SwiftlyS2.CS2.pdb
+/build/RSession.Shared/net10.0/SwiftlyS2.CS2.xml

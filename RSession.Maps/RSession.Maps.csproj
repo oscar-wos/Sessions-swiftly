@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+    <AssemblyName>RSession.Maps</AssemblyName>
+    <OutputPath>$(MSBuildThisFileDirectory)../build/</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\swiftlys2\managed\managed.csproj" />
+    <ProjectReference Include="..\RLogger\src\RLogger.csproj" />
+    <ProjectReference Include="..\RSession.Shared\RSession.Shared.csproj" />
+  </ItemGroup>
+</Project>
