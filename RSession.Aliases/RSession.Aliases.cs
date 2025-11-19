@@ -31,21 +31,23 @@ namespace RSession.Aliases;
 public sealed partial class Aliases(ISwiftlyCore core) : BasePlugin(core)
 {
     private IServiceProvider? _serviceProvider;
+    private ISessionEventService? _sessionEventService;
 
     public override void UseSharedInterface(IInterfaceManager interfaceManager)
     {
         if (interfaceManager.HasSharedInterface("RSession.EventService"))
         {
-            ISessionEventService sessionEventService =
-                interfaceManager.GetSharedInterface<ISessionEventService>("RSession.EventService");
+            _sessionEventService = interfaceManager.GetSharedInterface<ISessionEventService>(
+                "RSession.EventService"
+            );
 
             _serviceProvider
                 ?.GetService<IOnDatabaseConfiguredService>()
-                ?.Initialize(sessionEventService);
+                ?.Initialize(_sessionEventService);
 
             _serviceProvider
                 ?.GetService<IOnPlayerRegisteredService>()
-                ?.Initialize(sessionEventService);
+                ?.Initialize(_sessionEventService);
         }
     }
 
@@ -62,5 +64,9 @@ public sealed partial class Aliases(ISwiftlyCore core) : BasePlugin(core)
         _serviceProvider = services.BuildServiceProvider();
     }
 
-    public override void Unload() => (_serviceProvider as IDisposable)?.Dispose();
+    public override void Unload()
+    {
+        _sessionEventService?.InvokeDispose();
+        (_serviceProvider as IDisposable)?.Dispose();
+    }
 }

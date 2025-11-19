@@ -33,17 +33,19 @@ namespace RSession.Messages;
 public sealed partial class Messages(ISwiftlyCore core) : BasePlugin(core)
 {
     private IServiceProvider? _serviceProvider;
+    private ISessionEventService? _sessionEventService;
 
     public override void UseSharedInterface(IInterfaceManager interfaceManager)
     {
         if (interfaceManager.HasSharedInterface("RSession.EventService"))
         {
-            ISessionEventService sessionEventService =
-                interfaceManager.GetSharedInterface<ISessionEventService>("RSession.EventService");
+            _sessionEventService = interfaceManager.GetSharedInterface<ISessionEventService>(
+                "RSession.EventService"
+            );
 
             _serviceProvider
                 ?.GetService<IOnDatabaseConfiguredService>()
-                ?.Initialize(sessionEventService);
+                ?.Initialize(_sessionEventService);
         }
 
         if (interfaceManager.HasSharedInterface("RSession.PlayerService"))
@@ -76,5 +78,9 @@ public sealed partial class Messages(ISwiftlyCore core) : BasePlugin(core)
         }
     }
 
-    public override void Unload() => (_serviceProvider as IDisposable)?.Dispose();
+    public override void Unload()
+    {
+        _sessionEventService?.InvokeDispose();
+        (_serviceProvider as IDisposable)?.Dispose();
+    }
 }

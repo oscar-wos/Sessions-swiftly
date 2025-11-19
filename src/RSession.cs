@@ -38,6 +38,7 @@ namespace RSession;
 public sealed partial class RSession(ISwiftlyCore core) : BasePlugin(core)
 {
     private IServiceProvider? _serviceProvider;
+    private IEventService? _eventService;
 
     public override void ConfigureSharedInterface(IInterfaceManager interfaceManager)
     {
@@ -45,6 +46,8 @@ public sealed partial class RSession(ISwiftlyCore core) : BasePlugin(core)
         {
             return;
         }
+
+        _eventService = _serviceProvider.GetRequiredService<IEventService>();
 
         interfaceManager.AddSharedInterface<ISessionEventService, EventService>(
             "RSession.EventService",
@@ -107,6 +110,8 @@ public sealed partial class RSession(ISwiftlyCore core) : BasePlugin(core)
 
     public override async void Unload()
     {
+        _eventService?.InvokeDispose();
+
         if (_serviceProvider is IAsyncDisposable asyncDisposable)
         {
             await asyncDisposable.DisposeAsync().ConfigureAwait(false);

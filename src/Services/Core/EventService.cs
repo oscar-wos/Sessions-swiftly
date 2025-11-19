@@ -25,6 +25,7 @@ internal sealed class EventService : IEventService
     public event OnDatabaseConfiguredDelegate? OnDatabaseConfigured;
     public event OnPlayerRegisteredDelegate? OnPlayerRegistered;
     public event OnServerRegisteredDelegate? OnServerRegistered;
+    public event OnDisposeDelegate? OnDispose;
 
     public void InvokeDatabaseConfigured(
         ISessionDatabaseService sessionDatabaseService,
@@ -35,4 +36,6 @@ internal sealed class EventService : IEventService
         OnPlayerRegistered?.Invoke(player, in sessionPlayer);
 
     public void InvokeServerRegistered(short serverId) => OnServerRegistered?.Invoke(serverId);
+
+    public void InvokeDispose() => OnDispose?.Invoke();
 }
