@@ -14,4 +14,8 @@
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 namespace RSession.Aliases.Contracts.Database;
 
-internal interface IDatabaseQueries { }
+internal interface IDatabaseQueries
+{
+    string SelectAlias { get; }
+    string InsertAlias { get; }
+}

@@ -55,4 +55,58 @@ internal sealed class PostgresService : IPostgresService
 
         await transaction.CommitAsync().ConfigureAwait(false);
     }
+
+    public async Task<string?> SelectAliasAsync(int playerId)
+    {
+        if (_sessionDatabaseService is null)
+        {
+            return null;
+        }
+
+        await using NpgsqlConnection? connection =
+            await _sessionDatabaseService.GetConnectionAsync() as NpgsqlConnection;
+
+        if (connection is null)
+        {
+            return null;
+        }
+
+        await using NpgsqlCommand command = new(_queries.SelectAlias, connection);
+
+        _ = command.Parameters.AddWithValue("@playerId", playerId);
+
+        await using NpgsqlDataReader reader = await command
+            .ExecuteReaderAsync()
+            .ConfigureAwait(false);
+
+        while (await reader.ReadAsync().ConfigureAwait(false))
+        {
+            return reader.GetString(0);
+        }
+
+        return null;
+    }
+
+    public async Task InsertAliasAsync(int playerId, string alias)
+    {
+        if (_sessionDatabaseService is null)
+        {
+            return;
+        }
+
+        await using NpgsqlConnection? connection =
+            await _sessionDatabaseService.GetConnectionAsync() as NpgsqlConnection;
+
+        if (connection is null)
+        {
+            return;
+        }
+
+        await using NpgsqlCommand command = new(_queries.InsertAlias, connection);
+
+        _ = command.Parameters.AddWithValue("@playerId", playerId);
+        _ = command.Parameters.AddWithValue("@alias", alias);
+
+        _ = await command.ExecuteNonQueryAsync().ConfigureAwait(false);
+    }
 }

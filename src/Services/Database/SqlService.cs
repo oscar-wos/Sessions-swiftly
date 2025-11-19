@@ -107,7 +107,7 @@ internal sealed class SqlService : ISqlService, IAsyncDisposable
         await using (MySqlCommand command = new(_queries.SelectServer, connection))
         {
             _ = command.Parameters.AddWithValue("@ip", ip);
-            _ = command.Parameters.AddWithValue("@port", (short)port);
+            _ = command.Parameters.AddWithValue("@port", port);
 
             if (await command.ExecuteScalarAsync().ConfigureAwait(false) is short result)
             {
@@ -118,7 +118,7 @@ internal sealed class SqlService : ISqlService, IAsyncDisposable
         await using (MySqlCommand command = new(_queries.InsertServer, connection))
         {
             _ = command.Parameters.AddWithValue("@ip", ip);
-            _ = command.Parameters.AddWithValue("@port", (short)port);
+            _ = command.Parameters.AddWithValue("@port", port);
 
             if (await command.ExecuteScalarAsync().ConfigureAwait(false) is not short result)
             {

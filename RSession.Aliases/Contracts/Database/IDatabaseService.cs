@@ -20,4 +20,6 @@ internal interface IDatabaseService
 {
     void Initialize(ISessionDatabaseService databaseService);
     Task CreateTablesAsync();
+    Task<string?> SelectAliasAsync(int playerId);
+    Task InsertAliasAsync(int playerId, string alias);
 }

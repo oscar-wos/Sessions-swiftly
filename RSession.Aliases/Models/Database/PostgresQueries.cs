@@ -16,4 +16,20 @@ using RSession.Aliases.Contracts.Database;
 
 namespace RSession.Aliases.Models.Database;
 
-internal sealed class PostgresQueries : LoadQueries, IDatabaseQueries { }
+internal sealed class PostgresQueries : LoadQueries, IDatabaseQueries
+{
+    protected override string CreateAliases =>
+        """
+            CREATE TABLE IF NOT EXISTS aliases (
+                id BIGSERIAL PRIMARY KEY,
+                player_id INT NOT NULL,
+                alias VARCHAR(128) NOT NULL,
+                timestamp TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
+            )
+            """;
+
+    public string SelectAlias =>
+        "SELECT alias FROM aliases WHERE player_id = @playerId ORDER BY timestamp DESC";
+
+    public string InsertAlias => "INSERT INTO ALIAS (player_id, alias) VALUES (@playerId, @alias)";
+}

@@ -13,7 +13,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 using Microsoft.Extensions.DependencyInjection;
-using RSession.Aliases.Contracts.Core;
 using RSession.Aliases.Contracts.Event;
 using RSession.Aliases.Extensions;
 using RSession.Shared.Contracts;
@@ -43,16 +42,6 @@ public sealed partial class Aliases(ISwiftlyCore core) : BasePlugin(core)
             _serviceProvider
                 ?.GetService<IOnDatabaseConfiguredService>()
                 ?.Initialize(sessionEventService);
-        }
-
-        if (interfaceManager.HasSharedInterface("RSession.PlayerService"))
-        {
-            ISessionPlayerService sessionPlayerService =
-                interfaceManager.GetSharedInterface<ISessionPlayerService>(
-                    "RSession.PlayerService"
-                );
-
-            _serviceProvider?.GetService<IPlayerService>()?.Initialize(sessionPlayerService);
         }
     }
 

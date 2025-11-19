@@ -16,5 +16,10 @@ namespace RSession.Aliases.Models.Database;
 
 internal abstract class LoadQueries
 {
-    public IEnumerable<string> GetLoadQueries() => [];
+    protected abstract string CreateAliases { get; }
+
+    public IEnumerable<string> GetLoadQueries()
+    {
+        yield return CreateAliases;
+    }
 }

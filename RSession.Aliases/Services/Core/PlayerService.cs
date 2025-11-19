@@ -16,7 +16,8 @@ using Microsoft.Extensions.Logging;
 using RSession.Aliases.Contracts.Core;
 using RSession.Aliases.Contracts.Database;
 using RSession.Aliases.Contracts.Log;
-using RSession.Shared.Contracts;
+using SwiftlyS2.Shared.Misc;
+using SwiftlyS2.Shared.Players;
 
 namespace RSession.Aliases.Services.Core;
 
@@ -30,8 +31,44 @@ internal sealed class PlayerService(
     private readonly ILogger<PlayerService> _logger = logger;
 
     private readonly IDatabaseFactory _databaseFactory = databaseFactory;
-    private ISessionPlayerService? _sessionPlayerService;
 
-    public void Initialize(ISessionPlayerService sessionPlayerService) =>
-        _sessionPlayerService = sessionPlayerService;
+    public void HandlePlayerAlias(IPlayer player, int playerId) =>
+        Task.Run(async () =>
+        {
+            string playerName = player.Controller.PlayerName;
+            uint playerNameHash = MurmurHash2.HashString(playerName);
+
+            if (_databaseFactory.GetDatabaseService() is { } databaseService)
+            {
+                try
+                {
+                    if (
+                        await databaseService.SelectAliasAsync(playerId).ConfigureAwait(false)
+                        is not { } checkAlias
+                    )
+                    {
+                        return;
+                    }
+
+                    uint checkAliasHash = MurmurHash2.HashString(checkAlias);
+
+                    if (playerNameHash == checkAliasHash)
+                    {
+                        return;
+                    }
+
+                    await databaseService
+                        .InsertAliasAsync(playerId, playerName)
+                        .ConfigureAwait(false);
+                }
+                catch (Exception ex)
+                {
+                    _logService.LogError(
+                        $"Unable to insert alias - {playerName} ({player.SteamID})",
+                        exception: ex,
+                        logger: _logger
+                    );
+                }
+            }
+        });
 }

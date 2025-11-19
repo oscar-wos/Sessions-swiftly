@@ -16,15 +16,15 @@ using RSession.Contracts.Database;
 
 namespace RSession.Models.Database;
 
-public sealed class SqlQueries : LoadQueries, IDatabaseQueries
+public class SqlQueries : LoadQueries, IDatabaseQueries
 {
     protected override string CreatePlayers =>
         """
             CREATE TABLE IF NOT EXISTS players (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                steam_id BIGINT NOT NULL,
+                id INT AUTO_INCREMENT,
+                steam_id BIGINT NOT NULL PRIMARY KEY,
                 first_seen DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                last_seen DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+                last_seen DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             )
             """;
 
