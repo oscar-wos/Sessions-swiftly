@@ -45,7 +45,7 @@ public sealed partial class Aliases(ISwiftlyCore core) : BasePlugin(core)
                 ?.Initialize(sessionEventService);
         }
 
-        if (interfaceManager.HasSharedInterface("RSession.EventService"))
+        if (interfaceManager.HasSharedInterface("RSession.PlayerService"))
         {
             ISessionPlayerService sessionPlayerService =
                 interfaceManager.GetSharedInterface<ISessionPlayerService>(
