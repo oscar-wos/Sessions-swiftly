@@ -92,7 +92,7 @@ internal sealed class OnUserMessageSayText2Service(
         }
 
         _logService.LogDebug(
-            $"Message - {player.Controller.PlayerName}: {message} ({messageName})",
+            $"Message - {player.Controller.PlayerName} ({player.SteamID}): {message} ({messageName})",
             logger: _logger
         );
 
