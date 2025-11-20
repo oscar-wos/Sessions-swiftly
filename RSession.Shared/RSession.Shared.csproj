@@ -8,6 +8,7 @@
     <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
     <AssemblyName>RSession.Shared</AssemblyName>
     <OutputPath>$(MSBuildThisFileDirectory)../build/RSession.Shared/</OutputPath>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\swiftlys2\managed\managed.csproj" />
