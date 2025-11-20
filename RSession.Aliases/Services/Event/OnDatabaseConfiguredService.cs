@@ -47,9 +47,5 @@ internal sealed class OnDatabaseConfiguredService(
 
     private void OnDispose() => Dispose();
 
-    public void Dispose()
-    {
-        _sessionEventService?.OnDatabaseConfigured -= OnDatabaseConfigured;
-        _sessionEventService?.OnDispose -= OnDispose;
-    }
+    public void Dispose() => _sessionEventService?.OnDatabaseConfigured -= OnDatabaseConfigured;
 }
