@@ -11,6 +11,11 @@
     <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\swiftlys2\managed\managed.csproj" />
+    <PackageReference
+      Include="SwiftlyS2.CS2"
+      Version="*"
+      ExcludeAssets="runtime"
+      PrivateAssets="all"
+    />
   </ItemGroup>
 </Project>
