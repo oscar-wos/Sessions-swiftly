@@ -13,7 +13,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 using Microsoft.Extensions.DependencyInjection;
-using RSession.Played.Contracts.Core;
 using RSession.Played.Contracts.Event;
 using RSession.Played.Extensions;
 using RSession.Shared.Contracts;
@@ -32,27 +31,19 @@ namespace RSession.Played;
 public sealed partial class Played(ISwiftlyCore core) : BasePlugin(core)
 {
     private IServiceProvider? _serviceProvider;
+    private ISessionEventService? _sessionEventService;
 
     public override void UseSharedInterface(IInterfaceManager interfaceManager)
     {
         if (interfaceManager.HasSharedInterface("RSession.EventService"))
         {
-            ISessionEventService sessionEventService =
-                interfaceManager.GetSharedInterface<ISessionEventService>("RSession.EventService");
+            _sessionEventService = interfaceManager.GetSharedInterface<ISessionEventService>(
+                "RSession.EventService"
+            );
 
             _serviceProvider
                 ?.GetService<IOnDatabaseConfiguredService>()
-                ?.Initialize(sessionEventService);
-        }
-
-        if (interfaceManager.HasSharedInterface("RSession.PlayerService"))
-        {
-            ISessionPlayerService sessionPlayerService =
-                interfaceManager.GetSharedInterface<ISessionPlayerService>(
-                    "RSession.PlayerService"
-                );
-
-            _serviceProvider?.GetService<IPlayerService>()?.Initialize(sessionPlayerService);
+                ?.Initialize(_sessionEventService);
         }
     }
 
@@ -69,5 +60,9 @@ public sealed partial class Played(ISwiftlyCore core) : BasePlugin(core)
         _serviceProvider = services.BuildServiceProvider();
     }
 
-    public override void Unload() => (_serviceProvider as IDisposable)?.Dispose();
+    public override void Unload()
+    {
+        _sessionEventService?.InvokeDispose();
+        (_serviceProvider as IDisposable)?.Dispose();
+    }
 }

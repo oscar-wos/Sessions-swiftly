@@ -17,8 +17,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSession.Aliases", "RSessio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSession.Played", "RSession.Played\RSession.Played.csproj", "{FEBFE5AB-678D-FFDE-3B5A-0A8663615737}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSession.Maps", "RSession.Maps\RSession.Maps.csproj", "{B81513A0-2F26-FF0F-8419-BF655AD42867}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,10 +51,6 @@ Global
 		{FEBFE5AB-678D-FFDE-3B5A-0A8663615737}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FEBFE5AB-678D-FFDE-3B5A-0A8663615737}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FEBFE5AB-678D-FFDE-3B5A-0A8663615737}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B81513A0-2F26-FF0F-8419-BF655AD42867}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B81513A0-2F26-FF0F-8419-BF655AD42867}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B81513A0-2F26-FF0F-8419-BF655AD42867}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B81513A0-2F26-FF0F-8419-BF655AD42867}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

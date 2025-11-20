@@ -23,9 +23,9 @@ using SwiftlyS2.Shared.Plugins;
 namespace RSession.Template;
 
 [PluginMetadata(
-    Id = "RSession.",
+    Id = "RSession.Template",
     Version = "0.0.0",
-    Name = "RSession.",
+    Name = "RSession.Template",
     Website = "https://github.com/oscar-wos/RSession",
     Author = "oscar-wos"
 )]
@@ -45,16 +45,6 @@ public sealed partial class Template(ISwiftlyCore core) : BasePlugin(core)
             _serviceProvider
                 ?.GetService<IOnDatabaseConfiguredService>()
                 ?.Initialize(_sessionEventService);
-        }
-
-        if (interfaceManager.HasSharedInterface("RSession.PlayerService"))
-        {
-            ISessionPlayerService sessionPlayerService =
-                interfaceManager.GetSharedInterface<ISessionPlayerService>(
-                    "RSession.PlayerService"
-                );
-
-            _serviceProvider?.GetService<IPlayerService>()?.Initialize(sessionPlayerService);
         }
     }
 

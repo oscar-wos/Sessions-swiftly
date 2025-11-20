@@ -38,15 +38,19 @@ internal sealed class OnDatabaseConfiguredService(
         _sessionEventService = sessionEventService;
 
         _sessionEventService.OnDatabaseConfigured += OnDatabaseConfigured;
+        _sessionEventService.OnDispose += OnDispose;
+
         _logService.LogInformation("OnDatabaseConfigured subscribed", logger: _logger);
     }
 
     private void OnDatabaseConfigured(ISessionDatabaseService databaseService, string type) =>
         _databaseFactory.Initialize(databaseService, type);
 
+    private void OnDispose() => Dispose();
+
     public void Dispose()
     {
         _sessionEventService?.OnDatabaseConfigured -= OnDatabaseConfigured;
-        _logService.LogInformation("OnDatabaseConfiguredService disposed", logger: _logger);
+        _sessionEventService?.OnDispose -= OnDispose;
     }
 }

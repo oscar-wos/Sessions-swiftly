@@ -22,7 +22,7 @@ namespace RSession.Template.Services.Log;
 
 internal sealed class LogService(ISwiftlyCore core) : ILogService, IDisposable
 {
-    private const string PLUGIN_NAME = "RSession.Maps";
+    private const string PLUGIN_NAME = "RSession.Template";
 
     private readonly Logger _logger = new(
         Path.Join(core.GameDirectory, "logs", $"{PLUGIN_NAME}"),
