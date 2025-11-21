@@ -41,9 +41,13 @@ public sealed partial class Played(ISwiftlyCore core) : BasePlugin(core)
                 "RSession.EventService"
             );
 
-            _serviceProvider
-                ?.GetService<IOnDatabaseConfiguredService>()
-                ?.Initialize(_sessionEventService);
+            foreach (
+                IEventListener eventListener in _serviceProvider?.GetServices<IEventListener>()
+                    ?? []
+            )
+            {
+                eventListener.Initialize(_sessionEventService);
+            }
         }
     }
 

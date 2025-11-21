@@ -47,6 +47,20 @@ public static class ServiceCollectionExtension
     public static IServiceCollection AddEvents(this IServiceCollection services)
     {
         _ = services.AddSingleton<IOnDatabaseConfiguredService, OnDatabaseConfiguredService>();
+        _ = services.AddSingleton<IOnElapsedService, OnElapsedService>();
+        _ = services.AddSingleton<IOnPlayerRegisteredService, OnPlayerRegisteredService>();
+
+        _ = services.AddSingleton<IEventListener>(serviceProvider =>
+            serviceProvider.GetRequiredService<IOnDatabaseConfiguredService>()
+        );
+
+        _ = services.AddSingleton<IEventListener>(serviceProvider =>
+            serviceProvider.GetRequiredService<IOnElapsedService>()
+        );
+
+        _ = services.AddSingleton<IEventListener>(serviceProvider =>
+            serviceProvider.GetRequiredService<IOnPlayerRegisteredService>()
+        );
 
         return services;
     }

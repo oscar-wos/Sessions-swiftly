@@ -6,27 +6,28 @@
 // (at your option) any later version.
 //
 // This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 using Microsoft.Extensions.Logging;
-using RSession.Aliases.Contracts.Core;
-using RSession.Aliases.Contracts.Event;
-using RSession.Aliases.Contracts.Log;
+using RSession.Played.Contracts.Event;
+using RSession.Played.Contracts.Log;
 using RSession.Shared.Contracts;
 using RSession.Shared.Structs;
 using SwiftlyS2.Shared.Players;
 
-namespace RSession.Aliases.Services.Event;
+namespace RSession.Played.Services.Event;
 
-internal class OnPlayerRegisteredService(
+internal sealed class OnPlayerRegisteredService(
     ILogService logService,
-    ILogger<OnPlayerRegisteredService> logger,
-    IPlayerService playerService
-) : IOnPlayerRegisteredService
+    ILogger<OnPlayerRegisteredService> logger
+) : IOnPlayerRegisteredService, IDisposable
 {
     private readonly ILogService _logService = logService;
     private readonly ILogger<OnPlayerRegisteredService> _logger = logger;
-
-    private readonly IPlayerService _playerService = playerService;
 
     private ISessionEventService? _sessionEventService;
 
@@ -40,11 +41,7 @@ internal class OnPlayerRegisteredService(
         _logService.LogInformation("OnPlayerRegistered subscribed", logger: _logger);
     }
 
-    private void OnPlayerRegistered(IPlayer player, in SessionPlayer sessionPlayer)
-    {
-        _logService.LogDebug($"Alias - {player.Controller.PlayerName}", logger: _logger);
-        _playerService.HandlePlayerAlias(player, sessionPlayer.Id);
-    }
+    private void OnPlayerRegistered(IPlayer player, in SessionPlayer sessionPlayer) { }
 
     private void OnDispose() => Dispose();
 
