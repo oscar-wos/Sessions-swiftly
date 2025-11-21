@@ -30,7 +30,7 @@ namespace RSession.Messages;
     Website = "https://github.com/oscar-wos/RSession",
     Author = "oscar-wos"
 )]
-public sealed partial class Messages(ISwiftlyCore core) : BasePlugin(core)
+public sealed class Messages(ISwiftlyCore core) : BasePlugin(core)
 {
     private IServiceProvider? _serviceProvider;
     private ISessionEventService? _sessionEventService;

@@ -28,7 +28,7 @@ namespace RSession.Template;
     Website = "https://github.com/oscar-wos/RSession",
     Author = "oscar-wos"
 )]
-public sealed partial class Template(ISwiftlyCore core) : BasePlugin(core)
+public sealed class Template(ISwiftlyCore core) : BasePlugin(core)
 {
     private IServiceProvider? _serviceProvider;
     private ISessionEventService? _sessionEventService;

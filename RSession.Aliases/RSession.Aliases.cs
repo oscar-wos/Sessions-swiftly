@@ -28,7 +28,7 @@ namespace RSession.Aliases;
     Website = "https://github.com/oscar-wos/RSession",
     Author = "oscar-wos"
 )]
-public sealed partial class Aliases(ISwiftlyCore core) : BasePlugin(core)
+public sealed class Aliases(ISwiftlyCore core) : BasePlugin(core)
 {
     private IServiceProvider? _serviceProvider;
     private ISessionEventService? _sessionEventService;

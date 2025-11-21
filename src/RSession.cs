@@ -35,7 +35,7 @@ namespace RSession;
     Website = "https://github.com/oscar-wos/RSession",
     Author = "oscar-wos"
 )]
-public sealed partial class RSession(ISwiftlyCore core) : BasePlugin(core)
+public sealed class RSession(ISwiftlyCore core) : BasePlugin(core)
 {
     private IServiceProvider? _serviceProvider;
     private IEventService? _eventService;
