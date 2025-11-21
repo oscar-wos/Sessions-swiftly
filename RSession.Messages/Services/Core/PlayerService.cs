@@ -39,6 +39,12 @@ internal sealed class PlayerService(
     public void HandlePlayerMessage(IPlayer player, short teamNum, bool teamChat, string message) =>
         Task.Run(async () =>
         {
+            if (_databaseFactory.GetDatabaseService() is not { } databaseService)
+            {
+                _logService.LogWarning("Database service not available", logger: _logger);
+                return;
+            }
+
             if (_sessionPlayerService?.GetSessionId(player) is not { } sessionId)
             {
                 _logService.LogWarning(
@@ -49,20 +55,17 @@ internal sealed class PlayerService(
                 return;
             }
 
-            if (_databaseFactory.GetDatabaseService() is { } databaseService)
+            try
             {
-                try
-                {
-                    await databaseService.InsertMessageAsync(sessionId, teamNum, teamChat, message);
-                }
-                catch (Exception ex)
-                {
-                    _logService.LogError(
-                        $"Unable to insert message - {player.Controller.PlayerName} ({player.SteamID}) : {message}",
-                        exception: ex,
-                        logger: _logger
-                    );
-                }
+                await databaseService.InsertMessageAsync(sessionId, teamNum, teamChat, message);
+            }
+            catch (Exception ex)
+            {
+                _logService.LogError(
+                    $"Unable to insert message - {player.Controller.PlayerName} ({player.SteamID}) : {message}",
+                    exception: ex,
+                    logger: _logger
+                );
             }
         });
 }

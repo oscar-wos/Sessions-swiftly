@@ -35,38 +35,39 @@ internal sealed class PlayerService(
     public void HandlePlayerAlias(IPlayer player, int playerId) =>
         Task.Run(async () =>
         {
+            if (_databaseFactory.GetDatabaseService() is not { } databaseService)
+            {
+                _logService.LogWarning("Database service not available", logger: _logger);
+                return;
+            }
+
             string playerName = player.Controller.PlayerName;
             uint playerNameHash = MurmurHash2.HashString(playerName);
 
-            if (_databaseFactory.GetDatabaseService() is { } databaseService)
+            try
             {
-                try
+                if (
+                    await databaseService.SelectAliasAsync(playerId).ConfigureAwait(false) is
+                    { } checkAlias
+                )
                 {
-                    if (
-                        await databaseService.SelectAliasAsync(playerId).ConfigureAwait(false) is
-                        { } checkAlias
-                    )
+                    uint checkAliasHash = MurmurHash2.HashString(checkAlias);
+
+                    if (playerNameHash == checkAliasHash)
                     {
-                        uint checkAliasHash = MurmurHash2.HashString(checkAlias);
-
-                        if (playerNameHash == checkAliasHash)
-                        {
-                            return;
-                        }
+                        return;
                     }
+                }
 
-                    await databaseService
-                        .InsertAliasAsync(playerId, playerName)
-                        .ConfigureAwait(false);
-                }
-                catch (Exception ex)
-                {
-                    _logService.LogError(
-                        $"Unable to insert alias - {playerName} ({player.SteamID})",
-                        exception: ex,
-                        logger: _logger
-                    );
-                }
+                await databaseService.InsertAliasAsync(playerId, playerName).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                _logService.LogError(
+                    $"Unable to insert alias - {playerName} ({player.SteamID})",
+                    exception: ex,
+                    logger: _logger
+                );
             }
         });
 }
