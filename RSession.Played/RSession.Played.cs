@@ -13,9 +13,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 using Microsoft.Extensions.DependencyInjection;
-using RSession.Played.Contracts.Event;
 using RSession.Played.Extensions;
-using RSession.Shared.Contracts;
+using RSession.Shared.Contracts.Core;
+using RSession.Shared.Contracts.Event;
 using SwiftlyS2.Shared;
 using SwiftlyS2.Shared.Plugins;
 
@@ -42,11 +42,11 @@ public sealed partial class Played(ISwiftlyCore core) : BasePlugin(core)
             );
 
             foreach (
-                IEventListener eventListener in _serviceProvider?.GetServices<IEventListener>()
+                ISessionEventListener sessionEventListener in _serviceProvider?.GetServices<ISessionEventListener>()
                     ?? []
             )
             {
-                eventListener.Initialize(_sessionEventService);
+                sessionEventListener.Initialize(_sessionEventService);
             }
         }
     }

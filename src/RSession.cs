@@ -20,7 +20,7 @@ using RSession.Contracts.Schedule;
 using RSession.Extensions;
 using RSession.Models.Config;
 using RSession.Services.Core;
-using RSession.Shared.Contracts;
+using RSession.Shared.Contracts.Core;
 using SwiftlyS2.Shared;
 using SwiftlyS2.Shared.Plugins;
 using SwiftlyS2.Shared.SteamAPI;

@@ -13,7 +13,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 using RSession.Contracts.Core;
-using RSession.Shared.Contracts;
+using RSession.Shared.Contracts.Database;
 using RSession.Shared.Delegates;
 using RSession.Shared.Structs;
 using SwiftlyS2.Shared.Players;

@@ -12,9 +12,17 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
-namespace RSession.Shared.Contracts;
+using RSession.Shared.Delegates;
 
-public interface ISessionServerService
+namespace RSession.Shared.Contracts.Core;
+
+public interface ISessionEventService
 {
-    short? GetServerId();
+    event OnDatabaseConfiguredDelegate OnDatabaseConfigured;
+    event OnDisposeDelegate OnDispose;
+    event OnElapsedDelegate OnElapsed;
+    event OnPlayerRegisteredDelegate OnPlayerRegistered;
+    event OnServerRegisteredDelegate OnServerRegistered;
+
+    void InvokeDispose();
 }

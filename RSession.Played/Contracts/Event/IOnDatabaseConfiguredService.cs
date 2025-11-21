@@ -12,6 +12,8 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
+using RSession.Shared.Contracts.Event;
+
 namespace RSession.Played.Contracts.Event;
 
-internal interface IOnDatabaseConfiguredService : IEventListener { }
+internal interface IOnDatabaseConfiguredService : ISessionEventListener { }

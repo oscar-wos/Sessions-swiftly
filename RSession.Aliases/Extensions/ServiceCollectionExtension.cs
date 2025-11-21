@@ -21,6 +21,7 @@ using RSession.Aliases.Services.Core;
 using RSession.Aliases.Services.Database;
 using RSession.Aliases.Services.Event;
 using RSession.Aliases.Services.Log;
+using RSession.Shared.Contracts.Event;
 
 namespace RSession.Aliases.Extensions;
 
@@ -48,6 +49,14 @@ public static class ServiceCollectionExtension
     {
         _ = services.AddSingleton<IOnDatabaseConfiguredService, OnDatabaseConfiguredService>();
         _ = services.AddSingleton<IOnPlayerRegisteredService, OnPlayerRegisteredService>();
+
+        _ = services.AddSingleton<ISessionEventListener>(serviceProvider =>
+            serviceProvider.GetRequiredService<IOnDatabaseConfiguredService>()
+        );
+
+        _ = services.AddSingleton<ISessionEventListener>(serviceProvider =>
+            serviceProvider.GetRequiredService<IOnPlayerRegisteredService>()
+        );
 
         return services;
     }

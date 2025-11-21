@@ -16,7 +16,8 @@ using Microsoft.Extensions.Logging;
 using RSession.Messages.Contracts.Database;
 using RSession.Messages.Contracts.Event;
 using RSession.Messages.Contracts.Log;
-using RSession.Shared.Contracts;
+using RSession.Shared.Contracts.Core;
+using RSession.Shared.Contracts.Database;
 
 namespace RSession.Messages.Services.Event;
 

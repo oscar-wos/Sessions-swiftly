@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 using RSession.Aliases.Contracts.Core;
 using RSession.Aliases.Contracts.Event;
 using RSession.Aliases.Contracts.Log;
-using RSession.Shared.Contracts;
+using RSession.Shared.Contracts.Core;
 using RSession.Shared.Structs;
 using SwiftlyS2.Shared.Players;
 

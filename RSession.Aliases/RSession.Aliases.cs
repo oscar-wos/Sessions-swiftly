@@ -13,9 +13,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 using Microsoft.Extensions.DependencyInjection;
-using RSession.Aliases.Contracts.Event;
 using RSession.Aliases.Extensions;
-using RSession.Shared.Contracts;
+using RSession.Shared.Contracts.Core;
+using RSession.Shared.Contracts.Event;
 using SwiftlyS2.Shared;
 using SwiftlyS2.Shared.Plugins;
 
@@ -41,13 +41,13 @@ public sealed partial class Aliases(ISwiftlyCore core) : BasePlugin(core)
                 "RSession.EventService"
             );
 
-            _serviceProvider
-                ?.GetService<IOnDatabaseConfiguredService>()
-                ?.Initialize(_sessionEventService);
-
-            _serviceProvider
-                ?.GetService<IOnPlayerRegisteredService>()
-                ?.Initialize(_sessionEventService);
+            foreach (
+                ISessionEventListener sessionEventListener in _serviceProvider?.GetServices<ISessionEventListener>()
+                    ?? []
+            )
+            {
+                sessionEventListener.Initialize(_sessionEventService);
+            }
         }
     }
 

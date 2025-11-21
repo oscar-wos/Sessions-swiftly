@@ -12,14 +12,11 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
-using RSession.Shared.Structs;
-using SwiftlyS2.Shared.Players;
+using System.Data.Common;
 
-namespace RSession.Shared.Contracts;
+namespace RSession.Shared.Contracts.Database;
 
-public interface ISessionPlayerService
+public interface ISessionDatabaseService
 {
-    SessionPlayer? GetSessionPlayer(IPlayer player);
-    int? GetPlayerId(IPlayer player);
-    long? GetSessionId(IPlayer player);
+    Task<DbConnection> GetConnectionAsync();
 }

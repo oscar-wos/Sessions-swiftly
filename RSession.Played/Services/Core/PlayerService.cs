@@ -16,7 +16,7 @@ using Microsoft.Extensions.Logging;
 using RSession.Played.Contracts.Core;
 using RSession.Played.Contracts.Database;
 using RSession.Played.Contracts.Log;
-using RSession.Shared.Contracts;
+using RSession.Shared.Contracts.Core;
 
 namespace RSession.Played.Services.Core;
 

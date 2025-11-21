@@ -16,7 +16,7 @@ using Microsoft.Extensions.Logging;
 using RSession.Messages.Contracts.Core;
 using RSession.Messages.Contracts.Database;
 using RSession.Messages.Contracts.Log;
-using RSession.Shared.Contracts;
+using RSession.Shared.Contracts.Core;
 using SwiftlyS2.Shared.Players;
 
 namespace RSession.Messages.Services.Core;

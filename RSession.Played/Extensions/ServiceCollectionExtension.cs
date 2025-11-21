@@ -21,6 +21,7 @@ using RSession.Played.Services.Core;
 using RSession.Played.Services.Database;
 using RSession.Played.Services.Event;
 using RSession.Played.Services.Log;
+using RSession.Shared.Contracts.Event;
 
 namespace RSession.Played.Extensions;
 
@@ -50,15 +51,15 @@ public static class ServiceCollectionExtension
         _ = services.AddSingleton<IOnElapsedService, OnElapsedService>();
         _ = services.AddSingleton<IOnPlayerRegisteredService, OnPlayerRegisteredService>();
 
-        _ = services.AddSingleton<IEventListener>(serviceProvider =>
+        _ = services.AddSingleton<ISessionEventListener>(serviceProvider =>
             serviceProvider.GetRequiredService<IOnDatabaseConfiguredService>()
         );
 
-        _ = services.AddSingleton<IEventListener>(serviceProvider =>
+        _ = services.AddSingleton<ISessionEventListener>(serviceProvider =>
             serviceProvider.GetRequiredService<IOnElapsedService>()
         );
 
-        _ = services.AddSingleton<IEventListener>(serviceProvider =>
+        _ = services.AddSingleton<ISessionEventListener>(serviceProvider =>
             serviceProvider.GetRequiredService<IOnPlayerRegisteredService>()
         );
 

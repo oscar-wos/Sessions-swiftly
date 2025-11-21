@@ -7,11 +7,11 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
-using RSession.Shared.Contracts;
+using RSession.Shared.Contracts.Core;
 
-namespace RSession.Played.Contracts.Event;
+namespace RSession.Shared.Contracts.Event;
 
-internal interface IEventListener
+public interface ISessionEventListener
 {
     void Initialize(ISessionEventService sessionEventService);
 }

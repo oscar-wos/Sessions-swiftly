@@ -14,10 +14,10 @@
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 using Microsoft.Extensions.DependencyInjection;
 using RSession.Messages.Contracts.Core;
-using RSession.Messages.Contracts.Event;
 using RSession.Messages.Contracts.Hook;
 using RSession.Messages.Extensions;
-using RSession.Shared.Contracts;
+using RSession.Shared.Contracts.Core;
+using RSession.Shared.Contracts.Event;
 using SwiftlyS2.Shared;
 using SwiftlyS2.Shared.Plugins;
 
@@ -43,9 +43,13 @@ public sealed partial class Messages(ISwiftlyCore core) : BasePlugin(core)
                 "RSession.EventService"
             );
 
-            _serviceProvider
-                ?.GetService<IOnDatabaseConfiguredService>()
-                ?.Initialize(_sessionEventService);
+            foreach (
+                ISessionEventListener sessionEventListener in _serviceProvider?.GetServices<ISessionEventListener>()
+                    ?? []
+            )
+            {
+                sessionEventListener.Initialize(_sessionEventService);
+            }
         }
 
         if (interfaceManager.HasSharedInterface("RSession.PlayerService"))

@@ -23,6 +23,7 @@ using RSession.Messages.Services.Database;
 using RSession.Messages.Services.Event;
 using RSession.Messages.Services.Hook;
 using RSession.Messages.Services.Log;
+using RSession.Shared.Contracts.Event;
 
 namespace RSession.Messages.Extensions;
 
@@ -49,6 +50,10 @@ public static class ServiceCollectionExtension
     public static IServiceCollection AddEvents(this IServiceCollection services)
     {
         _ = services.AddSingleton<IOnDatabaseConfiguredService, OnDatabaseConfiguredService>();
+
+        _ = services.AddSingleton<ISessionEventListener>(serviceProvider =>
+            serviceProvider.GetRequiredService<IOnDatabaseConfiguredService>()
+        );
 
         return services;
     }

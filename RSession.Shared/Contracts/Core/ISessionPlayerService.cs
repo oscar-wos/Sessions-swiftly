@@ -12,16 +12,14 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
-using RSession.Shared.Delegates;
+using RSession.Shared.Structs;
+using SwiftlyS2.Shared.Players;
 
-namespace RSession.Shared.Contracts;
+namespace RSession.Shared.Contracts.Core;
 
-public interface ISessionEventService
+public interface ISessionPlayerService
 {
-    event OnElapsedDelegate OnElapsed;
-    event OnDatabaseConfiguredDelegate OnDatabaseConfigured;
-    event OnPlayerRegisteredDelegate OnPlayerRegistered;
-    event OnServerRegisteredDelegate OnServerRegistered;
-    event OnDisposeDelegate OnDispose;
-    void InvokeDispose();
+    SessionPlayer? GetSessionPlayer(IPlayer player);
+    int? GetPlayerId(IPlayer player);
+    long? GetSessionId(IPlayer player);
 }

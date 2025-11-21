@@ -7,6 +7,8 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
+using RSession.Shared.Contracts.Event;
+
 namespace RSession.Played.Contracts.Event;
 
-internal interface IOnElapsedService : IEventListener { }
+internal interface IOnElapsedService : ISessionEventListener { }

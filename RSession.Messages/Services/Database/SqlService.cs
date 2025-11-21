@@ -15,7 +15,7 @@
 using MySqlConnector;
 using RSession.Messages.Contracts.Database;
 using RSession.Messages.Models.Database;
-using RSession.Shared.Contracts;
+using RSession.Shared.Contracts.Database;
 
 namespace RSession.Messages.Services.Database;
 

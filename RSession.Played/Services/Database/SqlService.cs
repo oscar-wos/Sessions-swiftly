@@ -15,7 +15,7 @@
 using MySqlConnector;
 using RSession.Played.Contracts.Database;
 using RSession.Played.Models.Database;
-using RSession.Shared.Contracts;
+using RSession.Shared.Contracts.Database;
 
 namespace RSession.Played.Services.Database;
 
