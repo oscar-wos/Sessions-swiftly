@@ -13,6 +13,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 using Microsoft.Extensions.DependencyInjection;
+using RSession.Shared.Contracts.Event;
 using RSession.Template.Contracts.Core;
 using RSession.Template.Contracts.Database;
 using RSession.Template.Contracts.Event;
@@ -47,6 +48,10 @@ public static class ServiceCollectionExtension
     public static IServiceCollection AddEvents(this IServiceCollection services)
     {
         _ = services.AddSingleton<IOnDatabaseConfiguredService, OnDatabaseConfiguredService>();
+
+        _ = services.AddSingleton<ISessionEventListener>(serviceProvider =>
+            serviceProvider.GetRequiredService<IOnDatabaseConfiguredService>()
+        );
 
         return services;
     }

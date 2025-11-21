@@ -13,7 +13,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 using Microsoft.Extensions.Logging;
-using RSession.Shared.Contracts;
+using RSession.Shared.Contracts.Core;
 using RSession.Template.Contracts.Core;
 using RSession.Template.Contracts.Database;
 using RSession.Template.Contracts.Log;

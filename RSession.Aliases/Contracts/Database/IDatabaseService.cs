@@ -18,7 +18,7 @@ namespace RSession.Aliases.Contracts.Database;
 
 internal interface IDatabaseService
 {
-    void Initialize(ISessionDatabaseService databaseService);
+    void Initialize(ISessionDatabaseService sessionDatabaseService);
     Task CreateTablesAsync();
     Task<string?> SelectAliasAsync(int playerId);
     Task InsertAliasAsync(int playerId, string alias);
