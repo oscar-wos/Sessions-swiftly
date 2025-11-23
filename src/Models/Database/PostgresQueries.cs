@@ -46,7 +46,10 @@ public class PostgresQueries : LoadQueries, IDatabaseQueries
                 ip INET NOT NULL,
                 start_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
                 end_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
-            )
+            );
+
+            CREATE INDEX IF NOT EXISTS idx_sessions_player_id ON sessions(player_id);
+            CREATE INDEX IF NOT EXISTS idx_sessions_server_id ON sessions(server_id)
             """;
 
     public string SelectPlayer => "SELECT id FROM players WHERE steam_id = @steamId";
