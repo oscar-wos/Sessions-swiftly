@@ -13,6 +13,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 using Microsoft.Extensions.Logging;
+using RSession.Played.Contracts.Core;
 using RSession.Played.Contracts.Event;
 using RSession.Played.Contracts.Log;
 using RSession.Shared.Contracts.Core;
@@ -23,12 +24,14 @@ namespace RSession.Played.Services.Event;
 
 internal sealed class OnPlayerRegisteredService(
     ILogService logService,
-    ILogger<OnPlayerRegisteredService> logger
+    ILogger<OnPlayerRegisteredService> logger,
+    IPlayerService playerService
 ) : IOnPlayerRegisteredService, IDisposable
 {
     private readonly ILogService _logService = logService;
     private readonly ILogger<OnPlayerRegisteredService> _logger = logger;
 
+    private readonly IPlayerService _playerService = playerService;
     private ISessionEventService? _sessionEventService;
 
     public void Initialize(ISessionEventService sessionEventService)
@@ -41,7 +44,8 @@ internal sealed class OnPlayerRegisteredService(
         _logService.LogInformation("OnPlayerRegistered subscribed", logger: _logger);
     }
 
-    private void OnPlayerRegistered(IPlayer player, in SessionPlayer sessionPlayer) { }
+    private void OnPlayerRegistered(IPlayer player, in SessionPlayer sessionPlayer) =>
+        _playerService.HandlePlayerRegistered(player, sessionPlayer.Session);
 
     private void OnDispose() => Dispose();
 

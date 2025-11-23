@@ -11,9 +11,12 @@
     <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="SwiftlyS2.CS2" Version="1.0.1" ExcludeAssets="runtime" PrivateAssets="all">
-      <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+    <PackageReference
+      Include="SwiftlyS2.CS2"
+      Version="*"
+      ExcludeAssets="runtime"
+      PrivateAssets="all"
+    />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RLogger\src\RLogger.csproj" />

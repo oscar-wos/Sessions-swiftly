@@ -27,7 +27,6 @@ internal class OnPlayerRegisteredService(
     private readonly ILogger<OnPlayerRegisteredService> _logger = logger;
 
     private readonly IPlayerService _playerService = playerService;
-
     private ISessionEventService? _sessionEventService;
 
     public void Initialize(ISessionEventService sessionEventService)

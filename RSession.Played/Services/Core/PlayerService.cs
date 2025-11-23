@@ -17,6 +17,7 @@ using RSession.Played.Contracts.Core;
 using RSession.Played.Contracts.Database;
 using RSession.Played.Contracts.Log;
 using RSession.Shared.Contracts.Core;
+using SwiftlyS2.Shared.Players;
 
 namespace RSession.Played.Services.Core;
 
@@ -34,4 +35,8 @@ internal sealed class PlayerService(
 
     public void Initialize(ISessionPlayerService sessionPlayerService) =>
         _sessionPlayerService = sessionPlayerService;
+
+    public void HandlePlayerRegistered(IPlayer player, long sessionId) { }
+
+    public void OnElapsed() { }
 }

@@ -52,11 +52,6 @@ internal sealed class PlayerService : IPlayerService, IDisposable
         _eventService.OnServerRegistered += OnServerRegistered;
     }
 
-    public SessionPlayer? GetSessionPlayer(IPlayer player) =>
-        _players.TryGetValue(player.SteamID, out SessionPlayer sessionPlayer)
-            ? sessionPlayer
-            : null;
-
     public int? GetPlayerId(IPlayer player) =>
         _players.TryGetValue(player.SteamID, out SessionPlayer sessionPlayer)
             ? sessionPlayer.Id
@@ -65,6 +60,11 @@ internal sealed class PlayerService : IPlayerService, IDisposable
     public long? GetSessionId(IPlayer player) =>
         _players.TryGetValue(player.SteamID, out SessionPlayer sessionPlayer)
             ? sessionPlayer.Session
+            : null;
+
+    public SessionPlayer? GetSessionPlayer(IPlayer player) =>
+        _players.TryGetValue(player.SteamID, out SessionPlayer sessionPlayer)
+            ? sessionPlayer
             : null;
 
     public void HandlePlayerAuthorize(IPlayer player, short serverId) =>

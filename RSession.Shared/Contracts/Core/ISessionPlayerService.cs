@@ -19,7 +19,7 @@ namespace RSession.Shared.Contracts.Core;
 
 public interface ISessionPlayerService
 {
-    SessionPlayer? GetSessionPlayer(IPlayer player);
     int? GetPlayerId(IPlayer player);
     long? GetSessionId(IPlayer player);
+    SessionPlayer? GetSessionPlayer(IPlayer player);
 }

@@ -13,10 +13,13 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 using RSession.Shared.Contracts.Core;
+using SwiftlyS2.Shared.Players;
 
 namespace RSession.Played.Contracts.Core;
 
 internal interface IPlayerService
 {
     void Initialize(ISessionPlayerService sessionPlayerService);
+    void HandlePlayerRegistered(IPlayer player, long sessionId);
+    void OnElapsed();
 }

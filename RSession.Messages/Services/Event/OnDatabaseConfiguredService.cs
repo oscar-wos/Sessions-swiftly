@@ -31,7 +31,6 @@ internal sealed class OnDatabaseConfiguredService(
     private readonly ILogger<OnDatabaseConfiguredService> _logger = logger;
 
     private readonly IDatabaseFactory _databaseFactory = databaseFactory;
-
     private ISessionEventService? _sessionEventService;
 
     public void Initialize(ISessionEventService sessionEventService)
