@@ -58,9 +58,7 @@ public sealed class Played(ISwiftlyCore core) : BasePlugin(core)
                     "RSession.PlayerService"
                 );
 
-            _serviceProvider
-                ?.GetRequiredService<IPlayerService>()
-                ?.Initialize(sessionPlayerService);
+            _serviceProvider?.GetRequiredService<IPlayerService>().Initialize(sessionPlayerService);
         }
     }
 

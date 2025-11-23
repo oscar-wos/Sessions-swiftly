@@ -59,7 +59,7 @@ public sealed class Messages(ISwiftlyCore core) : BasePlugin(core)
                     "RSession.PlayerService"
                 );
 
-            _serviceProvider?.GetService<IPlayerService>()?.Initialize(sessionPlayerService);
+            _serviceProvider?.GetRequiredService<IPlayerService>().Initialize(sessionPlayerService);
         }
     }
 
