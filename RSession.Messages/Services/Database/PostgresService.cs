@@ -36,7 +36,8 @@ internal sealed class PostgresService : IPostgresService
         }
 
         await using NpgsqlConnection? connection =
-            await _sessionDatabaseService.GetConnectionAsync() as NpgsqlConnection;
+            await _sessionDatabaseService.GetConnectionAsync().ConfigureAwait(false)
+            as NpgsqlConnection;
 
         if (connection is null)
         {
@@ -69,7 +70,8 @@ internal sealed class PostgresService : IPostgresService
         }
 
         await using NpgsqlConnection? connection =
-            await _sessionDatabaseService.GetConnectionAsync() as NpgsqlConnection;
+            await _sessionDatabaseService.GetConnectionAsync().ConfigureAwait(false)
+            as NpgsqlConnection;
 
         if (connection is null)
         {

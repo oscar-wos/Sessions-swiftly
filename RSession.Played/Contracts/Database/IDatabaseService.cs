@@ -20,4 +20,13 @@ internal interface IDatabaseService
 {
     void Initialize(ISessionDatabaseService sessionDatabaseService);
     Task CreateTablesAsync();
+    Task InsertPlayedAsync(long sessionId);
+    Task UpdatePlayedAsync(
+        long[] aliveT,
+        long[] aliveCT,
+        long[] deadT,
+        long[] deadCT,
+        long[] spec,
+        int interval
+    );
 }

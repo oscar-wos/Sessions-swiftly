@@ -20,6 +20,6 @@ namespace RSession.Played.Contracts.Core;
 internal interface IPlayerService
 {
     void Initialize(ISessionPlayerService sessionPlayerService);
+    void HandleElapsed(int interval);
     void HandlePlayerRegistered(IPlayer player, long sessionId);
-    void OnElapsed();
 }

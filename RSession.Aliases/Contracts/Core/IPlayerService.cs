@@ -18,5 +18,5 @@ namespace RSession.Aliases.Contracts.Core;
 
 internal interface IPlayerService
 {
-    void HandlePlayerAlias(IPlayer player, int playerId);
+    void HandlePlayerRegistered(IPlayer player, int playerId);
 }

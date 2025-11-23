@@ -32,7 +32,7 @@ internal sealed class PlayerService(
 
     private readonly IDatabaseFactory _databaseFactory = databaseFactory;
 
-    public void HandlePlayerAlias(IPlayer player, int playerId) =>
+    public void HandlePlayerRegistered(IPlayer player, int playerId) =>
         Task.Run(async () =>
         {
             if (_databaseFactory.GetDatabaseService() is not { } databaseService)

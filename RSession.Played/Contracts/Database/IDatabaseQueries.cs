@@ -14,4 +14,12 @@
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 namespace RSession.Played.Contracts.Database;
 
-internal interface IDatabaseQueries { }
+internal interface IDatabaseQueries
+{
+    string InsertPlayed { get; }
+    string UpdatePlayedAliveT { get; }
+    string UpdatePlayedAliveCT { get; }
+    string UpdatePlayedDeadT { get; }
+    string UpdatePlayedDeadCT { get; }
+    string UpdatePlayedSpec { get; }
+}

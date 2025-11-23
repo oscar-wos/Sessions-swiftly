@@ -22,7 +22,7 @@ namespace RSession.Contracts.Core;
 internal interface IEventService : ISessionEventService
 {
     void InvokeDatabaseConfigured(ISessionDatabaseService databaseService, string type);
-    void InvokeElapsed();
+    void InvokeElapsed(int interval);
     void InvokePlayerRegistered(IPlayer player, in SessionPlayer sessionPlayer);
     void InvokeServerRegistered(short serverId);
 }

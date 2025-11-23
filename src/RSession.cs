@@ -38,6 +38,8 @@ namespace RSession;
 public sealed class RSession(ISwiftlyCore core) : BasePlugin(core)
 {
     private IServiceProvider? _serviceProvider;
+
+    private IDatabaseFactory? _databaseFactory;
     private IEventService? _eventService;
 
     public override void ConfigureSharedInterface(IInterfaceManager interfaceManager)
@@ -46,8 +48,6 @@ public sealed class RSession(ISwiftlyCore core) : BasePlugin(core)
         {
             return;
         }
-
-        _eventService = _serviceProvider.GetRequiredService<IEventService>();
 
         interfaceManager.AddSharedInterface<ISessionEventService, EventService>(
             "RSession.EventService",
@@ -66,7 +66,7 @@ public sealed class RSession(ISwiftlyCore core) : BasePlugin(core)
     }
 
     public override void OnSharedInterfaceInjected(IInterfaceManager interfaceManager) =>
-        _serviceProvider?.GetRequiredService<IDatabaseFactory>().InvokeDatabaseConfigured();
+        _databaseFactory?.InvokeDatabaseConfigured();
 
     public override void Load(bool hotReload)
     {
@@ -92,6 +92,9 @@ public sealed class RSession(ISwiftlyCore core) : BasePlugin(core)
         _ = services.AddServices();
 
         _serviceProvider = services.BuildServiceProvider();
+
+        _databaseFactory = _serviceProvider.GetRequiredService<IDatabaseFactory>();
+        _eventService = _serviceProvider.GetRequiredService<IEventService>();
 
         foreach (IEventListener listener in _serviceProvider.GetServices<IEventListener>() ?? [])
         {

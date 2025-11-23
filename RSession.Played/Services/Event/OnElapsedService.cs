@@ -42,7 +42,7 @@ internal sealed class OnElapsedService(
         _logService.LogInformation("OnElapsed subscribed", logger: _logger);
     }
 
-    private void OnElapsed() => _playerService.OnElapsed();
+    private void OnElapsed(int interval) => _playerService.HandleElapsed(interval);
 
     private void OnDispose() => Dispose();
 

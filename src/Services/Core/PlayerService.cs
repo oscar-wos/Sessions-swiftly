@@ -115,7 +115,7 @@ internal sealed class PlayerService : IPlayerService, IDisposable
         _ = _players.Remove(player.SteamID);
     }
 
-    private void OnElapsed() =>
+    private void OnElapsed(int interval) =>
         Task.Run(async () =>
         {
             List<int> playerIds = [];

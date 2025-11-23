@@ -22,7 +22,7 @@ internal sealed class PostgresQueries : LoadQueries, IDatabaseQueries
         """
             CREATE TABLE IF NOT EXISTS messages (
                 id BIGSERIAL PRIMARY KEY,
-                session_id BIGINT NOT NULL,    
+                session_id BIGINT NOT NULL,
                 timestamp TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
                 team_num SMALLINT NOT NULL,
                 team_chat BOOLEAN NOT NULL,

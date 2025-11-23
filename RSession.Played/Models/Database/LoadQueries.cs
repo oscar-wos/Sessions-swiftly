@@ -16,5 +16,10 @@ namespace RSession.Played.Models.Database;
 
 internal abstract class LoadQueries
 {
-    public IEnumerable<string> GetLoadQueries() => [];
+    protected abstract string CreatePlayed { get; }
+
+    public IEnumerable<string> GetLoadQueries()
+    {
+        yield return CreatePlayed;
+    }
 }

@@ -36,7 +36,8 @@ internal sealed class SqlService : ISqlService
         }
 
         await using MySqlConnection? connection =
-            await _sessionDatabaseService.GetConnectionAsync() as MySqlConnection;
+            await _sessionDatabaseService.GetConnectionAsync().ConfigureAwait(false)
+            as MySqlConnection;
 
         if (connection is null)
         {
@@ -69,7 +70,8 @@ internal sealed class SqlService : ISqlService
         }
 
         await using MySqlConnection? connection =
-            await _sessionDatabaseService.GetConnectionAsync() as MySqlConnection;
+            await _sessionDatabaseService.GetConnectionAsync().ConfigureAwait(false)
+            as MySqlConnection;
 
         if (connection is null)
         {

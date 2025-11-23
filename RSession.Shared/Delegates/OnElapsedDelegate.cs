@@ -14,4 +14,4 @@
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 namespace RSession.Shared.Delegates;
 
-public delegate void OnElapsedDelegate();
+public delegate void OnElapsedDelegate(int interval);

@@ -42,7 +42,7 @@ internal class OnPlayerRegisteredService(
     private void OnPlayerRegistered(IPlayer player, in SessionPlayer sessionPlayer)
     {
         _logService.LogDebug($"Alias - {player.Controller.PlayerName}", logger: _logger);
-        _playerService.HandlePlayerAlias(player, sessionPlayer.Id);
+        _playerService.HandlePlayerRegistered(player, sessionPlayer.Id);
     }
 
     private void OnDispose() => Dispose();

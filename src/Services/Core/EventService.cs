@@ -35,7 +35,7 @@ internal sealed class EventService : IEventService
 
     public void InvokeDispose() => OnDispose?.Invoke();
 
-    public void InvokeElapsed() => OnElapsed?.Invoke();
+    public void InvokeElapsed(int interval) => OnElapsed?.Invoke(interval);
 
     public void InvokePlayerRegistered(IPlayer player, in SessionPlayer sessionPlayer) =>
         OnPlayerRegistered?.Invoke(player, in sessionPlayer);

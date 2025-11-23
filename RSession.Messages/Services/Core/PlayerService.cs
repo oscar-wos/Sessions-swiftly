@@ -57,7 +57,9 @@ internal sealed class PlayerService(
 
             try
             {
-                await databaseService.InsertMessageAsync(sessionId, teamNum, teamChat, message);
+                await databaseService
+                    .InsertMessageAsync(sessionId, teamNum, teamChat, message)
+                    .ConfigureAwait(false);
             }
             catch (Exception ex)
             {

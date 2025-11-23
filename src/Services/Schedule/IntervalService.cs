@@ -49,7 +49,8 @@ internal sealed class IntervalService(
         _logService.LogInformation("IntervalService initialized", logger: _logger);
     }
 
-    private async Task OnElapsed() => _eventService.InvokeElapsed();
+    private async Task OnElapsed() =>
+        _eventService.InvokeElapsed(_config.CurrentValue.UpdateInterval);
 
     public void Dispose()
     {

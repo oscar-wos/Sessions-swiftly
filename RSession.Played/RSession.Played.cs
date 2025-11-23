@@ -13,6 +13,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 using Microsoft.Extensions.DependencyInjection;
+using RSession.Played.Contracts.Core;
 using RSession.Played.Extensions;
 using RSession.Shared.Contracts.Core;
 using RSession.Shared.Contracts.Event;
@@ -48,6 +49,18 @@ public sealed class Played(ISwiftlyCore core) : BasePlugin(core)
             {
                 sessionEventListener.Initialize(_sessionEventService);
             }
+        }
+
+        if (interfaceManager.HasSharedInterface("RSession.PlayerService"))
+        {
+            ISessionPlayerService sessionPlayerService =
+                interfaceManager.GetSharedInterface<ISessionPlayerService>(
+                    "RSession.PlayerService"
+                );
+
+            _serviceProvider
+                ?.GetRequiredService<IPlayerService>()
+                ?.Initialize(sessionPlayerService);
         }
     }
 
