@@ -8,3 +8,4 @@ obj/
 /build/RSession.Shared/net10.0/SwiftlyS2.CS2.pdb
 /build/RSession.Shared/net10.0/SwiftlyS2.CS2.xml
 test/
+RSession.Commands/
