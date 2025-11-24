@@ -8,6 +8,7 @@
     <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
     <AssemblyName>RSession.Template</AssemblyName>
     <OutputPath>$(MSBuildThisFileDirectory)../build/</OutputPath>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference

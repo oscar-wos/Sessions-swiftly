@@ -21,13 +21,12 @@ internal sealed class PostgresQueries : LoadQueries, IDatabaseQueries
     protected override string CreatePlayed =>
         """
             CREATE TABLE IF NOT EXISTS played (
-                id BIGSERIAL PRIMARY KEY,
-                session_id BIGINT NOT NULL,
-                alive_t INT NOT NULL DEFAULT 0,
-                alive_ct INT NOT NULL DEFAULT 0,
-                dead_t INT NOT NULL DEFAULT 0,
-                dead_ct INT NOT NULL DEFAULT 0,
-                spec INT NOT NULL DEFAULT 0
+                session_id BIGINT NOT NULL PRIMARY KEY,
+                alive_t SMALLINT NOT NULL DEFAULT 0,
+                alive_ct SMALLINT NOT NULL DEFAULT 0,
+                dead_t SMALLINT NOT NULL DEFAULT 0,
+                dead_ct SMALLINT NOT NULL DEFAULT 0,
+                spec SMALLINT NOT NULL DEFAULT 0
             )
             """;
 

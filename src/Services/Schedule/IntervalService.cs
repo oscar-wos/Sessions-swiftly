@@ -39,7 +39,7 @@ internal sealed class IntervalService(
 
     public void Initialize()
     {
-        _timer = new Timer(_config.CurrentValue.UpdateInterval)
+        _timer = new Timer(_config.CurrentValue.UpdateIntervalSeconds * 1000)
         {
             AutoReset = true,
             Enabled = true,
@@ -50,7 +50,7 @@ internal sealed class IntervalService(
     }
 
     private async Task OnElapsed() =>
-        _eventService.InvokeElapsed(_config.CurrentValue.UpdateInterval);
+        _eventService.InvokeElapsed(_config.CurrentValue.UpdateIntervalSeconds);
 
     public void Dispose()
     {
