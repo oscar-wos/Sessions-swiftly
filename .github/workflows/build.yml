@@ -3,7 +3,7 @@ name: Build
 on:
   push:
     branches:
-      - main
+      - build
 
 jobs:
     build:
@@ -27,7 +27,7 @@ jobs:
             - name: Build
               run: dotnet publish -c Release --no-restore
 
-            - name: Create Directories
+            - name: Create Directory
               run: |
                 mkdir -p plugin/addons/swiftlys2/plugins/${{ github.event.repository.name }}
 
@@ -67,22 +67,22 @@ jobs:
                 cp ./build/net10.0/${{ github.event.repository.name }}.Shared.dll ./plugin/addons/swiftlys2/plugins/${{ github.event.repository.name }}.Messages/resources/exports
                 cp ./build/net10.0/${{ github.event.repository.name }}.Shared.dll ./plugin/addons/swiftlys2/plugins/${{ github.event.repository.name }}.Played/resources/exports
 
+            - name: Extract version
+              id: extract_version
+              run: |
+                version=$(grep -oP 'Version = "\K[^"]+' ./src/${{ github.event.repository.name }}.cs)
+                echo "version=$version" >> $GITHUB_OUTPUT
+
             - name: Zip
               run: |
                 cd ./plugin
-                zip -r ${{ github.event.repository.name }}-${{ github.sha }}.zip .
+                zip -r ${{ github.event.repository.name }}-${{ steps.extract_version.outputs.version }}.zip .
 
             - name: Publish
               uses: actions/upload-artifact@v4
               with:
-                name: ${{ github.event.repository.name }}-${{ github.sha }}
+                name: ${{ github.event.repository.name }}-${{ steps.extract_version.outputs.version }}
                 path: ./plugin
-
-            - name: Extract version
-              id: extract_version
-              run: |
-                version=$(grep -oP 'Version = "\K(.*)(?=")' ./src/${{ github.event.repository.name }}.cs | head -1)
-                echo "version=$version" >> $GITHUB_OUTPUT
 
             - name: Create Tag
               run: |
@@ -92,8 +92,8 @@ jobs:
                 git push origin ${{ steps.extract_version.outputs.version }}
 
             - name: Create Release
-              id: create_release
               uses: actions/create-release@v1
+              id: create_release
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
@@ -105,14 +105,11 @@ jobs:
                   prerelease: false
 
             - name: Upload Release Asset
-              id: upload_release_asset
               uses: actions/upload-release-asset@v1
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
                   upload_url: ${{ steps.create_release.outputs.upload_url }}
-                  asset_path: ./plugin/${{ github.event.repository.name }}-${{ github.sha }}.zip
+                  asset_path: ./plugin/${{ github.event.repository.name }}-${{ steps.extract_version.outputs.version }}.zip
                   asset_name: ${{ github.event.repository.name }}.zip
                   asset_content_type: application/zip
-
-            
