@@ -91,25 +91,15 @@ jobs:
                 git tag ${{ steps.extract_version.outputs.version }}
                 git push origin ${{ steps.extract_version.outputs.version }}
 
-            - name: Create Release
-              uses: actions/create-release@v1
-              id: create_release
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            - name: Create Release and Upload Asset
+              uses: softprops/action-gh-release@v2
               with:
-                  tag_name: ${{ steps.extract_version.outputs.version }}
-                  release_name: ${{ steps.extract_version.outputs.version }}
-                  body: |
-                      This is an automated release.
-                  draft: false
-                  prerelease: false
-
-            - name: Upload Release Asset
-              uses: actions/upload-release-asset@v1
+                tag_name: ${{ steps.extract_version.outputs.version }}
+                name: ${{ steps.extract_version.outputs.version }}
+                body: |
+                  This is an automated release.
+                draft: false
+                prerelease: false
+                files: ./plugin/${{ github.event.repository.name }}-${{ steps.extract_version.outputs.version }}.zip
               env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              with:
-                  upload_url: ${{ steps.create_release.outputs.upload_url }}
-                  asset_path: ./plugin/${{ github.event.repository.name }}-${{ steps.extract_version.outputs.version }}.zip
-                  asset_name: ${{ github.event.repository.name }}.zip
-                  asset_content_type: application/zip
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
