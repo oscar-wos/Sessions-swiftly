@@ -49,7 +49,7 @@ internal sealed class DatabaseFactory(
         };
 
         _databaseService.Initialize(sessionDatabaseService);
-        _ = Task.Run(async () => await _databaseService.CreateTablesAsync());
+        _ = Task.Run(async () => await _databaseService.CreateTablesAsync().ConfigureAwait(false));
 
         _logService.LogInformation($"DatabaseFactory initialized - '{type}'", logger: _logger);
     }

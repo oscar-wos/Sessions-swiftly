@@ -45,7 +45,7 @@ internal sealed class IntervalService(
             Enabled = true,
         };
 
-        _timer.Elapsed += async (_, _) => await OnElapsed();
+        _timer.Elapsed += async (_, _) => await OnElapsed().ConfigureAwait(false);
         _logService.LogInformation("IntervalService initialized", logger: _logger);
     }
 

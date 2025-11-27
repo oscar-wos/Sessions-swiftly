@@ -139,7 +139,7 @@ internal sealed class PlayerService : IPlayerService, IDisposable
 
             try
             {
-                await _databaseService.UpdateSessionsAsync(playerIds, sessionIds);
+                await _databaseService.UpdateSessionsAsync(playerIds, sessionIds).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
