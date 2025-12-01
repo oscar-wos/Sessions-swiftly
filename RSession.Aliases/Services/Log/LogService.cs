@@ -12,11 +12,11 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
-using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Logging;
 using RLogger;
 using RSession.Aliases.Contracts.Log;
 using SwiftlyS2.Shared;
+using System.Runtime.CompilerServices;
 
 namespace RSession.Aliases.Services.Log;
 

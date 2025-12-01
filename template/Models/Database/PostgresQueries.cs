@@ -16,4 +16,7 @@ using RSession.Template.Contracts.Database;
 
 namespace RSession.Template.Models.Database;
 
-internal sealed class PostgresQueries : LoadQueries, IDatabaseQueries { }
+internal sealed class PostgresQueries(string prefix) : LoadQueries, IDatabaseQueries
+{
+    private readonly string _prefix = prefix;
+}

@@ -36,7 +36,7 @@ internal sealed class DatabaseFactory(
 
     public IDatabaseService? GetDatabaseService() => _databaseService;
 
-    public void Initialize(ISessionDatabaseService sessionDatabaseService, string type)
+    public void Initialize(ISessionDatabaseService sessionDatabaseService, string type, string prefix)
     {
         _databaseService = type.ToLowerInvariant() switch
         {
@@ -48,7 +48,7 @@ internal sealed class DatabaseFactory(
             ),
         };
 
-        _databaseService.Initialize(sessionDatabaseService);
+        _databaseService.Initialize(sessionDatabaseService, prefix);
         _ = Task.Run(async () => await _databaseService.CreateTablesAsync().ConfigureAwait(false));
 
         _logService.LogInformation($"DatabaseFactory initialized - '{type}'", logger: _logger);

@@ -18,7 +18,7 @@ namespace RSession.Played.Contracts.Database;
 
 internal interface IDatabaseService
 {
-    void Initialize(ISessionDatabaseService sessionDatabaseService);
+    void Initialize(ISessionDatabaseService sessionDatabaseService, string prefix);
     Task CreateTablesAsync();
     Task InsertPlayedAsync(long sessionId);
     Task UpdatePlayedAsync(

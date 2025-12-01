@@ -16,11 +16,13 @@ using RSession.Aliases.Contracts.Database;
 
 namespace RSession.Aliases.Models.Database;
 
-internal sealed class SqlQueries : LoadQueries, IDatabaseQueries
+internal sealed class SqlQueries(string prefix) : LoadQueries, IDatabaseQueries
 {
+    private readonly string _prefix = prefix;
+
     protected override string CreateAliases =>
-        """
-            CREATE TABLE IF NOT EXISTS aliases (
+        $"""
+            CREATE TABLE IF NOT EXISTS {_prefix}aliases (
                 id BIGINT AUTO_INCREMENT PRIMARY KEY,
                 player_id INT NOT NULL,
                 alias VARCHAR(128) NOT NULL,
@@ -29,8 +31,8 @@ internal sealed class SqlQueries : LoadQueries, IDatabaseQueries
             """;
 
     public string SelectAlias =>
-        "SELECT alias FROM aliases WHERE player_id = @playerId ORDER BY id DESC";
+        $"SELECT alias FROM {_prefix}aliases WHERE player_id = @playerId ORDER BY id DESC";
 
     public string InsertAlias =>
-        "INSERT INTO aliases (player_id, alias) VALUES (@playerId, @alias)";
+        $"INSERT INTO {_prefix}aliases (player_id, alias) VALUES (@playerId, @alias)";
 }

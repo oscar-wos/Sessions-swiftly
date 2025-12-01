@@ -16,20 +16,22 @@ using RSession.Messages.Contracts.Database;
 
 namespace RSession.Messages.Models.Database;
 
-internal sealed class SqlQueries : LoadQueries, IDatabaseQueries
+internal sealed class SqlQueries(string prefix) : LoadQueries, IDatabaseQueries
 {
+    private readonly string _prefix = prefix;
+
     protected override string CreateMessages =>
-        """
-            CREATE TABLE IF NOT EXISTS messages (
+        $"""
+            CREATE TABLE IF NOT EXISTS {_prefix}messages (
                 id BIGINT AUTO_INCREMENT PRIMARY KEY,
                 session_id BIGINT NOT NULL,
-                timestamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
                 team_num SMALLINT NOT NULL,
                 team_chat BOOLEAN NOT NULL,
-                message VARCHAR(512) COLLATE utf8mb4_unicode_520_ci
+                message TEXT NOT NULL,
+                timestamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
             )
             """;
 
     public string InsertMessage =>
-        "INSERT INTO messages (session_id, team_num, team_chat, message) VALUES (@sessionId, @teamNum, @teamChat, @message)";
+        $"INSERT INTO {_prefix}messages (session_id, team_num, team_chat, message) VALUES (@sessionId, @teamNum, @teamChat, @message)";
 }

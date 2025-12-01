@@ -17,5 +17,6 @@ namespace RSession.Models.Config;
 public sealed class DatabaseConfig
 {
     public string Type { get; set; } = "";
+    public string Prefix { get; set; } = "rsession_";
     public ConnectionConfig Connection { get; set; } = new();
 }

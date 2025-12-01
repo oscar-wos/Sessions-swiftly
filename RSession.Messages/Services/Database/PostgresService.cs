@@ -21,16 +21,18 @@ namespace RSession.Messages.Services.Database;
 
 internal sealed class PostgresService : IPostgresService
 {
-    private readonly PostgresQueries _queries = new();
-
     private ISessionDatabaseService? _sessionDatabaseService;
+    private PostgresQueries? _queries;
 
-    public void Initialize(ISessionDatabaseService sessionDatabaseService) =>
+    public void Initialize(ISessionDatabaseService sessionDatabaseService, string prefix)
+    {
         _sessionDatabaseService = sessionDatabaseService;
+        _queries = new PostgresQueries(prefix);
+    }
 
     public async Task CreateTablesAsync()
     {
-        if (_sessionDatabaseService is null)
+        if (_sessionDatabaseService is null || _queries is null)
         {
             return;
         }
@@ -64,7 +66,7 @@ internal sealed class PostgresService : IPostgresService
         string message
     )
     {
-        if (_sessionDatabaseService is null)
+        if (_sessionDatabaseService is null || _queries is null)
         {
             return;
         }

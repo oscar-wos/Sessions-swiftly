@@ -21,16 +21,18 @@ namespace RSession.Aliases.Services.Database;
 
 internal sealed class SqlService : ISqlService
 {
-    private readonly SqlQueries _queries = new();
-
     private ISessionDatabaseService? _sessionDatabaseService;
+    private SqlQueries? _queries;
 
-    public void Initialize(ISessionDatabaseService sessionDatabaseService) =>
+    public void Initialize(ISessionDatabaseService sessionDatabaseService, string prefix)
+    {
         _sessionDatabaseService = sessionDatabaseService;
+        _queries = new SqlQueries(prefix);
+    }
 
     public async Task CreateTablesAsync()
     {
-        if (_sessionDatabaseService is null)
+        if (_sessionDatabaseService is null || _queries is null)
         {
             return;
         }
@@ -59,7 +61,7 @@ internal sealed class SqlService : ISqlService
 
     public async Task<string?> SelectAliasAsync(int playerId)
     {
-        if (_sessionDatabaseService is null)
+        if (_sessionDatabaseService is null || _queries is null)
         {
             return null;
         }
@@ -90,7 +92,7 @@ internal sealed class SqlService : ISqlService
 
     public async Task InsertAliasAsync(int playerId, string alias)
     {
-        if (_sessionDatabaseService is null)
+        if (_sessionDatabaseService is null || _queries is null)
         {
             return;
         }

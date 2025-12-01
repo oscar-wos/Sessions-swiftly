@@ -63,5 +63,9 @@ internal sealed class DatabaseFactory : IDatabaseFactory
     public IDatabaseService GetDatabaseService() => _databaseService;
 
     public void InvokeDatabaseConfigured() =>
-        _eventService.InvokeDatabaseConfigured(_databaseService, _config.CurrentValue.Type);
+        _eventService.InvokeDatabaseConfigured(
+            _databaseService,
+            _config.CurrentValue.Type,
+            _config.CurrentValue.Prefix
+        );
 }

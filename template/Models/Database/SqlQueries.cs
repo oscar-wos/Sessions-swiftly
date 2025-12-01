@@ -16,4 +16,7 @@ using RSession.Template.Contracts.Database;
 
 namespace RSession.Template.Models.Database;
 
-internal sealed class SqlQueries : LoadQueries, IDatabaseQueries { }
+internal sealed class SqlQueries(string prefix) : LoadQueries, IDatabaseQueries
+{
+    private readonly string _prefix = prefix;
+}

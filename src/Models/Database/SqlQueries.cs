@@ -16,11 +16,13 @@ using RSession.Contracts.Database;
 
 namespace RSession.Models.Database;
 
-public class SqlQueries : LoadQueries, IDatabaseQueries
+public class SqlQueries(string prefix) : LoadQueries, IDatabaseQueries
 {
+    private readonly string _prefix = prefix;
+
     protected override string CreatePlayers =>
-        """
-            CREATE TABLE IF NOT EXISTS players (
+        $"""
+            CREATE TABLE IF NOT EXISTS {_prefix}players (
                 id INT AUTO_INCREMENT,
                 steam_id BIGINT NOT NULL PRIMARY KEY,
                 first_seen DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -29,8 +31,8 @@ public class SqlQueries : LoadQueries, IDatabaseQueries
             """;
 
     protected override string CreateServers =>
-        """
-            CREATE TABLE IF NOT EXISTS servers (
+        $"""
+            CREATE TABLE IF NOT EXISTS {_prefix}servers (
                 id SMALLINT AUTO_INCREMENT PRIMARY KEY,
                 ip VARCHAR(15) NOT NULL,
                 port SMALLINT UNSIGNED NOT NULL
@@ -38,8 +40,8 @@ public class SqlQueries : LoadQueries, IDatabaseQueries
             """;
 
     protected override string CreateSessions =>
-        """
-            CREATE TABLE IF NOT EXISTS sessions (
+        $"""
+            CREATE TABLE IF NOT EXISTS {_prefix}sessions (
                 id BIGINT AUTO_INCREMENT PRIMARY KEY,
                 player_id INT NOT NULL,
                 server_id SMALLINT NOT NULL,
@@ -48,24 +50,24 @@ public class SqlQueries : LoadQueries, IDatabaseQueries
                 end_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
             );
 
-            CREATE INDEX IF NOT EXISTS idx_sessions_player_id ON sessions(player_id);
-            CREATE INDEX IF NOT EXISTS idx_sessions_server_id ON sessions(server_id)
+            CREATE INDEX IF NOT EXISTS idx_{_prefix}sessions_player_id ON {_prefix}sessions(player_id);
+            CREATE INDEX IF NOT EXISTS idx_{_prefix}sessions_server_id ON {_prefix}sessions(server_id)
             """;
 
-    public string SelectPlayer => "SELECT id FROM players WHERE steam_id = @steamId";
+    public string SelectPlayer => $"SELECT id FROM {_prefix}players WHERE steam_id = @steamId";
 
     public string InsertPlayer =>
-        "INSERT INTO players (steam_id) VALUES (@steamId); SELECT LAST_INSERT_ID()";
+        $"INSERT INTO {_prefix}players (steam_id) VALUES (@steamId); SELECT LAST_INSERT_ID()";
 
-    public string SelectServer => "SELECT id FROM servers WHERE ip = @ip AND port = @port";
+    public string SelectServer => $"SELECT id FROM {_prefix}servers WHERE ip = @ip AND port = @port";
 
     public string InsertServer =>
-        "INSERT INTO servers (ip, port) VALUES (@ip, @port); SELECT LAST_INSERT_ID()";
+        $"INSERT INTO {_prefix}servers (ip, port) VALUES (@ip, @port); SELECT LAST_INSERT_ID()";
 
     public string InsertSession =>
-        "INSERT INTO sessions (player_id, server_id, ip) VALUES (@playerId, @serverId, @ip); SELECT LAST_INSERT_ID()";
+        $"INSERT INTO {_prefix}sessions (player_id, server_id, ip) VALUES (@playerId, @serverId, @ip); SELECT LAST_INSERT_ID()";
 
-    public string UpdateSeen => "UPDATE players SET last_seen = NOW() WHERE id IN (@playerIds)";
+    public string UpdateSeen => $"UPDATE {_prefix}players SET last_seen = NOW() WHERE id IN (@playerIds)";
 
-    public string UpdateSession => "UPDATE sessions SET end_time = NOW() WHERE id IN (@sessionIds)";
+    public string UpdateSession => $"UPDATE {_prefix}sessions SET end_time = NOW() WHERE id IN (@sessionIds)";
 }

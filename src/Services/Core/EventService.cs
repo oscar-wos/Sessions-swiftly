@@ -30,8 +30,9 @@ internal sealed class EventService : IEventService
 
     public void InvokeDatabaseConfigured(
         ISessionDatabaseService sessionDatabaseService,
-        string type
-    ) => OnDatabaseConfigured?.Invoke(sessionDatabaseService, type);
+        string type,
+        string prefix
+    ) => OnDatabaseConfigured?.Invoke(sessionDatabaseService, type, prefix);
 
     public void InvokeDispose() => OnDispose?.Invoke();
 

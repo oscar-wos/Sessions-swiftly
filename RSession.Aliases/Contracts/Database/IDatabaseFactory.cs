@@ -19,5 +19,5 @@ namespace RSession.Aliases.Contracts.Database;
 internal interface IDatabaseFactory
 {
     IDatabaseService? GetDatabaseService();
-    void Initialize(ISessionDatabaseService sessionDatabaseService, string type);
+    void Initialize(ISessionDatabaseService sessionDatabaseService, string type, string prefix);
 }

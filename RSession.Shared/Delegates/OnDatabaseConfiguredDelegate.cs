@@ -18,5 +18,6 @@ namespace RSession.Shared.Delegates;
 
 public delegate void OnDatabaseConfiguredDelegate(
     ISessionDatabaseService databaseService,
-    string type
+    string type,
+    string prefix
 );

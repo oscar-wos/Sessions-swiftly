@@ -12,7 +12,6 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
-using System.Data.Common;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Npgsql;
@@ -20,6 +19,7 @@ using RSession.Contracts.Database;
 using RSession.Contracts.Log;
 using RSession.Models.Config;
 using RSession.Models.Database;
+using System.Data.Common;
 
 namespace RSession.Services.Database;
 
@@ -44,7 +44,7 @@ internal sealed class PostgresService : IPostgresService, IAsyncDisposable
 
         string connectionString = BuildConnectionString(_config.CurrentValue.Connection);
         _dataSource = NpgsqlDataSource.Create(connectionString);
-        _queries = new PostgresQueries();
+        _queries = new PostgresQueries(_config.CurrentValue.Prefix);
     }
 
     public async Task<DbConnection> GetConnectionAsync() =>
@@ -77,7 +77,7 @@ internal sealed class PostgresService : IPostgresService, IAsyncDisposable
 
         await using (NpgsqlCommand command = new(_queries.SelectPlayer, connection))
         {
-            _ = command.Parameters.AddWithValue("@steamId", (long)steamId);
+            _ = command.Parameters.AddWithValue("@steamId", (long) steamId);
 
             if (await command.ExecuteScalarAsync().ConfigureAwait(false) is int result)
             {
@@ -87,7 +87,7 @@ internal sealed class PostgresService : IPostgresService, IAsyncDisposable
 
         await using (NpgsqlCommand command = new(_queries.InsertPlayer, connection))
         {
-            _ = command.Parameters.AddWithValue("@steamId", (long)steamId);
+            _ = command.Parameters.AddWithValue("@steamId", (long) steamId);
 
             if (await command.ExecuteScalarAsync().ConfigureAwait(false) is not int result)
             {
@@ -107,7 +107,7 @@ internal sealed class PostgresService : IPostgresService, IAsyncDisposable
         await using (NpgsqlCommand command = new(_queries.SelectServer, connection))
         {
             _ = command.Parameters.AddWithValue("@ip", ip);
-            _ = command.Parameters.AddWithValue("@port", (short)port);
+            _ = command.Parameters.AddWithValue("@port", (short) port);
 
             if (await command.ExecuteScalarAsync().ConfigureAwait(false) is short result)
             {
@@ -118,7 +118,7 @@ internal sealed class PostgresService : IPostgresService, IAsyncDisposable
         await using (NpgsqlCommand command = new(_queries.InsertServer, connection))
         {
             _ = command.Parameters.AddWithValue("@ip", ip);
-            _ = command.Parameters.AddWithValue("@port", (short)port);
+            _ = command.Parameters.AddWithValue("@port", (short) port);
 
             if (await command.ExecuteScalarAsync().ConfigureAwait(false) is not short result)
             {

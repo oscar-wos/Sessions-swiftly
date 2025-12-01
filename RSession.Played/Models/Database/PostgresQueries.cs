@@ -16,11 +16,13 @@ using RSession.Played.Contracts.Database;
 
 namespace RSession.Played.Models.Database;
 
-internal sealed class PostgresQueries : LoadQueries, IDatabaseQueries
+internal sealed class PostgresQueries(string prefix) : LoadQueries, IDatabaseQueries
 {
+    private readonly string _prefix = prefix;
+
     protected override string CreatePlayed =>
-        """
-            CREATE TABLE IF NOT EXISTS played (
+        $"""
+            CREATE TABLE IF NOT EXISTS {_prefix}played (
                 session_id BIGINT NOT NULL PRIMARY KEY,
                 alive_t SMALLINT NOT NULL DEFAULT 0,
                 alive_ct SMALLINT NOT NULL DEFAULT 0,
@@ -30,20 +32,21 @@ internal sealed class PostgresQueries : LoadQueries, IDatabaseQueries
             )
             """;
 
-    public string InsertPlayed => "INSERT INTO played (session_id) VALUES (@sessionId)";
+    public string InsertPlayed =>
+        $"INSERT INTO {_prefix}played (session_id) VALUES (@sessionId)";
 
     public string UpdatePlayedAliveT =>
-        "UPDATE played SET alive_t = alive_t + @interval WHERE session_id = ANY(@sessionIds)";
+        $"UPDATE {_prefix}played SET alive_t = alive_t + @interval WHERE session_id = ANY(@sessionIds)";
 
     public string UpdatePlayedAliveCT =>
-        "UPDATE played SET alive_ct = alive_ct + @interval WHERE session_id = ANY(@sessionIds)";
+        $"UPDATE {_prefix}played SET alive_ct = alive_ct + @interval WHERE session_id = ANY(@sessionIds)";
 
     public string UpdatePlayedDeadT =>
-        "UPDATE played SET dead_t = dead_t + @interval WHERE session_id = ANY(@sessionIds)";
+        $"UPDATE {_prefix}played SET dead_t = dead_t + @interval WHERE session_id = ANY(@sessionIds)";
 
     public string UpdatePlayedDeadCT =>
-        "UPDATE played SET dead_ct = dead_ct + @interval WHERE session_id = ANY(@sessionIds)";
+        $"UPDATE {_prefix}played SET dead_ct = dead_ct + @interval WHERE session_id = ANY(@sessionIds)";
 
     public string UpdatePlayedSpec =>
-        "UPDATE played SET spec = spec + @interval WHERE session_id = ANY(@sessionIds)";
+        $"UPDATE {_prefix}played SET spec = spec + @interval WHERE session_id = ANY(@sessionIds)";
 }
