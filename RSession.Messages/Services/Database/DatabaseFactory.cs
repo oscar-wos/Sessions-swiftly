@@ -36,7 +36,11 @@ internal sealed class DatabaseFactory(
 
     public IDatabaseService? GetDatabaseService() => _databaseService;
 
-    public void Initialize(ISessionDatabaseService sessionDatabaseService, string type, string prefix)
+    public void Initialize(
+        ISessionDatabaseService sessionDatabaseService,
+        string type,
+        string prefix
+    )
     {
         _databaseService = type.ToLowerInvariant() switch
         {

@@ -43,7 +43,7 @@ internal sealed class ServerService(
         Task.Run(async () =>
         {
             string ip = _core.Engine.ServerIP ?? "0.0.0.0";
-            ushort port = (ushort) (_core.ConVar.Find<int>("hostport")?.Value ?? 0);
+            ushort port = (ushort)(_core.ConVar.Find<int>("hostport")?.Value ?? 0);
 
             try
             {

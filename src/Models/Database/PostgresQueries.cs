@@ -56,7 +56,8 @@ public class PostgresQueries(string prefix) : LoadQueries, IDatabaseQueries
 
     public string SelectPlayer => $"SELECT id FROM {_prefix}players WHERE steam_id = @steamId";
 
-    public string InsertPlayer => $"INSERT INTO {_prefix}players (steam_id) VALUES (@steamId) RETURNING id";
+    public string InsertPlayer =>
+        $"INSERT INTO {_prefix}players (steam_id) VALUES (@steamId) RETURNING id";
 
     public string SelectServer =>
         $"SELECT id FROM {_prefix}servers WHERE ip = CAST(@ip as INET) AND port = @port";
@@ -67,7 +68,8 @@ public class PostgresQueries(string prefix) : LoadQueries, IDatabaseQueries
     public string InsertSession =>
         $"INSERT INTO {_prefix}sessions (player_id, server_id, ip) VALUES (@playerId, @serverId, CAST(@ip as INET)) RETURNING id";
 
-    public string UpdateSeen => $"UPDATE {_prefix}players SET last_seen = NOW() WHERE id = ANY(@playerIds)";
+    public string UpdateSeen =>
+        $"UPDATE {_prefix}players SET last_seen = NOW() WHERE id = ANY(@playerIds)";
 
     public string UpdateSession =>
         $"UPDATE {_prefix}sessions SET end_time = NOW() WHERE id = ANY(@sessionIds)";

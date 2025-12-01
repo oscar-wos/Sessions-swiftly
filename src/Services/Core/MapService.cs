@@ -12,21 +12,11 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
-using RSession.Shared.Contracts.Core;
-using RSession.Shared.Contracts.Database;
-using RSession.Shared.Structs;
-using SwiftlyS2.Shared.Players;
 
-namespace RSession.Contracts.Core;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
-internal interface IEventService : ISessionEventService
-{
-    void InvokeDatabaseConfigured(
-        ISessionDatabaseService databaseService,
-        string type,
-        string prefix
-    );
-    void InvokeElapsed(int interval);
-    void InvokePlayerRegistered(IPlayer player, in SessionPlayer sessionPlayer);
-    void InvokeServerRegistered(short serverId);
-}
+namespace RSession.Services.Core;
+
+internal sealed class MapService { }

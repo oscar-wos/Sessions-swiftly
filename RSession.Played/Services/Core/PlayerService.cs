@@ -68,7 +68,7 @@ internal sealed class PlayerService(
                     continue;
                 }
 
-                bool isAlive = player.PlayerPawn?.LifeState == (byte) LifeState_t.LIFE_ALIVE;
+                bool isAlive = player.PlayerPawn?.LifeState == (byte)LifeState_t.LIFE_ALIVE;
 
                 switch (player.Controller.Team)
                 {

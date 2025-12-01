@@ -12,6 +12,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
+using System.Data.Common;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MySqlConnector;
@@ -19,7 +20,6 @@ using RSession.Contracts.Database;
 using RSession.Contracts.Log;
 using RSession.Models.Config;
 using RSession.Models.Database;
-using System.Data.Common;
 
 namespace RSession.Services.Database;
 
@@ -77,7 +77,7 @@ internal sealed class SqlService : ISqlService, IAsyncDisposable
 
         await using (MySqlCommand command = new(_queries.SelectPlayer, connection))
         {
-            _ = command.Parameters.AddWithValue("@steamId", (long) steamId);
+            _ = command.Parameters.AddWithValue("@steamId", (long)steamId);
 
             if (await command.ExecuteScalarAsync().ConfigureAwait(false) is int result)
             {
@@ -87,7 +87,7 @@ internal sealed class SqlService : ISqlService, IAsyncDisposable
 
         await using (MySqlCommand command = new(_queries.InsertPlayer, connection))
         {
-            _ = command.Parameters.AddWithValue("@steamId", (long) steamId);
+            _ = command.Parameters.AddWithValue("@steamId", (long)steamId);
 
             if (await command.ExecuteScalarAsync().ConfigureAwait(false) is not int result)
             {
@@ -173,7 +173,7 @@ internal sealed class SqlService : ISqlService, IAsyncDisposable
         MySqlConnectionStringBuilder builder = new()
         {
             Server = config.Host,
-            Port = (uint) config.Port,
+            Port = (uint)config.Port,
             UserID = config.Username,
             Password = config.Password,
             Database = config.Database,

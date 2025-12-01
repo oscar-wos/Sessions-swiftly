@@ -32,8 +32,7 @@ internal sealed class SqlQueries(string prefix) : LoadQueries, IDatabaseQueries
             )
             """;
 
-    public string InsertPlayed =>
-        $"INSERT INTO {_prefix}played (session_id) VALUES (@sessionId)";
+    public string InsertPlayed => $"INSERT INTO {_prefix}played (session_id) VALUES (@sessionId)";
 
     public string UpdatePlayedAliveT =>
         $"UPDATE {_prefix}played SET alive_t = alive_t + @interval WHERE session_id IN (@sessionIds)";

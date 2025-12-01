@@ -59,7 +59,8 @@ public class SqlQueries(string prefix) : LoadQueries, IDatabaseQueries
     public string InsertPlayer =>
         $"INSERT INTO {_prefix}players (steam_id) VALUES (@steamId); SELECT LAST_INSERT_ID()";
 
-    public string SelectServer => $"SELECT id FROM {_prefix}servers WHERE ip = @ip AND port = @port";
+    public string SelectServer =>
+        $"SELECT id FROM {_prefix}servers WHERE ip = @ip AND port = @port";
 
     public string InsertServer =>
         $"INSERT INTO {_prefix}servers (ip, port) VALUES (@ip, @port); SELECT LAST_INSERT_ID()";
@@ -67,7 +68,9 @@ public class SqlQueries(string prefix) : LoadQueries, IDatabaseQueries
     public string InsertSession =>
         $"INSERT INTO {_prefix}sessions (player_id, server_id, ip) VALUES (@playerId, @serverId, @ip); SELECT LAST_INSERT_ID()";
 
-    public string UpdateSeen => $"UPDATE {_prefix}players SET last_seen = NOW() WHERE id IN (@playerIds)";
+    public string UpdateSeen =>
+        $"UPDATE {_prefix}players SET last_seen = NOW() WHERE id IN (@playerIds)";
 
-    public string UpdateSession => $"UPDATE {_prefix}sessions SET end_time = NOW() WHERE id IN (@sessionIds)";
+    public string UpdateSession =>
+        $"UPDATE {_prefix}sessions SET end_time = NOW() WHERE id IN (@sessionIds)";
 }

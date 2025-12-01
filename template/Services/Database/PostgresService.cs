@@ -20,7 +20,7 @@ using RSession.Template.Models.Database;
 namespace RSession.Template.Services.Database;
 
 internal sealed class PostgresService : IPostgresService
-{ 
+{
     private ISessionDatabaseService? _sessionDatabaseService;
     private PostgresQueries? _queries;
 
