@@ -12,17 +12,11 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
-namespace RSession.Contracts.Database;
+using RSession.Shared.Contracts.Core;
 
-internal interface IDatabaseQueries
+namespace RSession.Contracts.Core;
+
+internal interface IMapService : ISessionMapService
 {
-    string SelectMap { get; }
-    string InsertMap { get; }
-    string SelectPlayer { get; }
-    string InsertPlayer { get; }
-    string SelectServer { get; }
-    string InsertServer { get; }
-    string InsertSession { get; }
-    string UpdateSeen { get; }
-    string UpdateSession { get; }
+    void HandleMapLoad(string mapName);
 }

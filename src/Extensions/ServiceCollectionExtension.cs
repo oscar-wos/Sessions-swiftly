@@ -60,6 +60,7 @@ public static class ServiceCollectionExtension
         _ = services.AddSingleton<IEventListener, OnClientDisconnectedService>();
         _ = services.AddSingleton<IEventListener, OnClientSteamAuthorizeService>();
         _ = services.AddSingleton<IEventListener, OnClientSteamAuthorizeFailService>();
+        _ = services.AddSingleton<IEventListener, OnMapLoadService>();
         _ = services.AddSingleton<IEventListener, OnSteamAPIActivatedService>();
 
         return services;
@@ -71,11 +72,16 @@ public static class ServiceCollectionExtension
         _ = services.AddSingleton<IIntervalService, IntervalService>();
 
         _ = services.AddSingleton<EventService>();
+        _ = services.AddSingleton<MapService>();
         _ = services.AddSingleton<PlayerService>();
         _ = services.AddSingleton<ServerService>();
 
         _ = services.AddSingleton<IEventService>(serviceProvider =>
             serviceProvider.GetRequiredService<EventService>()
+        );
+
+        _ = services.AddSingleton<IMapService>(serviceProvider =>
+            serviceProvider.GetRequiredService<MapService>()
         );
 
         _ = services.AddSingleton<IPlayerService>(serviceProvider =>

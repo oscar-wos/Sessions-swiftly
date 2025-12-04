@@ -27,6 +27,7 @@ internal interface IEventService : ISessionEventService
         string prefix
     );
     void InvokeElapsed(int interval);
+    void InvokeMapRegistered(short mapId);
     void InvokePlayerRegistered(IPlayer player, in SessionPlayer sessionPlayer);
     void InvokeServerRegistered(short serverId);
 }

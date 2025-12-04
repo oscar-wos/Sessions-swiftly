@@ -20,6 +20,15 @@ public class SqlQueries(string prefix) : LoadQueries, IDatabaseQueries
 {
     private readonly string _prefix = prefix;
 
+    protected override string CreateMaps =>
+        $"""
+            CREATE TABLE IF NOT EXISTS {_prefix}maps (
+                id SMALLINT AUTO_INCREMENT PRIMARY KEY,
+                name VARCHAR(64) NOT NULL UNIQUE,
+                workshop_id BIGINT
+            )
+            """;
+
     protected override string CreatePlayers =>
         $"""
             CREATE TABLE IF NOT EXISTS {_prefix}players (
@@ -53,6 +62,11 @@ public class SqlQueries(string prefix) : LoadQueries, IDatabaseQueries
             CREATE INDEX IF NOT EXISTS idx_{_prefix}sessions_player_id ON {_prefix}sessions(player_id);
             CREATE INDEX IF NOT EXISTS idx_{_prefix}sessions_server_id ON {_prefix}sessions(server_id)
             """;
+
+    public string SelectMap => $"SELECT id FROM {_prefix}maps WHERE name = @name";
+
+    public string InsertMap =>
+        $"INSERT INTO {_prefix}maps (name, workshop_id) VALUES (@name, @workshopId); SELECT LAST_INSERT_ID()";
 
     public string SelectPlayer => $"SELECT id FROM {_prefix}players WHERE steam_id = @steamId";
 

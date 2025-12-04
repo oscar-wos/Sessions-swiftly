@@ -30,7 +30,7 @@ namespace RSession;
 
 [PluginMetadata(
     Id = "RSession",
-    Version = "1.0.1",
+    Version = "1.1.0",
     Name = "RSession",
     Website = "https://github.com/oscar-wos/RSession",
     Author = "oscar-wos"
@@ -52,6 +52,11 @@ public sealed class RSession(ISwiftlyCore core) : BasePlugin(core)
         interfaceManager.AddSharedInterface<ISessionEventService, EventService>(
             "RSession.EventService",
             _serviceProvider.GetRequiredService<EventService>()
+        );
+
+        interfaceManager.AddSharedInterface<ISessionMapService, MapService>(
+            "RSession.MapService",
+            _serviceProvider.GetRequiredService<MapService>()
         );
 
         interfaceManager.AddSharedInterface<ISessionPlayerService, PlayerService>(

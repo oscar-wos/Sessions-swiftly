@@ -25,7 +25,8 @@ internal sealed class ServerService(
     ILogService logService,
     ILogger<ServerService> logger,
     IDatabaseFactory databaseFactory,
-    IEventService eventService
+    IEventService eventService,
+    IMapService mapService
 ) : IServerService
 {
     private readonly ISwiftlyCore _core = core;
@@ -34,6 +35,7 @@ internal sealed class ServerService(
 
     private readonly IDatabaseService _databaseService = databaseFactory.GetDatabaseService();
     private readonly IEventService _eventService = eventService;
+    private readonly IMapService _mapService = mapService;
 
     private short? _id;
 
@@ -60,6 +62,8 @@ internal sealed class ServerService(
 
                 _id = serverId;
                 _eventService.InvokeServerRegistered(serverId);
+
+                _mapService.HandleMapLoad(_core.Engine.GlobalVars.MapName);
             }
             catch (Exception ex)
             {

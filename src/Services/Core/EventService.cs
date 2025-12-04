@@ -25,6 +25,7 @@ internal sealed class EventService : IEventService
     public event OnDatabaseConfiguredDelegate? OnDatabaseConfigured;
     public event OnDisposeDelegate? OnDispose;
     public event OnElapsedDelegate? OnElapsed;
+    public event OnMapRegisteredDelegate? OnMapRegistered;
     public event OnPlayerRegisteredDelegate? OnPlayerRegistered;
     public event OnServerRegisteredDelegate? OnServerRegistered;
 
@@ -37,6 +38,8 @@ internal sealed class EventService : IEventService
     public void InvokeDispose() => OnDispose?.Invoke();
 
     public void InvokeElapsed(int interval) => OnElapsed?.Invoke(interval);
+
+    public void InvokeMapRegistered(short mapId) => OnMapRegistered?.Invoke(mapId);
 
     public void InvokePlayerRegistered(IPlayer player, in SessionPlayer sessionPlayer) =>
         OnPlayerRegistered?.Invoke(player, in sessionPlayer);

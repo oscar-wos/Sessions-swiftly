@@ -16,12 +16,14 @@ namespace RSession.Models.Database;
 
 public abstract class LoadQueries
 {
+    protected abstract string CreateMaps { get; }
     protected abstract string CreatePlayers { get; }
     protected abstract string CreateServers { get; }
     protected abstract string CreateSessions { get; }
 
     public IEnumerable<string> GetLoadQueries()
     {
+        yield return CreateMaps;
         yield return CreatePlayers;
         yield return CreateServers;
         yield return CreateSessions;

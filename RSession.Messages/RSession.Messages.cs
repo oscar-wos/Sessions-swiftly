@@ -25,7 +25,7 @@ namespace RSession.Messages;
 
 [PluginMetadata(
     Id = "RSession.Messages",
-    Version = "1.0.1",
+    Version = "1.1.0",
     Name = "RSession.Messages",
     Website = "https://github.com/oscar-wos/RSession",
     Author = "oscar-wos"

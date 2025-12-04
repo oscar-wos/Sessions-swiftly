@@ -12,17 +12,6 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
-namespace RSession.Contracts.Database;
+namespace RSession.Shared.Delegates;
 
-internal interface IDatabaseQueries
-{
-    string SelectMap { get; }
-    string InsertMap { get; }
-    string SelectPlayer { get; }
-    string InsertPlayer { get; }
-    string SelectServer { get; }
-    string InsertServer { get; }
-    string InsertSession { get; }
-    string UpdateSeen { get; }
-    string UpdateSession { get; }
-}
+public delegate void OnMapRegisteredDelegate(short mapId);

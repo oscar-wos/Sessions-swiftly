@@ -20,6 +20,7 @@ using RSession.Contracts.Database;
 using RSession.Contracts.Log;
 using RSession.Models.Config;
 using RSession.Models.Database;
+using SwiftlyS2.Shared.SteamAPI;
 
 namespace RSession.Services.Database;
 
@@ -67,6 +68,40 @@ internal sealed class PostgresService : IPostgresService, IAsyncDisposable
         }
 
         await transaction.CommitAsync().ConfigureAwait(false);
+    }
+
+    public async Task<short> GetMapAsync(string mapName, long? workshopId)
+    {
+        await using NpgsqlConnection connection = await _dataSource
+            .OpenConnectionAsync()
+            .ConfigureAwait(false);
+
+        await using (NpgsqlCommand command = new(_queries.SelectMap, connection))
+        {
+            _ = command.Parameters.AddWithValue("@name", mapName);
+
+            if (await command.ExecuteScalarAsync().ConfigureAwait(false) is short result)
+            {
+                return result;
+            }
+        }
+
+        await using (NpgsqlCommand command = new(_queries.InsertMap, connection))
+        {
+            _ = command.Parameters.AddWithValue("@name", mapName);
+
+            _ = command.Parameters.AddWithValue(
+                "@workshopId",
+                workshopId.HasValue ? workshopId.Value : DBNull.Value
+            );
+
+            if (await command.ExecuteScalarAsync().ConfigureAwait(false) is not short result)
+            {
+                throw new Exception("Failed to insert map");
+            }
+
+            return result;
+        }
     }
 
     public async Task<int> GetPlayerAsync(ulong steamId)

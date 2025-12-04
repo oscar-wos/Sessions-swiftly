@@ -69,6 +69,40 @@ internal sealed class SqlService : ISqlService, IAsyncDisposable
         await transaction.CommitAsync().ConfigureAwait(false);
     }
 
+    public async Task<short> GetMapAsync(string mapName, long? workshopId)
+    {
+        await using MySqlConnection connection = await _dataSource
+            .OpenConnectionAsync()
+            .ConfigureAwait(false);
+
+        await using (MySqlCommand command = new(_queries.SelectMap, connection))
+        {
+            _ = command.Parameters.AddWithValue("@name", mapName);
+
+            if (await command.ExecuteScalarAsync().ConfigureAwait(false) is short result)
+            {
+                return result;
+            }
+        }
+
+        await using (MySqlCommand command = new(_queries.InsertMap, connection))
+        {
+            _ = command.Parameters.AddWithValue("@name", mapName);
+
+            _ = command.Parameters.AddWithValue(
+                "@workshopId",
+                workshopId.HasValue ? workshopId.Value : DBNull.Value
+            );
+
+            if (await command.ExecuteScalarAsync().ConfigureAwait(false) is not short result)
+            {
+                throw new Exception("Failed to insert map");
+            }
+
+            return result;
+        }
+    }
+
     public async Task<int> GetPlayerAsync(ulong steamId)
     {
         await using MySqlConnection connection = await _dataSource

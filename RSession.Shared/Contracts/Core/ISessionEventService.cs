@@ -21,6 +21,7 @@ public interface ISessionEventService
     event OnDatabaseConfiguredDelegate OnDatabaseConfigured;
     event OnDisposeDelegate OnDispose;
     event OnElapsedDelegate OnElapsed;
+    event OnMapRegisteredDelegate OnMapRegistered;
     event OnPlayerRegisteredDelegate OnPlayerRegistered;
     event OnServerRegisteredDelegate OnServerRegistered;
 

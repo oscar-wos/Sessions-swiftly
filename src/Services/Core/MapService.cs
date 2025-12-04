@@ -12,11 +12,66 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
-
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Microsoft.Extensions.Logging;
+using RSession.Contracts.Core;
+using RSession.Contracts.Database;
+using RSession.Contracts.Log;
+using SwiftlyS2.Shared;
 
 namespace RSession.Services.Core;
 
-internal sealed class MapService { }
+internal sealed class MapService(
+    ISwiftlyCore core,
+    ILogService logService,
+    ILogger<MapService> logger,
+    IDatabaseFactory databaseFactory,
+    IEventService eventService
+) : IMapService
+{
+    private readonly ISwiftlyCore _core = core;
+    private readonly ILogService _logService = logService;
+    private readonly ILogger<MapService> _logger = logger;
+
+    private readonly IDatabaseService _databaseService = databaseFactory.GetDatabaseService();
+    private readonly IEventService _eventService = eventService;
+
+    private short? _id;
+
+    public short? GetMapId() => _id;
+
+    public void HandleMapLoad(string mapName) =>
+        _core.Scheduler.NextWorldUpdate(() => OnMapLoad(mapName));
+
+    private void OnMapLoad(string mapName) =>
+        Task.Run(async () =>
+        {
+            string workshopIdString = _core.Engine.WorkshopId;
+
+            long? workshopId = string.IsNullOrEmpty(workshopIdString)
+                ? null
+                : long.Parse(workshopIdString);
+
+            try
+            {
+                short mapId = await _databaseService
+                    .GetMapAsync(mapName, workshopId)
+                    .ConfigureAwait(false);
+
+                _logService.LogInformation(
+                    $"Map registered - {mapName} ({workshopId}) | Map ID: {mapId}",
+                    logger: _logger
+                );
+
+                _id = mapId;
+                _eventService.InvokeMapRegistered(mapId);
+            }
+            catch (Exception ex)
+            {
+                _logService.LogError(
+                    $"Unable to register map - {mapName} ({workshopId})",
+                    exception: ex,
+                    logger: _logger
+                );
+            }
+        });
+}
