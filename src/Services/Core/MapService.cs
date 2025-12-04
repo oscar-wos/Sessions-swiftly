@@ -35,6 +35,7 @@ internal sealed class MapService(
     private readonly IDatabaseService _databaseService = databaseFactory.GetDatabaseService();
     private readonly IEventService _eventService = eventService;
 
+    private string? _lastMapName;
     private short? _id;
 
     public short? GetMapId() => _id;
@@ -45,6 +46,13 @@ internal sealed class MapService(
     private void OnMapLoad(string mapName) =>
         Task.Run(async () =>
         {
+            if (_lastMapName == mapName)
+            {
+                return;
+            }
+
+            _lastMapName = mapName;
+
             string workshopIdString = _core.Engine.WorkshopId;
 
             long? workshopId = string.IsNullOrEmpty(workshopIdString)

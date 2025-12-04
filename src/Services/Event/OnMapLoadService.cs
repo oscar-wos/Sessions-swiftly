@@ -42,8 +42,10 @@ internal sealed class OnMapLoadService(
 
     private void OnMapLoad(IOnMapLoadEvent @event)
     {
-        _logService.LogDebug($"Map loaded {@event.MapName}", logger: _logger);
-        _mapService.HandleMapLoad(@event.MapName);
+        string mapName = @event.MapName;
+
+        _logService.LogDebug($"Map loaded {mapName}", logger: _logger);
+        _mapService.HandleMapLoad(mapName);
     }
 
     public void Dispose() => _core.Event.OnMapLoad -= OnMapLoad;

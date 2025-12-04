@@ -20,7 +20,6 @@ using RSession.Contracts.Database;
 using RSession.Contracts.Log;
 using RSession.Models.Config;
 using RSession.Models.Database;
-using SwiftlyS2.Shared.SteamAPI;
 
 namespace RSession.Services.Database;
 

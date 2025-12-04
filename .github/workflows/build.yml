@@ -48,24 +48,28 @@ jobs:
                 mkdir -p plugin/addons/swiftlys2/plugins/${{ github.event.repository.name }}.Aliases/resources/exports
                 mkdir -p plugin/addons/swiftlys2/plugins/${{ github.event.repository.name }}.Messages/resources/exports
                 mkdir -p plugin/addons/swiftlys2/plugins/${{ github.event.repository.name }}.Played/resources/exports
+                mkdir -p plugin/addons/swiftlys2/plugins/${{ github.event.repository.name }}.Rotation/resources/exports
 
             - name: Move Module Plugins
               run: |
                 mv ./build/net10.0/${{ github.event.repository.name }}.Aliases.dll ./plugin/addons/swiftlys2/plugins/${{ github.event.repository.name }}.Aliases
                 mv ./build/net10.0/${{ github.event.repository.name }}.Messages.dll ./plugin/addons/swiftlys2/plugins/${{ github.event.repository.name }}.Messages
                 mv ./build/net10.0/${{ github.event.repository.name }}.Played.dll ./plugin/addons/swiftlys2/plugins/${{ github.event.repository.name }}.Played
+                mv ./build/net10.0/${{ github.event.repository.name }}.Rotation.dll ./plugin/addons/swiftlys2/plugins/${{ github.event.repository.name }}.Rotation
 
             - name: Copy Module Loggers
               run: |
                 cp ./build/net10.0/RLogger.dll ./plugin/addons/swiftlys2/plugins/${{ github.event.repository.name }}.Aliases
                 cp ./build/net10.0/RLogger.dll ./plugin/addons/swiftlys2/plugins/${{ github.event.repository.name }}.Messages
                 cp ./build/net10.0/RLogger.dll ./plugin/addons/swiftlys2/plugins/${{ github.event.repository.name }}.Played
+                cp ./build/net10.0/RLogger.dll ./plugin/addons/swiftlys2/plugins/${{ github.event.repository.name }}.Rotation
                 
             - name: Copy Module Shared
               run: |
                 cp ./build/net10.0/${{ github.event.repository.name }}.Shared.dll ./plugin/addons/swiftlys2/plugins/${{ github.event.repository.name }}.Aliases/resources/exports
                 cp ./build/net10.0/${{ github.event.repository.name }}.Shared.dll ./plugin/addons/swiftlys2/plugins/${{ github.event.repository.name }}.Messages/resources/exports
                 cp ./build/net10.0/${{ github.event.repository.name }}.Shared.dll ./plugin/addons/swiftlys2/plugins/${{ github.event.repository.name }}.Played/resources/exports
+                cp ./build/net10.0/${{ github.event.repository.name }}.Shared.dll ./plugin/addons/swiftlys2/plugins/${{ github.event.repository.name }}.Rotation/resources/exports
 
             - name: Extract version
               id: extract_version

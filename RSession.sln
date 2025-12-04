@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSession.Played", "RSession
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSession.Shared", "RSession.Shared\RSession.Shared.csproj", "{640B8FD8-CEB4-A213-DA72-D43793BA463E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSession.Rotation", "RSession.Rotation\RSession.Rotation.csproj", "{04DBEACF-F3CF-5113-AA46-A41709E81BC6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,14 @@ Global
 		{640B8FD8-CEB4-A213-DA72-D43793BA463E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{640B8FD8-CEB4-A213-DA72-D43793BA463E}.Release|x64.ActiveCfg = Release|x64
 		{640B8FD8-CEB4-A213-DA72-D43793BA463E}.Release|x64.Build.0 = Release|x64
+		{04DBEACF-F3CF-5113-AA46-A41709E81BC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04DBEACF-F3CF-5113-AA46-A41709E81BC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04DBEACF-F3CF-5113-AA46-A41709E81BC6}.Debug|x64.ActiveCfg = Debug|x64
+		{04DBEACF-F3CF-5113-AA46-A41709E81BC6}.Debug|x64.Build.0 = Debug|x64
+		{04DBEACF-F3CF-5113-AA46-A41709E81BC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04DBEACF-F3CF-5113-AA46-A41709E81BC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04DBEACF-F3CF-5113-AA46-A41709E81BC6}.Release|x64.ActiveCfg = Release|x64
+		{04DBEACF-F3CF-5113-AA46-A41709E81BC6}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -13,24 +13,23 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 using Microsoft.Extensions.DependencyInjection;
-using RSession.Messages.Contracts.Core;
-using RSession.Messages.Contracts.Hook;
-using RSession.Messages.Extensions;
+using RSession.Rotation.Contracts.Core;
+using RSession.Rotation.Extensions;
 using RSession.Shared.Contracts.Core;
 using RSession.Shared.Contracts.Event;
 using SwiftlyS2.Shared;
 using SwiftlyS2.Shared.Plugins;
 
-namespace RSession.Messages;
+namespace RSession.Rotation;
 
 [PluginMetadata(
-    Id = "RSession.Messages",
+    Id = "RSession.Rotation",
     Version = "1.1.1",
-    Name = "RSession.Messages",
+    Name = "RSession.Rotation",
     Website = "https://github.com/oscar-wos/RSession",
     Author = "oscar-wos"
 )]
-public sealed class Messages(ISwiftlyCore core) : BasePlugin(core)
+public sealed class Rotation(ISwiftlyCore core) : BasePlugin(core)
 {
     private IServiceProvider? _serviceProvider;
     private ISessionEventService? _sessionEventService;
@@ -52,14 +51,14 @@ public sealed class Messages(ISwiftlyCore core) : BasePlugin(core)
             }
         }
 
-        if (interfaceManager.HasSharedInterface("RSession.PlayerService"))
+        if (interfaceManager.HasSharedInterface("RSession.ServerService"))
         {
-            ISessionPlayerService sessionPlayerService =
-                interfaceManager.GetSharedInterface<ISessionPlayerService>(
-                    "RSession.PlayerService"
+            ISessionServerService sessionServerService =
+                interfaceManager.GetSharedInterface<ISessionServerService>(
+                    "RSession.ServerService"
                 );
 
-            _serviceProvider?.GetRequiredService<IPlayerService>().Initialize(sessionPlayerService);
+            _serviceProvider?.GetRequiredService<IMapService>().Initialize(sessionServerService);
         }
     }
 
@@ -71,15 +70,9 @@ public sealed class Messages(ISwiftlyCore core) : BasePlugin(core)
 
         _ = services.AddDatabases();
         _ = services.AddEvents();
-        _ = services.AddHooks();
         _ = services.AddServices();
 
         _serviceProvider = services.BuildServiceProvider();
-
-        foreach (IHook hook in _serviceProvider.GetServices<IHook>())
-        {
-            hook.Register();
-        }
     }
 
     public override void Unload()
