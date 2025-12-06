@@ -22,7 +22,7 @@ using SwiftlyS2.Shared.Players;
 
 namespace RSession.Services.Core;
 
-internal sealed class PlayerService : IPlayerService, IDisposable
+internal sealed class PlayerService : IPlayerService
 {
     private readonly ISwiftlyCore _core;
     private readonly ILogService _logService;

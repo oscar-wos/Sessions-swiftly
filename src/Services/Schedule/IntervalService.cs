@@ -27,7 +27,7 @@ internal sealed class IntervalService(
     ILogger<IntervalService> logger,
     IOptionsMonitor<SessionConfig> config,
     IEventService eventService
-) : IIntervalService, IDisposable
+) : IIntervalService
 {
     private readonly ILogService _logService = logService;
     private readonly ILogger<IntervalService> _logger = logger;

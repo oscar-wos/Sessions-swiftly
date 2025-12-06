@@ -27,7 +27,7 @@ internal sealed class OnClientSteamAuthorizeService(
     ILogger<OnClientSteamAuthorizeService> logger,
     IPlayerService playerService,
     IServerService serverService
-) : IEventListener, IDisposable
+) : IEventListener
 {
     private readonly ISwiftlyCore _core = core;
     private readonly ILogService _logService = logService;

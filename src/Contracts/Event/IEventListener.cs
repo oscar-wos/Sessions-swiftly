@@ -14,7 +14,7 @@
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 namespace RSession.Contracts.Event;
 
-internal interface IEventListener
+internal interface IEventListener : IDisposable
 {
     void Subscribe();
 }

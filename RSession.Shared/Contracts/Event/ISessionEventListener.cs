@@ -16,7 +16,7 @@ using RSession.Shared.Contracts.Core;
 
 namespace RSession.Shared.Contracts.Event;
 
-public interface ISessionEventListener
+public interface ISessionEventListener : IDisposable
 {
     void Initialize(ISessionEventService sessionEventService);
 }

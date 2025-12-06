@@ -27,13 +27,10 @@ internal sealed class OnUserMessageSayText2Service(
     ILogService logService,
     ILogger<OnUserMessageSayText2Service> logger,
     IPlayerService playerService
-) : IHook, IDisposable
+) : IHook
 {
-    private static readonly uint _cStrikeChatAllHash = MurmurHash2.HashString("Cstrike_Chat_All");
-
-    private static readonly uint _cStrikeChatAllSpecHash = MurmurHash2.HashString(
-        "Cstrike_Chat_AllSpec"
-    );
+    private const string CSTRIKE_CHAT_ALL = "Cstrike_Chat_All";
+    private const string CSTRIKE_CHAT_ALL_SPEC = "Cstrike_Chat_AllSpec";
 
     private readonly ISwiftlyCore _core = core;
     private readonly ILogService _logService = logService;
@@ -84,11 +81,12 @@ internal sealed class OnUserMessageSayText2Service(
         short teamNum = player.Controller.TeamNum;
         bool teamChat = true;
 
-        uint messageNameHash = MurmurHash2.HashString(messageName);
-
-        if (messageNameHash == _cStrikeChatAllHash || messageNameHash == _cStrikeChatAllSpecHash)
+        switch (messageName)
         {
-            teamChat = false;
+            case CSTRIKE_CHAT_ALL:
+            case CSTRIKE_CHAT_ALL_SPEC:
+                teamChat = false;
+                break;
         }
 
         _logService.LogDebug(

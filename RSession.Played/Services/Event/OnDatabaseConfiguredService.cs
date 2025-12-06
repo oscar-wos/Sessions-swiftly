@@ -25,7 +25,7 @@ internal sealed class OnDatabaseConfiguredService(
     ILogService logService,
     ILogger<OnDatabaseConfiguredService> logger,
     IDatabaseFactory databaseFactory
-) : IOnDatabaseConfiguredService, IDisposable
+) : IOnDatabaseConfiguredService
 {
     private readonly ILogService _logService = logService;
     private readonly ILogger<OnDatabaseConfiguredService> _logger = logger;

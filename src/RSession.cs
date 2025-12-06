@@ -30,7 +30,7 @@ namespace RSession;
 
 [PluginMetadata(
     Id = "RSession",
-    Version = "1.1.1",
+    Version = "1.1.2",
     Name = "RSession",
     Website = "https://github.com/oscar-wos/RSession",
     Author = "oscar-wos"

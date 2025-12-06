@@ -23,7 +23,7 @@ using RSession.Models.Database;
 
 namespace RSession.Services.Database;
 
-internal sealed class PostgresService : IPostgresService, IAsyncDisposable
+internal sealed class PostgresService : IPostgresService
 {
     private readonly ILogService _logService;
     private readonly ILogger<PostgresService> _logger;

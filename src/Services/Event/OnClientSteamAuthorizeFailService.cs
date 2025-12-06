@@ -25,7 +25,7 @@ internal sealed class OnClientSteamAuthorizeFailService(
     ISwiftlyCore core,
     ILogService logService,
     ILogger<OnClientSteamAuthorizeFailService> logger
-) : IEventListener, IDisposable
+) : IEventListener
 {
     private readonly ISwiftlyCore _core = core;
     private readonly ILogService _logService = logService;

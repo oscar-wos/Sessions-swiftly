@@ -20,7 +20,7 @@ using SwiftlyS2.Shared;
 
 namespace RSession.Aliases.Services.Log;
 
-internal sealed class LogService(ISwiftlyCore core) : ILogService, IDisposable
+internal sealed class LogService(ISwiftlyCore core) : ILogService
 {
     private const string PLUGIN_NAME = "RSession.Aliases";
 

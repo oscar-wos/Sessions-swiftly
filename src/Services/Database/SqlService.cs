@@ -23,7 +23,7 @@ using RSession.Models.Database;
 
 namespace RSession.Services.Database;
 
-internal sealed class SqlService : ISqlService, IAsyncDisposable
+internal sealed class SqlService : ISqlService
 {
     private readonly ILogService _logService;
     private readonly ILogger<SqlService> _logger;

@@ -26,7 +26,7 @@ internal sealed class OnPlayerRegisteredService(
     ILogService logService,
     ILogger<OnPlayerRegisteredService> logger,
     IPlayerService playerService
-) : IOnPlayerRegisteredService, IDisposable
+) : IOnPlayerRegisteredService
 {
     private readonly ILogService _logService = logService;
     private readonly ILogger<OnPlayerRegisteredService> _logger = logger;

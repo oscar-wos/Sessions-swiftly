@@ -17,7 +17,6 @@ using RSession.Rotation.Contracts.Core;
 using RSession.Rotation.Contracts.Event;
 using RSession.Rotation.Contracts.Log;
 using RSession.Shared.Contracts.Core;
-using RSession.Shared.Structs;
 
 namespace RSession.Rotation.Services.Event;
 

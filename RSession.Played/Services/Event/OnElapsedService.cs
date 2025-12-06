@@ -24,7 +24,7 @@ internal sealed class OnElapsedService(
     ILogService logService,
     ILogger<OnElapsedService> logger,
     IPlayerService playerService
-) : IOnElapsedService, IDisposable
+) : IOnElapsedService
 {
     private readonly ILogService _logService = logService;
     private readonly ILogger<OnElapsedService> _logger = logger;

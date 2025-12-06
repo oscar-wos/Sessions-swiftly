@@ -17,7 +17,7 @@ using SwiftlyS2.Shared.Players;
 
 namespace RSession.Contracts.Core;
 
-internal interface IPlayerService : ISessionPlayerService
+internal interface IPlayerService : ISessionPlayerService, IDisposable
 {
     void HandlePlayerAuthorize(IPlayer player, short serverId);
     void HandlePlayerDisconnected(IPlayer player);

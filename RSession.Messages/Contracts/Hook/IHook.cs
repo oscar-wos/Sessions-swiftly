@@ -14,7 +14,7 @@
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 namespace RSession.Messages.Contracts.Hook;
 
-internal interface IHook
+internal interface IHook : IDisposable
 {
     void Register();
 }

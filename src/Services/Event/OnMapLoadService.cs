@@ -26,7 +26,7 @@ internal sealed class OnMapLoadService(
     ILogService logService,
     ILogger<OnMapLoadService> logger,
     IMapService mapService
-) : IEventListener, IDisposable
+) : IEventListener
 {
     private readonly ISwiftlyCore _core = core;
     private readonly ILogService _logService = logService;

@@ -14,7 +14,7 @@
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 namespace RSession.Contracts.Schedule;
 
-internal interface IIntervalService
+internal interface IIntervalService : IDisposable
 {
     void Initialize();
 }

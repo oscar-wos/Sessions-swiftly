@@ -16,7 +16,7 @@ using Microsoft.Extensions.Logging;
 
 namespace RSession.Played.Contracts.Log;
 
-internal interface ILogService
+internal interface ILogService : IDisposable
 {
     void LogDebug(string message, Exception? exception = null, ILogger? logger = null);
 

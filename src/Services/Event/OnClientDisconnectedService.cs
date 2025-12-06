@@ -27,7 +27,7 @@ internal sealed class OnClientDisconnectedService(
     ILogService logService,
     ILogger<OnClientDisconnectedService> logger,
     IPlayerService playerService
-) : IEventListener, IDisposable
+) : IEventListener
 {
     private readonly ISwiftlyCore _core = core;
     private readonly ILogService _logService = logService;
